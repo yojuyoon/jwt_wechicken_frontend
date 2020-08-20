@@ -1,5 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Routes from "./Routes";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import GlobalStyle from "./Styles/GlobalStyle";
+import theme from "./Styles/Theme";
+import { ThemeProvider } from "styled-components";
 
-ReactDOM.render(<Routes />, document.getElementById("root"));
+const store = createStore(composeWithDevTools());
+
+ReactDOM.render(
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <Routes />
+    </ThemeProvider>
+  </Provider>,
+  document.getElementById("root")
+);
