@@ -2,14 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import theme from "../../Styles/Theme";
 import Contributors from "./Contributors/Contributors";
+import PostsOfTheWeek from "../../Components/PostsOfTheWeek/PostsOfTheWeek";
 
 const MyGroup = () => {
   return (
     <Container>
-      <HallFrame></HallFrame>
+      <HallFrame>
+        <img alt="chicken_bong" src="/Images/chicken.png" />
+      </HallFrame>
       <ContentWrap>
         <ThisWeek>
           <div className="title">이주의 포스팅</div>
+          <PostsOfTheWeek />
         </ThisWeek>
         <Contribution>
           <div className="title">이주의 공헌</div>
@@ -30,19 +34,26 @@ const Container = styled.body`
 const HallFrame = styled.div`
   height: 304px;
   margin-top: 36px;
+  padding: 70px;
   border-radius: 34px;
   background-color: ${theme.yellow};
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 200px;
+    height: 200px;
+  }
 `;
 
 const ContentWrap = styled.div`
+  margin-top: 80px;
   display: flex;
   justify-content: space-between;
-  margin-top: 80px;
-  height: 10000px;
 `;
 
 const ThisWeek = styled.div`
-  /* width: 80%; */
+  width: 80%;
 
   .title {
     width: 146px;
@@ -57,7 +68,7 @@ const ThisWeek = styled.div`
 
 const Contribution = styled.div`
   width: 250px;
-
+  margin-left: 20px;
   .title {
     width: 123px;
     padding-bottom: 3px;
