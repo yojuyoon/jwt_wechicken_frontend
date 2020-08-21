@@ -28,6 +28,13 @@ const Contributors = () => {
       </MyContribution>
       <OtherContribution>
         <Contributor />
+        <Contributor />
+        <Contributor />
+        <Contributor />
+        <Contributor />
+        <Contributor />
+        <Contributor />
+        <Contributor />
       </OtherContribution>
     </Container>
   );
@@ -36,10 +43,11 @@ const Contributors = () => {
 export default Contributors;
 
 const Container = styled.div`
+  width: 250px;
+  height: 600px;
+  margin-top: 24px;
   display: flex;
   flex-direction: column;
-  height: 548px;
-  margin-top: 24px;
   background-color: hotpink;
   background: #ffffff;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1), 4px 4px 10px rgba(0, 0, 0, 0.06);
@@ -47,12 +55,12 @@ const Container = styled.div`
 `;
 
 const MyContribution = styled.div`
+  width: 250px;
+  height: 90px;
   position: absolute;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 250px;
-  height: 90px;
   padding: 30px 18px 10px 18px;
   background-color: ${theme.white};
   border-top-left-radius: 18px;
@@ -62,7 +70,7 @@ const MyContribution = styled.div`
 `;
 
 const InfoContainer = styled.div`
-  width: 80%;
+  /* width: 80%; */
   display: flex;
 `;
 
