@@ -10,9 +10,11 @@ function PostsOfTheWeek() {
   const [value, onChange] = useState(new Date());
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/data/medium.json")
-      .then((res) => setdayPosts(res.data));
+    axios.get("http://10.58.0.139:8000/mygroup").then((res) => {
+      setdayPosts(res.data.by_days);
+    });
+
+    // .then((res) => console.log(res.data.by_days));
   }, []);
 
   const showCalendar = () => {
@@ -41,14 +43,24 @@ function PostsOfTheWeek() {
 export default PostsOfTheWeek;
 
 const PostsOfTheWeekContainer = styled.div`
-  min-height: 600px;
-  margin-top: 30px;
+  /* min-height: 600px; */
+  height: 560px;
+  margin-top: 28px;
   display: flex;
   overflow: hidden;
   overflow-x: scroll;
   background-color: ${theme.white};
   box-shadow: 7px 7px 30px rgba(0, 0, 0, 0.08);
   border-radius: 35px;
+
+  ::-webkit-scrollbar {
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${theme.yellow};
+    border-radius: 10px;
+  }
 
   .calender {
     width: 100px;

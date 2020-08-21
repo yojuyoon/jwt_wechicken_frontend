@@ -2,25 +2,30 @@ import React from "react";
 import styled from "styled-components";
 import ProfileIcon from "../../../../Components/ProfileIcon";
 
-const Contributor = () => {
+const Contributor = ({ person }) => {
+  const calculatePenalty = (counts) => {
+    if (counts === 1) {
+      return "💸 6000";
+    } else if (counts === 2) {
+      return "💸 3000";
+    } else {
+      return "🎉";
+    }
+  };
+
   return (
     <Container>
       <InfoContainer>
-        <ProfileIcon
-          size={41}
-          img={
-            "https://ca.slack-edge.com/TH0U6FBTN-U015GFJ1284-8d097dfbfe70-512"
-          }
-        />
+        <ProfileIcon size={41} img={person.user_profile} />
         <UserInfo>
-          <div className="name">Hyeonji</div>
+          <div className="name">{person.user_name}</div>
           <span className="penalty" role="img" aria-labelledby="money">
-            💸 3000
+            {calculatePenalty(person.blog_counts)}
           </span>
         </UserInfo>
       </InfoContainer>
       <span role="img" aria-labelledby="check">
-        ✔️ 2
+        ✔️ {person.blog_counts}
       </span>
     </Container>
   );

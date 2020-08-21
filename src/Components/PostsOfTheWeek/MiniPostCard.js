@@ -6,17 +6,17 @@ function MiniPostCard({ post }) {
     <MiniPostCardContainer>
       <PostContent onClick={() => window.location.assign(`${post.link}`)}>
         <div className="profile">
-          <img alt="profile" src={post.user_thumbnail} />
+          <img alt="profile" src={post.user_profile} />
         </div>
         <div className="contents">
           <span>{post.user_name}</span>
-          <span className="postText">{post.subtitle}</span>
+          <span className="postText">{post.title}</span>
         </div>
       </PostContent>
       <PostDateAndType>
         <span>{post.date}</span>
         <div className="blogLogo">
-          <img alt="profile" src="/Images/medium.png" />
+          <img alt="blog_logo" src={`/Images/${post.type}.png`} />
         </div>
       </PostDateAndType>
     </MiniPostCardContainer>
@@ -26,7 +26,7 @@ function MiniPostCard({ post }) {
 export default MiniPostCard;
 
 const MiniPostCardContainer = styled.div`
-  width: 180px;
+  width: 220px;
   height: 90px;
   margin: 10px;
   border: 1px solid rgba(0, 0, 0, 0.1);

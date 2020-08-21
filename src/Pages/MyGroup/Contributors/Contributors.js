@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import theme from "../../../Styles/Theme";
 import ProfileIcon from "../../../Components/ProfileIcon";
 import Contributor from "../Contributors/Contributor/Contributor";
 
 const Contributors = () => {
+  const [contributors, setContributors] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://10.58.0.139:8000/mygroup").then((res) => {
+      console.log(res.data.contributors);
+      setContributors(res.data.contributors);
+    });
+
+    // .then((res) => console.log(res.data.by_days));
+  }, []);
+
   return (
     <Container>
       <MyContribution>
@@ -27,14 +39,9 @@ const Contributors = () => {
         </span>
       </MyContribution>
       <OtherContribution>
-        <Contributor />
-        <Contributor />
-        <Contributor />
-        <Contributor />
-        <Contributor />
-        <Contributor />
-        <Contributor />
-        <Contributor />
+        {contributors.map((person) => {
+          return <Contributor person={person} />;
+        })}
       </OtherContribution>
     </Container>
   );
@@ -44,7 +51,7 @@ export default Contributors;
 
 const Container = styled.div`
   width: 250px;
-  height: 600px;
+  height: 560px;
   margin-top: 24px;
   display: flex;
   flex-direction: column;

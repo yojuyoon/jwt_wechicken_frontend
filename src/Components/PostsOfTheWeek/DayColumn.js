@@ -12,9 +12,11 @@ function DayColumn({ day, dayPosts }) {
           <span>{day}</span>
         </div>
       </DayOfTheWeek>
-      {dayPosts[day].map((post) => {
-        return <MiniPostCard post={post} />;
-      })}
+      <Wrap>
+        {dayPosts[day].map((post) => {
+          return <MiniPostCard post={post} />;
+        })}
+      </Wrap>
     </DayColumnContainer>
   );
 }
@@ -28,8 +30,10 @@ const DayColumnContainer = styled.div`
 const DayOfTheWeek = styled.div`
   display:flex;
   right: 0;
+
+
   div {
-    width: 190px;
+    width: 230px;
     height: 37px;
     margin-left: 5px;
     ${flexCenter}
@@ -40,4 +44,19 @@ const DayOfTheWeek = styled.div`
     display:flex;
     flex-direction:row;
   }
+`;
+
+const Wrap = styled.div`
+  height: 500px;
+  overflow-y: scroll;
+
+  /* ::-webkit-scrollbar {
+    width: 5px;
+    height: 20px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${theme.yellow};
+    border-radius: 10px;
+  } */
 `;
