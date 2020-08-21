@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import theme, { flexCenter } from "../../src/Styles/Theme";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { SearchSvg } from "../../src/Styles/svg";
+import ProfileIcon from "../Components/ProfileIcon";
 
 const Nav = () => {
   const [isdropDownOpen, setDropDownOpen] = useState(false);
@@ -14,14 +15,14 @@ const Nav = () => {
   };
 
   return (
-    <NavContainer>
+    <NavContainer onMouseLeave={() => setDropDownOpen(false)}>
       <LogoWrap>
         <Logo>
           <img
             className="logoImage"
             alt="logo"
             src="/Images/logo.png"
-            onMouseOver={() => setDropDownOpen(!isdropDownOpen)}
+            onMouseOver={() => setDropDownOpen(true)}
           ></img>
           <div className="logoText">>wechicken</div>
         </Logo>
@@ -31,7 +32,12 @@ const Nav = () => {
         <div className="searchIcon">{SearchSvg}</div>
         <FontAwesomeIcon className="bookmarkIcon" icon={faBookmark} />
         <FontAwesomeIcon className="heartIcon" icon={faHeart} />
-        <div className="profileIcon"></div>
+        <ProfileIcon
+          size={50}
+          img={
+            "https://miro.medium.com/fit/c/256/256/1*Mzkzg31wDXjEDVKYRqsLXw.jpeg"
+          }
+        />
       </UserWrap>
       {isdropDownOpen && (
         <Dropdown selectedMenu={selectedMenu}>
@@ -66,11 +72,15 @@ const Nav = () => {
 };
 
 const NavContainer = styled.header`
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   height: 111px;
   padding: 0 81px;
+  background-color: ${theme.white};
+  z-index: 1;
 `;
 
 const LogoWrap = styled.div`
@@ -134,14 +144,6 @@ const UserWrap = styled.div`
     width: 21px;
     height: 21px;
     color: ${theme.deepGrey};
-  }
-
-  .profileIcon {
-    width: 47px;
-    height: 47px;
-    background: url("https://miro.medium.com/fit/c/256/256/1*Mzkzg31wDXjEDVKYRqsLXw.jpeg");
-    background-size: cover;
-    border-radius: 50px;
   }
 `;
 
