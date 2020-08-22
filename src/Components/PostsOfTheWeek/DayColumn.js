@@ -4,10 +4,10 @@ import styled from "styled-components";
 import theme, { flexCenter } from "../../Styles/Theme";
 import MiniPostCard from "./MiniPostCard";
 
-function DayColumn({ day, dayPosts }) {
+function DayColumn({ day, dayPosts, hideCalendar }) {
   return (
-    <DayColumnContainer>
-      <DayOfTheWeek>
+    <DayColumnContainer onClick={hideCalendar}>
+      <DayOfTheWeek day={day}>
         <div>
           <span>{day}</span>
         </div>
@@ -31,14 +31,16 @@ const DayOfTheWeek = styled.div`
   display:flex;
   right: 0;
 
-
   div {
     width: 230px;
     height: 37px;
     margin-left: 5px;
     ${flexCenter}
-    background-color: ${theme.grey};
+    background-color:${(props) =>
+      props.day === "SUN" ? `${theme.orange}` : `${theme.grey}`};
+     color:${(props) => props.day === "SUN" && `${theme.white}`};
     border-radius: 17px;
+
   }
   .flex{
     display:flex;
@@ -48,15 +50,6 @@ const DayOfTheWeek = styled.div`
 
 const Wrap = styled.div`
   height: 500px;
+  margin-top: 20px;
   overflow-y: scroll;
-
-  /* ::-webkit-scrollbar {
-    width: 5px;
-    height: 20px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: ${theme.yellow};
-    border-radius: 10px;
-  } */
 `;

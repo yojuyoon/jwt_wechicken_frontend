@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ProfileIcon from "../ProfileIcon";
 
-const useUploads = (input) => {
+const useUpload = (input) => {
   const [inputImage, setInputImage] = useState(input);
 
   const handleImage = (e) => {
@@ -11,4 +11,4 @@ const useUploads = (input) => {
   return [handleImage, inputImage, ProfileIcon];
 };
 
-export default useUploads;
+export default useUpload;
