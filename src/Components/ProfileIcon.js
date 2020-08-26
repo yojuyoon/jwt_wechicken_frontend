@@ -12,5 +12,5 @@ const Container = styled.div`
   height: ${({ size }) => size}px;
   background: url(${({ img }) => img});
   background-size: cover;
-  border-radius: 50px;
+  border-radius: 50%;
 `;
