@@ -5,7 +5,7 @@ const ProfileIcon = ({ size, img }) => {
   return <Container size={size} img={img}></Container>;
 };
 
-export default ProfileIcon;
+export default React.memo(ProfileIcon);
 
 const Container = styled.div`
   width: ${({ size }) => size}px;
@@ -13,4 +13,5 @@ const Container = styled.div`
   background: url(${({ img }) => img});
   background-size: cover;
   border-radius: 50%;
+  cursor: pointer;
 `;

@@ -1,69 +1,108 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import theme, { flexCenter } from "../../src/Styles/Theme";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark, faHeart } from "@fortawesome/free-regular-svg-icons";
+import { useHistory, Link } from "react-router-dom";
 import { SearchSvg } from "../../src/Styles/svg";
 import ProfileIcon from "../Components/ProfileIcon";
+import Login from "../Components/Login/Login";
+import BtnTheme from "../Components/Buttons/BtnTheme";
+import { useSelector } from "react-redux";
+import { loginToken } from "../store/actions/loginAction";
+import { useDispatch } from "react-redux";
 
 const Nav = () => {
   const [isdropDownOpen, setDropDownOpen] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState("");
+  const [isModalOn, setModalOn] = useState(false);
+  const history = useHistory();
+  //redux
+  const loginStatus = useSelector((state) => state.loginReducer);
+  const dispatch = useDispatch();
 
   const handleSelected = (e) => {
     setSelectedMenu(e.target.innerText);
   };
 
+  useEffect(() => {
+    handleSelectedFunctions(selectedMenu);
+    // eslint-disable-next-line
+  }, [selectedMenu]);
+
+  const handleSelectedFunctions = (selected) => {
+    setDropDownOpen(false);
+    if (selected === "로그아웃") {
+      history.push("/");
+      sessionStorage.removeItem("token");
+      dispatch(loginToken(""));
+      alert("로그아웃 되었습니다");
+      window.location.reload();
+    }
+  };
+
   return (
     <NavContainer onMouseLeave={() => setDropDownOpen(false)}>
+      {isModalOn && <Login setModalOn={setModalOn} />}
       <LogoWrap>
         <Logo>
-          <img
-            className="logoImage"
-            alt="logo"
-            src="/Images/logo.png"
-            onMouseOver={() => setDropDownOpen(true)}
-          ></img>
+          <Link to="/">
+            <img className="logoImage" alt="logo" src="/Images/logo.png" />
+          </Link>
           <div className="logoText">>wechicken</div>
         </Logo>
         <NthTitle>10고 뜯고 10기 치킨계</NthTitle>
       </LogoWrap>
-      <UserWrap>
-        <div className="searchIcon">{SearchSvg}</div>
-        <FontAwesomeIcon className="bookmarkIcon" icon={faBookmark} />
-        <FontAwesomeIcon className="heartIcon" icon={faHeart} />
-        <ProfileIcon
-          size={50}
-          img={
-            "https://miro.medium.com/fit/c/256/256/1*Mzkzg31wDXjEDVKYRqsLXw.jpeg"
-          }
-        />
-      </UserWrap>
+      {!loginStatus && (
+        <NonUserWrap>
+          <div className="searchIcon">{SearchSvg}</div>
+          <div onClick={() => setModalOn(true)}>
+            <BtnTheme value={"로그인"} />
+          </div>
+        </NonUserWrap>
+      )}
+      {loginStatus && (
+        <UserWrap>
+          <div className="searchIcon">{SearchSvg}</div>
+          <FontAwesomeIcon className="bookmarkIcon" icon={faBookmark} />
+          <FontAwesomeIcon className="heartIcon" icon={faHeart} />
+          <div onMouseOver={() => setDropDownOpen(true)}>
+            <ProfileIcon
+              size={50}
+              img={
+                "https://miro.medium.com/fit/c/256/256/1*Mzkzg31wDXjEDVKYRqsLXw.jpeg"
+              }
+            />
+          </div>
+        </UserWrap>
+      )}
       {isdropDownOpen && (
         <Dropdown selectedMenu={selectedMenu}>
           <li
             onClick={handleSelected}
-            className={selectedMenu === "전체 블로그" && "focused"}
+            className={selectedMenu === "마이페이지" ? "focused" : undefined}
+          >
+            <Link to="/MyPage">마이페이지</Link>
+          </li>
+          <li
+            onClick={handleSelected}
+            className={selectedMenu === "전체 블로그" ? "focused" : undefined}
           >
             전체 블로그
           </li>
           <li
             onClick={handleSelected}
-            className={selectedMenu === "내 기수 블로그" && "focused"}
+            className={
+              selectedMenu === "내 기수 블로그" ? "focused" : undefined
+            }
           >
             내 기수 블로그
           </li>
           <li
             onClick={handleSelected}
-            className={selectedMenu === "자유게시판" && "focused"}
+            className={selectedMenu === "로그아웃" ? "focused" : undefined}
           >
-            자유게시판
-          </li>
-          <li
-            onClick={handleSelected}
-            className={selectedMenu === "마이페이지" && "focused"}
-          >
-            마이페이지
+            로그아웃
           </li>
         </Dropdown>
       )}
@@ -81,6 +120,11 @@ const NavContainer = styled.header`
   padding: 0 81px;
   background-color: ${theme.white};
   z-index: 1;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
 const LogoWrap = styled.div`
@@ -121,6 +165,20 @@ const NthTitle = styled.div`
   color: ${theme.orange};
 `;
 
+const NonUserWrap = styled.div`
+  ${flexCenter}
+  justify-content: space-between;
+  width: 120px;
+  height: 47px;
+
+  .searchIcon svg {
+    width: 21px;
+    height: 21px;
+    margin-top: 5px;
+    fill: ${theme.deepGrey};
+  }
+`;
+
 const UserWrap = styled.div`
   ${flexCenter}
   justify-content: space-between;
@@ -154,7 +212,7 @@ const Dropdown = styled.ul`
   position: absolute;
   width: 216px;
   height: 208px;
-  left: 81px;
+  right: 81px;
   top: 111px;
   background: #ffffff;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1), 0px 8px 16px rgba(0, 0, 0, 0.2);
@@ -169,15 +227,17 @@ const Dropdown = styled.ul`
     font-style: normal;
     font-size: 16px;
     line-height: 24px;
+    cursor: pointer;
 
     &:hover {
-      /* color: ${theme.orange}; */
-      font-weight: 900;
+      color: ${theme.orange};
+      font-weight: 400;
     }
   }
 
   .focused {
     color: ${theme.orange};
+    font-weight: 900;
   }
 `;
 
