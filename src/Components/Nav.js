@@ -19,6 +19,7 @@ const Nav = () => {
   const history = useHistory();
   //redux
   const loginStatus = useSelector((state) => state.loginReducer);
+  const profileImage = useSelector((state) => state.profileReducer);
   const dispatch = useDispatch();
 
   const handleSelected = (e) => {
@@ -40,6 +41,8 @@ const Nav = () => {
       window.location.reload();
     }
   };
+
+  console.log(profileImage);
 
   return (
     <NavContainer onMouseLeave={() => setDropDownOpen(false)}>

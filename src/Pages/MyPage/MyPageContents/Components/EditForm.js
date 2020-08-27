@@ -27,6 +27,7 @@ const EditFormContainer = styled.form`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     .editblogUrl {
       width: 75%;
       height: 35px;

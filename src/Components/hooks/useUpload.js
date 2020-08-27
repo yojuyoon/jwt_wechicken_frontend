@@ -2,13 +2,14 @@ import { useState } from "react";
 import ProfileIcon from "../ProfileIcon";
 
 const useUpload = (input) => {
+  const [convertedImage, setconvertedImage] = useState(input);
   const [inputImage, setInputImage] = useState(input);
 
   const handleImage = (e) => {
-    setInputImage(window.URL.createObjectURL(e.target.files[0]));
+    setconvertedImage(window.URL.createObjectURL(e.target.files[0]));
+    setInputImage(e.target.files[0]);
   };
 
-  return [handleImage, inputImage, ProfileIcon];
+  return [handleImage, convertedImage, ProfileIcon, inputImage];
 };
-
 export default useUpload;

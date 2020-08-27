@@ -1,15 +1,47 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-
+import axios from "axios";
+import { API_URL } from "../../../config";
 import theme, { flexCenter } from "../../../Styles/Theme";
 import useUpload from "../../../Components/hooks/useUpload";
 
-function ProfileColumn({ myProfile }) {
-  const [handleEditProfileImg, editedProfileImg, ProfileIcon] = useUpload();
+function ProfileColumn({ myProfile, deleteProfileImg }) {
+  const [profile, setProfile] = useState("");
+  const [
+    handleEditProfileImg,
+    editedProfileImg,
+    ProfileIcon,
+    defaultImg,
+  ] = useUpload();
+  const { wecode_nth, user_name, user_thumbnail } = myProfile;
 
-  const handleRemoveProfileImg = () => {
-    if (window.confirm("프로필 이미지를 삭제하시겠습니까?")) {
+  useEffect(() => {
+    if (user_thumbnail) setProfile(`${API_URL}/${user_thumbnail}`); // 백엔드 이미지 서버 구축하면 user-thumbnail로 변경해주기
+    if (user_thumbnail === null) setProfile("/Images/default.png");
+  }, [user_thumbnail]);
+
+  useEffect(() => {
+    if (editedProfileImg) {
+      modifyProfileImg();
     }
+  }, [editedProfileImg]);
+
+  const handleRemoveProfileImg = (e) => {
+    if (window.confirm("프로필 이미지를 삭제하시겠습니까?")) {
+      deleteProfileImg(e);
+      window.location.reload();
+    }
+  };
+
+  const modifyProfileImg = () => {
+    const formData = new FormData();
+    formData.append("user_thumbnail", defaultImg);
+    axios.post(`${API_URL}/mypage`, formData, {
+      headers: {
+        Authorization: sessionStorage.getItem("USER").token,
+        "content-type": "multipart/form-data",
+      },
+    });
   };
 
   return (
@@ -17,19 +49,26 @@ function ProfileColumn({ myProfile }) {
       <ProfilePhoto>
         <ProfileIcon
           size={131}
-          img={editedProfileImg ? editedProfileImg : myProfile.user_thumbnail}
+          img={editedProfileImg ? editedProfileImg : profile}
         />
         <label>
-          <input type="file" onChange={handleEditProfileImg} />
+          <input
+            type="file"
+            onChange={handleEditProfileImg}
+            onSubmit={modifyProfileImg}
+          />
           <UploadPhotoBtn>이미지 업로드</UploadPhotoBtn>
         </label>
-        <DeletePhotoBtn onClick={handleRemoveProfileImg}>
+        <DeletePhotoBtn
+          data-name="user_thumbnail"
+          onClick={handleRemoveProfileImg}
+        >
           이미지 제거
         </DeletePhotoBtn>
       </ProfilePhoto>
       <ProfileContent>
-        <span className="userNth">{myProfile.wecode_nth}기</span>
-        <h1 className="userName">{myProfile.user_name}</h1>
+        <span className="userNth">{wecode_nth}기</span>
+        <h1 className="userName">{user_name}</h1>
       </ProfileContent>
     </ProfileContainer>
   );
@@ -85,6 +124,7 @@ const UploadPhotoBtn = styled.div`
 const DeletePhotoBtn = styled(UploadPhotoBtn)`
   background-color: transparent;
   color: ${theme.orange};
+
   &:hover {
     transition: 0.3s ease-in-out;
     background: rgba(255, 153, 0, 0.2);
