@@ -5,7 +5,6 @@ import ContentsColumn from "./MyPageContents/ContentsColumn";
 import { myPageContents } from "./MyPageContents/myPageContents";
 import ProfileColumn from "./MyPageContents/ProfileColumn";
 import { API_URL } from "../../config";
-import theme from "../../Styles/Theme";
 
 function MyPage() {
   const [myProfile, setMyProfile] = useState({});
@@ -54,7 +53,6 @@ export default MyPage;
 
 const MyPageContainer = styled.div`
   padding: 100px;
-  background: ${theme.background};
 
   button {
     cursor: pointer;

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import theme, { flexCenter } from "../../Styles/Theme";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark } from "@fortawesome/free-regular-svg-icons";
+import axios from "axios";
 import ProfileIcon from "../ProfileIcon";
 import HeartIcon from "../Buttons/HeartIcon";
 
@@ -12,6 +13,12 @@ const Card = () => {
   const onClickCard = () => {
     console.log("전체클릭");
   };
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/data/medium.json").then((res) => {
+      console.log(res.data);
+    });
+  }, []);
 
   return (
     <Container>
@@ -36,7 +43,7 @@ const Card = () => {
         </ContentsBox>
       </CardWrap>
       <ButtonWrap>
-        <HeartIcon isLiked={isLiked} setLiked={setLiked} />
+        <HeartIcon size={18} isLiked={isLiked} setLiked={setLiked} />
         <FontAwesomeIcon className="bookmarkIcon" icon={faBookmark} />
       </ButtonWrap>
     </Container>
@@ -46,9 +53,10 @@ const Card = () => {
 export default Card;
 
 const Container = styled.div`
+  width: 288px;
+  height: 327px;
+  margin: 10px;
   position: relative;
-  width: 344px;
-  height: 366px;
   border-radius: 7px;
   box-shadow: 7px 7px 30px rgba(0, 0, 0, 0.08);
   overflow: hidden;
@@ -73,7 +81,7 @@ const ImageBox = styled.div`
 
 const ContentsBox = styled.div`
   height: 55%;
-  padding: 12px;
+  padding: 15px;
 
   .profileWrap {
     height: 30%;
@@ -85,12 +93,12 @@ const ContentsBox = styled.div`
 
       .name {
         font-weight: 500;
-        font-size: 20px;
+        font-size: 17px;
         line-height: 28px;
       }
 
       .nth {
-        font-size: 14px;
+        font-size: 13px;
         line-height: 20px;
         color: rgba(0, 0, 0, 0.6);
       }
@@ -102,12 +110,15 @@ const ContentsBox = styled.div`
     margin-top: 5px;
 
     .title {
-      font-size: 16px;
+      font-size: 15px;
       line-height: 20px;
+      margin-bottom: 8px;
     }
 
     .content {
-      font-size: 14px;
+      height: 40px;
+      overflow: hidden;
+      font-size: 12px;
       line-height: 20px;
       color: rgba(0, 0, 0, 0.6);
     }
@@ -119,9 +130,14 @@ const ButtonWrap = styled.div`
   bottom: 16px;
   right: 16px;
 
+  .heartIcon {
+    width: 16px;
+    height: 16px;
+  }
+
   .bookmarkIcon {
-    width: 21px;
-    height: 21px;
+    width: 16px;
+    height: 16px;
     margin-left: 10px;
     color: ${theme.deepGrey};
   }
