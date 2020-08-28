@@ -11,13 +11,6 @@ function MyPage() {
   const [myProfile, setMyProfile] = useState({});
 
   useEffect(() => {
-    sessionStorage.setItem(
-      "token",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJ3ZWNvZGVfbnRoIjoxLCJpYXQiOjE1OTgzNDc4ODJ9.3RPTZXc9dH8mOIqiLrAi1VDdJvxgLVxjCcvnKZ4Y7fc"
-    );
-  });
-
-  useEffect(() => {
     axios
       .get(`${API_URL}/mypage`, {
         headers: {
@@ -25,15 +18,29 @@ function MyPage() {
         },
       })
       .then((res) => setMyProfile(res.data.mypage));
-  });
+  }, []);
+
+  const deleteProfileImg = (e) => {
+    axios.delete(`${API_URL}/mypage?deleted=${e.target.dataset.name}`, {
+      headers: { Authorization: sessionStorage.getItem("token") },
+    });
+  };
 
   return (
     <MyPageContainer>
-      <ProfileColumn myProfile={myProfile} />
+      <ProfileColumn
+        deleteProfileImg={deleteProfileImg}
+        myProfile={myProfile}
+      />
       <MyPageContents>
         {myPageContents.map((item, index) => {
           return (
-            <ContentsColumn myProfile={myProfile} key={index} item={item} />
+            <ContentsColumn
+              deleteProfileImg={deleteProfileImg}
+              myProfile={myProfile}
+              key={index}
+              item={item}
+            />
           );
         })}
       </MyPageContents>

@@ -9,7 +9,7 @@ import { faTimes, faCamera } from "@fortawesome/free-solid-svg-icons";
 import InputTheme from "../Buttons/InputTheme";
 import BtnTheme from "../Buttons/BtnTheme";
 import useUpload from "../hooks/useUpload";
-import { API_URL2 } from "../../config";
+import { API_URL } from "../../config";
 
 const LoginModal = ({ setModalOn, googleInput }) => {
   // eslint-disable-next-line
@@ -39,7 +39,7 @@ const LoginModal = ({ setModalOn, googleInput }) => {
     formData.append("gmail", googleInput.bu);
 
     axios
-      .post(`${API_URL2}/auth/additional`, formData, {
+      .post(`${API_URL}/auth/additional`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -2,9 +2,9 @@ import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import theme from "../../Styles/Theme";
 import axios from "axios";
-import { loginToken } from "../../store/actions/loginAction";
+import { loginToken, profileImage } from "../../store/actions/loginAction";
 import { useDispatch } from "react-redux";
-import { API_URL2 } from "../../config";
+import { API_URL } from "../../config";
 
 const GoogleLogin = ({ setExistingUser, handleGoogleInput, setModalOn }) => {
   const googleLoginBtn = useRef(null);
@@ -59,21 +59,27 @@ const GoogleLogin = ({ setExistingUser, handleGoogleInput, setModalOn }) => {
 
   const GoogleApiPOST = (token) => {
     axios
-      .post(`${API_URL2}/auth/login/google`, {
+      .post(`${API_URL}/auth/login/google`, {
         googleToken: token,
       })
       .then((res) => {
         if (res.data.message === "FIRST") {
           setExistingUser(false);
         } else {
-          sessionStorage.setItem("token", res.data.token);
-          dispatch(loginToken(res.data.token));
+          sessionStorage.setItem(
+            "USER",
+            JSON.stringify({
+              token: res.data.token,
+              profile: res.data.thumbnail,
+            })
+          );
           setModalOn(false);
           alert("로그인 되었습니다");
         }
       })
       .catch((error) => alert("Error:", error));
   };
+  console.log(JSON.parse(sessionStorage.getItem("USER")).token);
 
   return (
     <GoogleBtn id="gSignInWrapper">

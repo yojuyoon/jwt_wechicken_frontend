@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import theme, { flexCenter } from "../../../Styles/Theme";
+import axios from "axios";
 import EditForm from "./Components/EditForm";
 import OptInOrOutBtn from "./Components/OptInOrOutBtn";
+import theme, { flexCenter } from "../../../Styles/Theme";
+import { API_URL } from "../../../config";
 
-function ContentsColumn({ item, myProfile }) {
+function ContentsColumn({ item, myProfile, deleteProfileImg }) {
   const [selected, setSelected] = useState({});
   const [isEdit, setisEdit] = useState(false);
   const [contentValue, setContentValue] = useState("");
@@ -23,7 +25,22 @@ function ContentsColumn({ item, myProfile }) {
 
   const handleSubmit = (e) => {
     setisEdit(!isEdit);
+    modifyBlogUrl();
     e.preventDefault();
+  };
+
+  const modifyBlogUrl = () => {
+    axios.post(
+      `${API_URL}/mypage`,
+      { blog_address: contentValue },
+      { headers: { Authorization: sessionStorage.getItem("token") } }
+    );
+  };
+
+  const handleRemoveUser = (e) => {
+    if (window.confirm("정말로 탈퇴하시겠습니까?")) {
+      deleteProfileImg(e);
+    }
   };
 
   const contentArea = {
@@ -55,7 +72,11 @@ function ContentsColumn({ item, myProfile }) {
         }}
       />
     ),
-    withdrawal: <WithdrawalBtn>회원 탈퇴</WithdrawalBtn>,
+    withdrawal: (
+      <WithdrawalBtn data-name="user" onClick={handleRemoveUser}>
+        회원 탈퇴
+      </WithdrawalBtn>
+    ),
   };
 
   return (
