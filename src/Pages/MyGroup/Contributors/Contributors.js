@@ -4,12 +4,13 @@ import axios from "axios";
 import theme from "../../../Styles/Theme";
 import ProfileIcon from "../../../Components/ProfileIcon";
 import Contributor from "../Contributors/Contributor/Contributor";
+import { API_URL } from "../../../config";
 
 const Contributors = () => {
   const [contributors, setContributors] = useState([]);
 
   useEffect(() => {
-    axios.get("http://10.58.0.139:8000/mygroup").then((res) => {
+    axios.get(`${API_URL}/mygroup`).then((res) => {
       console.log(res.data.contributors);
       setContributors(res.data.contributors);
     });

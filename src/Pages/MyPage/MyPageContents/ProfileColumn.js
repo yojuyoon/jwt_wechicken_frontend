@@ -4,6 +4,8 @@ import axios from "axios";
 import { API_URL } from "../../../config";
 import theme, { flexCenter } from "../../../Styles/Theme";
 import useUpload from "../../../Components/hooks/useUpload";
+import { userProfileImg } from "../../../store/actions/loginAction";
+import { useDispatch } from "react-redux";
 
 function ProfileColumn({ myProfile, deleteProfileImg }) {
   const [profile, setProfile] = useState("");
@@ -14,6 +16,7 @@ function ProfileColumn({ myProfile, deleteProfileImg }) {
     defaultImg,
   ] = useUpload();
   const { wecode_nth, user_name, user_thumbnail } = myProfile;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (user_thumbnail) setProfile(`${API_URL}/${user_thumbnail}`); // 백엔드 이미지 서버 구축하면 user-thumbnail로 변경해주기
@@ -24,6 +27,7 @@ function ProfileColumn({ myProfile, deleteProfileImg }) {
     if (editedProfileImg) {
       modifyProfileImg();
     }
+    // eslint-disable-next-line
   }, [editedProfileImg]);
 
   const handleRemoveProfileImg = (e) => {
@@ -36,12 +40,25 @@ function ProfileColumn({ myProfile, deleteProfileImg }) {
   const modifyProfileImg = () => {
     const formData = new FormData();
     formData.append("user_thumbnail", defaultImg);
-    axios.post(`${API_URL}/mypage`, formData, {
-      headers: {
-        Authorization: sessionStorage.getItem("USER").token,
-        "content-type": "multipart/form-data",
-      },
-    });
+    axios
+      .post(`${API_URL}/mypage`, formData, {
+        headers: {
+          Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        if (res.statusText === "OK") {
+          dispatch(userProfileImg(editedProfileImg));
+          sessionStorage.setItem(
+            "USER",
+            JSON.stringify({
+              token: JSON.parse(sessionStorage.getItem("USER"))?.token,
+              profile: editedProfileImg,
+            })
+          );
+        }
+      });
   };
 
   return (

@@ -1,5 +1,4 @@
 export const GET_TOKEN = "GET_TOKEN";
-export const INITIAL_LOGIN = "INITIAL_LOGIN";
 export const GET_PROFILE_IMG = "GET_PROFILE_IMG";
 
 export const loginToken = (token) => {
@@ -9,14 +8,7 @@ export const loginToken = (token) => {
   };
 };
 
-export const initialLogin = (response) => {
-  return {
-    type: INITIAL_LOGIN,
-    payload: response,
-  };
-};
-
-export const profileImage = (img) => {
+export const userProfileImg = (img) => {
   return {
     type: GET_PROFILE_IMG,
     payload: img,

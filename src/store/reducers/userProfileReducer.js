@@ -1,8 +1,8 @@
 import { GET_PROFILE_IMG } from "../actions/loginAction";
 
-const INITIAL_STATE = "";
+const INITIAL_STATE = JSON.parse(sessionStorage.getItem("USER"))?.profile || "";
 
-const profileReducer = (state = INITIAL_STATE, action) => {
+const userProfileReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case GET_PROFILE_IMG:
       return action.payload;
@@ -12,4 +12,4 @@ const profileReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default profileReducer;
+export default userProfileReducer;

@@ -11,6 +11,7 @@ import BtnTheme from "../Components/Buttons/BtnTheme";
 import { useSelector } from "react-redux";
 import { loginToken } from "../store/actions/loginAction";
 import { useDispatch } from "react-redux";
+import { API_URL } from "../config";
 
 const Nav = () => {
   const [isdropDownOpen, setDropDownOpen] = useState(false);
@@ -19,7 +20,7 @@ const Nav = () => {
   const history = useHistory();
   //redux
   const loginStatus = useSelector((state) => state.loginReducer);
-  const profileImage = useSelector((state) => state.profileReducer);
+  const userProfileImg = useSelector((state) => state.userProfileReducer);
   const dispatch = useDispatch();
 
   const handleSelected = (e) => {
@@ -35,14 +36,12 @@ const Nav = () => {
     setDropDownOpen(false);
     if (selected === "로그아웃") {
       history.push("/");
-      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("USER");
       dispatch(loginToken(""));
       alert("로그아웃 되었습니다");
       window.location.reload();
     }
   };
-
-  console.log(profileImage);
 
   return (
     <NavContainer onMouseLeave={() => setDropDownOpen(false)}>
@@ -72,9 +71,11 @@ const Nav = () => {
           <div onMouseOver={() => setDropDownOpen(true)}>
             <ProfileIcon
               size={50}
-              img={
-                "https://miro.medium.com/fit/c/256/256/1*Mzkzg31wDXjEDVKYRqsLXw.jpeg"
-              }
+              // img={
+              //   "http://112.145.58.90:8001/images/4C5A0EF1-4E01-4FF7-9CDE-CD31C597CAB4_1_105_c.jpeg"
+              // }
+              img={`${userProfileImg}`}
+              // img={`${API_URL}/${userProfileImg}`}
             />
           </div>
         </UserWrap>
