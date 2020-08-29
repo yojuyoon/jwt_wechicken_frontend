@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import theme from "../../Styles/Theme";
 import axios from "axios";
-import { loginToken, profileImage } from "../../store/actions/loginAction";
+import { loginToken, userProfileImg } from "../../store/actions/loginAction";
 import { useDispatch } from "react-redux";
 import { API_URL } from "../../config";
 
@@ -74,12 +74,13 @@ const GoogleLogin = ({ setExistingUser, handleGoogleInput, setModalOn }) => {
             })
           );
           setModalOn(false);
+          dispatch(loginToken(res.data.token));
+          dispatch(userProfileImg(res.data.thumbnail));
           alert("로그인 되었습니다");
         }
       })
       .catch((error) => alert("Error:", error));
   };
-  console.log(JSON.parse(sessionStorage.getItem("USER")).token);
 
   return (
     <GoogleBtn id="gSignInWrapper">

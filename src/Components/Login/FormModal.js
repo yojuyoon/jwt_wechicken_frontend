@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import theme, { flexCenter } from "../../../src/Styles/Theme";
 import axios from "axios";
-import { loginToken } from "../../store/actions/loginAction";
+import { loginToken, userProfileImg } from "../../store/actions/loginAction";
 import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faCamera } from "@fortawesome/free-solid-svg-icons";
@@ -45,11 +45,17 @@ const LoginModal = ({ setModalOn, googleInput }) => {
         },
       })
       .then((res) => {
-        console.log(res);
         if (res.data.token) {
-          sessionStorage.setItem("token", res.data.token);
-          dispatch(loginToken(res.data.token));
+          sessionStorage.setItem(
+            "USER",
+            JSON.stringify({
+              token: res.data.token,
+              profile: res.data.profile,
+            })
+          );
           setModalOn(false);
+          dispatch(loginToken(res.data.token));
+          dispatch(userProfileImg(res.data.peofile));
           alert("로그인 되었습니다");
         }
       });
@@ -71,7 +77,7 @@ const LoginModal = ({ setModalOn, googleInput }) => {
           <div className="greeting">{inputName}님 환영합니다!</div>
           <div className="type">추가 정보를 입력해주세요</div>
         </Greeting>
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" encType="multipart/form-data">
           <ImageBox>
             <label>
               <ProfileIcon
