@@ -16,7 +16,7 @@ const Card = () => {
 
   useEffect(() => {
     axios.get("http://localhost:3000/data/medium.json").then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
     });
   }, []);
 
