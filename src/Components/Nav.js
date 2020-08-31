@@ -69,14 +69,7 @@ const Nav = () => {
           <FontAwesomeIcon className="bookmarkIcon" icon={faBookmark} />
           <FontAwesomeIcon className="heartIcon" icon={faHeart} />
           <div onMouseOver={() => setDropDownOpen(true)}>
-            <ProfileIcon
-              size={50}
-              // img={
-              //   "http://112.145.58.90:8001/images/4C5A0EF1-4E01-4FF7-9CDE-CD31C597CAB4_1_105_c.jpeg"
-              // }
-              img={`${userProfileImg}`}
-              // img={`${API_URL}/${userProfileImg}`}
-            />
+            <ProfileIcon size={50} img={`${userProfileImg}`} />
           </div>
         </UserWrap>
       )}
@@ -100,7 +93,7 @@ const Nav = () => {
               selectedMenu === "내 기수 블로그" ? "focused" : undefined
             }
           >
-            내 기수 블로그
+            <Link to="/Mygroup">내 기수 블로그</Link>
           </li>
           <li
             onClick={handleSelected}

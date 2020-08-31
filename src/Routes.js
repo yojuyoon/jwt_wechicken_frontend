@@ -14,6 +14,7 @@ class Routes extends React.Component {
           <Route exact path="/" component={Main} />
           <Route exact path="/Mygroup" component={MyGroup} />
           <Route exact path="/MyPage" component={MyPage} />
+          <Route exact path="/Main" component={Main} />
         </Switch>
       </Router>
     );
