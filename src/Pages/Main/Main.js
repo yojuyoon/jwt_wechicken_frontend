@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 import Card from "../../Components/Card/Card";
 import theme, { flexCenter } from "../../Styles/Theme";
+import { API_URL } from "../../config";
 
 function Main() {
   const [isNthDropdownOpen, setNthDropdownOpen] = useState(false);
   const [selectedNth, setSelectedNth] = useState("");
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    axios.get(`${API_URL}/main`).then((res) => {
+      // console.log(res.data.posts);
+      setPosts(res.data.posts);
+    });
+  }, []);
 
   const handleSelectedNth = (e) => {
     setNthDropdownOpen(false);
@@ -65,10 +75,11 @@ function Main() {
           )}
         </MainContentTitle>
         <MainContentCards>
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+          {posts &&
+            posts.map((post, i) => {
+              return <Card post={post} key={i} />;
+            })}
+          {/* <Card /> */}
         </MainContentCards>
       </MainContents>
     </MainPageContainer>
@@ -137,8 +148,7 @@ const BannerContent = styled.div`
 
 const MainContents = styled.div`
   width: 90%;
-  height: 700px;
-  padding: 50px 60px;
+  padding: 50px 0;
   margin-top: 55px;
   position: relative;
   background-color: ${theme.white};
@@ -149,6 +159,7 @@ const MainContents = styled.div`
 const MainContentTitle = styled.div`
   display: flex;
   justify-content: space-between;
+  padding: 0 50px;
 
   .titleContainer {
     display: flex;
@@ -177,7 +188,10 @@ const MainContentTitle = styled.div`
 
 const MainContentCards = styled.div`
   margin-top: 40px;
+  padding: 0px !important;
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 `;
 
 const NthDropdown = styled.div`

@@ -30,7 +30,7 @@ export default HeartIcon;
 const Container = styled.div`
   width: ${({ size }) => size}px;
   height: ${({ size }) => size}px;
-  right: 30px;
+  right: 22px;
   position: absolute;
 `;
 
