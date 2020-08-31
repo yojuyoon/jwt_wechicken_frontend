@@ -73,7 +73,7 @@ const LoginModal = ({ setModalOn, googleInput }) => {
           );
           setModalOn(false);
           dispatch(loginToken(res.data.token));
-          dispatch(userProfileImg(res.data.peofile));
+          dispatch(userProfileImg(res.data.profile));
           alert("로그인 되었습니다");
         }
       });
