@@ -1,27 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { API_URL } from "../../../config";
 import theme, { flexCenter } from "../../../Styles/Theme";
 import useUpload from "../../../Components/hooks/useUpload";
 import { userProfileImg } from "../../../store/actions/loginAction";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function ProfileColumn({ myProfile, deleteProfileImg }) {
-  const [profile, setProfile] = useState("");
   const [
     handleEditProfileImg,
     editedProfileImg,
     ProfileIcon,
     defaultImg,
   ] = useUpload();
-  const { wecode_nth, user_name, user_thumbnail } = myProfile;
+  const { wecode_nth, user_name } = myProfile;
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (user_thumbnail) setProfile(`${API_URL}/${user_thumbnail}`); // 백엔드 이미지 서버 구축하면 user-thumbnail로 변경해주기
-    if (user_thumbnail === null) setProfile("/Images/default.png");
-  }, [user_thumbnail]);
+  const userProfileImgVariable = useSelector(
+    (state) => state.userProfileReducer
+  );
 
   useEffect(() => {
     if (editedProfileImg) {
@@ -33,7 +30,6 @@ function ProfileColumn({ myProfile, deleteProfileImg }) {
   const handleRemoveProfileImg = (e) => {
     if (window.confirm("프로필 이미지를 삭제하시겠습니까?")) {
       deleteProfileImg(e);
-      window.location.reload();
     }
   };
 
@@ -64,10 +60,7 @@ function ProfileColumn({ myProfile, deleteProfileImg }) {
   return (
     <ProfileContainer>
       <ProfilePhoto>
-        <ProfileIcon
-          size={131}
-          img={editedProfileImg ? editedProfileImg : profile}
-        />
+        <ProfileIcon size={131} img={userProfileImgVariable} />
         <label>
           <input
             type="file"

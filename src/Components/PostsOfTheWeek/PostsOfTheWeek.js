@@ -10,7 +10,6 @@ function PostsOfTheWeek({ dayPosts, isGroupJoined, submit }) {
   const [calender, setCalender] = useState(false);
   const [value, onChange] = useState(new Date());
 
-
   const handleShowCalendar = () => {
     setCalender(!calender);
   };
@@ -29,8 +28,8 @@ function PostsOfTheWeek({ dayPosts, isGroupJoined, submit }) {
           <span className="week">2nd week</span>
         </MonthOfTheWeek>
         <DayColumns>
-          {Object.keys(dayPosts).map((day) => {
-            return <DayColumn day={day} dayPosts={dayPosts} />;
+          {Object.keys(dayPosts).map((day, i) => {
+            return <DayColumn day={day} dayPosts={dayPosts} key={i} />;
           })}
         </DayColumns>
       </Container>
@@ -42,9 +41,9 @@ function PostsOfTheWeek({ dayPosts, isGroupJoined, submit }) {
 export default PostsOfTheWeek;
 
 const Wrap = styled.div`
-position:relative;
-${flexCenter};
-`
+  position: relative;
+  ${flexCenter};
+`;
 
 const Container = styled.div`
   height: 560px;
@@ -55,9 +54,12 @@ const Container = styled.div`
   background-color: ${theme.white};
   box-shadow: 7px 7px 30px rgba(0, 0, 0, 0.08);
   border-radius: 35px;
-    ${props => !props.isGroupJoined && css`filter:blur(4px);`}
+  ${(props) =>
+    !props.isGroupJoined &&
+    css`
+      filter: blur(4px);
+    `}
 `;
-
 
 const CalendarContainer = styled.div`
   z-index: 999;
@@ -152,11 +154,11 @@ const DayColumns = styled.div`
 `;
 
 const ModalBackground = styled.div`
-  width:101%;
-  height:100%;
-  position:absolute;
+  width: 101%;
+  height: 100%;
+  position: absolute;
   border-radius: 35px;
-  background-color:${theme.white};
-  opacity:0.5;
-  z-index:988;
-`
+  background-color: ${theme.white};
+  opacity: 0.5;
+  z-index: 988;
+`;
