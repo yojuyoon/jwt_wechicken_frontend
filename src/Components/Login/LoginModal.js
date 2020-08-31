@@ -25,10 +25,6 @@ const LoginModal = ({ setModalOn, setExistingUser, handleGoogleInput }) => {
           setExistingUser={setExistingUser}
           handleGoogleInput={handleGoogleInput}
         />
-        <ChangeType>
-          <span className="question">아직 회원이 아니신가요?</span>
-          <span className="anotherType">회원가입</span>
-        </ChangeType>
       </ContentsBox>
     </Container>
   );
@@ -81,26 +77,5 @@ const Greeting = styled.div`
     font-size: 26px;
     line-height: 30px;
     color: #000000;
-  }
-`;
-
-const ChangeType = styled.div`
-  width: 100%;
-  margin-top: 99px;
-  display: flex;
-  justify-content: flex-end;
-
-  .question {
-    font-size: 14px;
-    line-height: 20px;
-    color: #565454;
-  }
-
-  .anotherType {
-    margin-left: 5px;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    color: #ff9900;
   }
 `;

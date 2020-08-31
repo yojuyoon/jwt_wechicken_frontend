@@ -130,5 +130,13 @@ const GoogleBtn = styled.div`
     line-height: 16px;
     text-align: center;
     color: ${theme.white};
+    background: none;
+}
+
+
+
+
+
+
   }
 `;
