@@ -8,6 +8,15 @@ const GlobalStyles = createGlobalStyle`
         box-sizing : border-box;
         background-color:${theme.background};
     }
+    span {
+        background: none;
+    }
+    img {
+        background: none;
+    }
+    abbr{
+        background:none;
+    }
 `;
 
 export default GlobalStyles;
