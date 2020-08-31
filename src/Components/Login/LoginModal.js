@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import theme, { flexCenter } from "../../../src/Styles/Theme";
+import theme from "../../../src/Styles/Theme";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import GoogleLogin from "./GoogleLogin";
+import LogoBox from "./LogoBox";
 
 const LoginModal = ({ setModalOn, setExistingUser, handleGoogleInput }) => {
   return (
@@ -13,10 +14,7 @@ const LoginModal = ({ setModalOn, setExistingUser, handleGoogleInput }) => {
         className="BtnClose"
         icon={faTimes}
       />
-      <LogoBox>
-        <img className="logoImage" alt="logo" src="/Images/logo.png"></img>
-        <span>>wechicken</span>
-      </LogoBox>
+      <LogoBox />
       <ContentsBox>
         <Greeting>
           <div className="greeting">환영합니다!</div>
@@ -59,26 +57,6 @@ const Container = styled.div`
     margin: 15px;
     color: #828282;
     cursor: pointer;
-  }
-`;
-
-const LogoBox = styled.div`
-  width: 50%;
-  ${flexCenter}
-  flex-direction: column;
-
-  .logoImage {
-    width: 157px;
-    height: 157px;
-  }
-
-  span {
-    margin-top: 10px;
-    font-family: ${theme.fontTitle};
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 24px;
-    color: #1a202c;
   }
 `;
 

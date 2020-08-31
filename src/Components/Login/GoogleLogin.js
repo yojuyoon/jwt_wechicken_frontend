@@ -70,12 +70,12 @@ const GoogleLogin = ({ setExistingUser, handleGoogleInput, setModalOn }) => {
             "USER",
             JSON.stringify({
               token: res.data.token,
-              profile: res.data.thumbnail,
+              profile: res.data.profile,
             })
           );
           setModalOn(false);
           dispatch(loginToken(res.data.token));
-          dispatch(userProfileImg(res.data.thumbnail));
+          dispatch(userProfileImg(res.data.profile));
           alert("로그인 되었습니다");
         }
       })

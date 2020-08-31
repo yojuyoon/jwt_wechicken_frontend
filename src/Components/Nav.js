@@ -11,7 +11,6 @@ import BtnTheme from "../Components/Buttons/BtnTheme";
 import { useSelector } from "react-redux";
 import { loginToken } from "../store/actions/loginAction";
 import { useDispatch } from "react-redux";
-import { API_URL } from "../config";
 
 const Nav = () => {
   const [isdropDownOpen, setDropDownOpen] = useState(false);

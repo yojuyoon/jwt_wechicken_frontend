@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import theme, { flexCenter } from "../../../src/Styles/Theme";
 import axios from "axios";
@@ -7,8 +7,9 @@ import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faCamera } from "@fortawesome/free-solid-svg-icons";
 import InputTheme from "../Buttons/InputTheme";
-import BtnTheme from "../Buttons/BtnTheme";
+import BtnCheck from "../Buttons/BtnCheck";
 import useUpload from "../hooks/useUpload";
+import LogoBox from "./LogoBox";
 import { API_URL } from "../../config";
 
 const LoginModal = ({ setModalOn, googleInput }) => {
@@ -17,6 +18,9 @@ const LoginModal = ({ setModalOn, googleInput }) => {
   const [inputName, setInputName] = useState(googleInput.Ad);
   const [nth, setNth] = useState("");
   const [blogAddress, setBlogAddress] = useState("");
+  const [isJoinGroup, setJoinGroup] = useState(true);
+  const [agreementStatus, setAgreementStatus] = useState(true);
+  const [submitActivate, setSubmitActivate] = useState(false);
   const dispatch = useDispatch();
 
   const [
@@ -26,6 +30,20 @@ const LoginModal = ({ setModalOn, googleInput }) => {
     uploadedImage,
   ] = useUpload(inputImage);
 
+  const handleCheckBox = (type) => {
+    type === "치킨계 가입(선택)"
+      ? setJoinGroup(!isJoinGroup)
+      : setAgreementStatus(!agreementStatus);
+  };
+
+  useEffect(() => {
+    if (inputName && nth && blogAddress && agreementStatus) {
+      setSubmitActivate(true);
+    } else {
+      setSubmitActivate(false);
+    }
+  }, [inputName, nth, blogAddress, agreementStatus]);
+
   const handleUploadForm = () => {
     const formData = new FormData();
     formData.append(
@@ -33,7 +51,7 @@ const LoginModal = ({ setModalOn, googleInput }) => {
       uploadedImage ? uploadedImage : inputImage
     );
     formData.append("user_name", inputName);
-    formData.append("wecode_nth", nth);
+    formData.append("wecode_nth", nth.replace(/[^0-9]/g, ""));
     formData.append("blog_address", blogAddress);
     formData.append("gmail_id", googleInput.aU);
     formData.append("gmail", googleInput.bu);
@@ -68,20 +86,18 @@ const LoginModal = ({ setModalOn, googleInput }) => {
         className="BtnClose"
         icon={faTimes}
       />
-      <LogoBox>
-        <img className="logoImage" alt="logo" src="/Images/logo.png"></img>
-        <span>>wechicken</span>
-      </LogoBox>
+      <LogoBox />
       <ContentsBox>
         <Greeting>
-          <div className="greeting">{inputName}님 환영합니다!</div>
+          <div className="name">{inputName}님</div>
+          <div className="greeting">환영합니다!</div>
           <div className="type">추가 정보를 입력해주세요</div>
         </Greeting>
-        <form method="post" encType="multipart/form-data">
+        <Form method="post" encType="multipart/form-data">
           <ImageBox>
             <label>
               <ProfileIcon
-                size={80}
+                size={64}
                 img={convertedImg ? convertedImg : inputImage}
               />
               <div className="cameraIcon">
@@ -91,20 +107,38 @@ const LoginModal = ({ setModalOn, googleInput }) => {
             </label>
           </ImageBox>
           <FormWrap>
-            <div className="nameAndnth">
-              <InputTheme width={100} type={"이름"} handleType={setInputName} />
-              <InputTheme width={60} type={"기수"} handleType={setNth} />
-            </div>
+            <InputTheme width={156} type={"기수"} handleType={setNth} />
+            <InputTheme width={156} type={"이름"} handleType={setInputName} />
             <InputTheme
-              width={340}
+              width={156}
               type={"블로그 주소"}
               handleType={setBlogAddress}
             />
+            <BtnCheck
+              text={"치킨계 가입(선택)"}
+              handleCheckBox={handleCheckBox}
+              isChecked={isJoinGroup}
+            />
+            <BtnCheck
+              text={"블로그 정보 수집 동의(필수)"}
+              handleCheckBox={handleCheckBox}
+              isChecked={agreementStatus}
+            />
           </FormWrap>
-        </form>
-        <div className="submit" onClick={handleUploadForm}>
-          <BtnTheme value={"제출"} />
-        </div>
+        </Form>
+        <Submit
+          submitActivate={submitActivate}
+          className="submit"
+          onClick={
+            submitActivate
+              ? () => handleUploadForm()
+              : () => {
+                  alert("필수 항목을 모두 채워주세요🙃");
+                }
+          }
+        >
+          <div className="SubmitBtn">제출</div>
+        </Submit>
       </ContentsBox>
     </Container>
   );
@@ -136,36 +170,9 @@ const Container = styled.div`
   }
 `;
 
-const LogoBox = styled.div`
-  width: 40%;
-  ${flexCenter}
-  flex-direction: column;
-  background-color: #ffeaa0;
-
-  .logoImage {
-    width: 120px;
-    height: 120px;
-  }
-
-  span {
-    margin-top: 10px;
-    font-family: ${theme.fontTitle};
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 24px;
-    color: #1a202c;
-  }
-`;
-
 const ContentsBox = styled.div`
-  width: 60%;
+  width: 50%;
   padding: 20px;
-
-  .submit {
-    width: 100px;
-    margin-left: auto;
-    margin-right: 14px;
-  }
 `;
 
 const Greeting = styled.div`
@@ -173,44 +180,58 @@ const Greeting = styled.div`
   flex-direction: column;
   margin-top: 35px;
 
-  .greeting {
+  .name {
     font-weight: bold;
-    font-size: 22px;
-    line-height: 26px;
+    font-size: 20px;
+    line-height: 29px;
     color: #ff7425;
   }
 
-  .type {
-    margin-top: 5px;
-    font-style: normal;
+  .greeting {
     font-weight: bold;
-    font-size: 16px;
-    line-height: 30px;
-    color: #828282;
+    font-size: 20px;
+    line-height: 29px;
+    color: #525151;
+  }
+
+  .type {
+    margin-top: 20px;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    color: #8a8383;
   }
 `;
 
-// const Form = styled.form``;
+const Form = styled.form`
+  height: 230px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+`;
 
 const ImageBox = styled.div`
-  height: 120px;
-  margin-top: 18px;
-  ${flexCenter}
+  margin: 15px 10px 0 10px;
+  align-items: flex-start;
+  display: flex;
 
   label {
     position: relative;
-    width: 80px;
-    height: 80px;
 
     .cameraIcon {
       position: absolute;
-      bottom: -10px;
-      left: 27px;
+      right: -3px;
+      bottom: -5px;
       width: 28px;
       height: 28px;
       ${flexCenter}
       border-radius: 50%;
       background-color: ${theme.white};
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
 
       input {
         display: none;
@@ -221,12 +242,23 @@ const ImageBox = styled.div`
 
 const FormWrap = styled.div`
   width: 100%;
-  height: 150px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+`;
 
-  .nameAndnth {
-    display: flex;
+const Submit = styled.div`
+  width: 80px;
+  margin-left: auto;
+  margin-right: 14px;
+
+  .SubmitBtn {
+    ${flexCenter}
+    height: 32px;
+    padding: 0 18px;
+    border-radius: 1rem;
+    cursor: ${(props) => (props.submitActivate ? "pointer" : "not-allowed")};
+    color: ${(props) => (props.submitActivate ? theme.white : "#767676")};
+    background-color: ${(props) =>
+      props.submitActivate ? theme.orange : "#eee;"};
   }
 `;

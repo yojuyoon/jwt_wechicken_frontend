@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import theme from "../../Styles/Theme";
 
 const InputTheme = ({ width, type, value, handleType }) => {
   return (
@@ -20,7 +19,7 @@ const InputTheme = ({ width, type, value, handleType }) => {
 export default React.memo(InputTheme);
 
 const Container = styled.div`
-margin: 10px 0;
+margin: 5px 0;
 
    .nameBox {
     padding-left: 12px;
@@ -29,18 +28,18 @@ margin: 10px 0;
     .type {
       margin-left: 5px;
       margin-bottom: 2px;
-      font-size: 11px;
-      line-height: 13px;
-      color: #8a8383;
+      font-weight: 500;
+      font-size: 10px;
+      color: #8A8383;
     }
 
     input {
       width: ${({ width }) => width}px;
       height: 28px;
       border: none;
-      border-radius: 28px;
-      background-color: ${theme.yellow};
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);    
       outline: none;
       cursor: text;
+      caret-color: #FF7425;
     }
 `;
