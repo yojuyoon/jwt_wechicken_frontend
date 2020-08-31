@@ -1,44 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import theme, { flexCenter } from "../../Styles/Theme";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark } from "@fortawesome/free-regular-svg-icons";
-import axios from "axios";
 import ProfileIcon from "../ProfileIcon";
 import HeartIcon from "../Buttons/HeartIcon";
 
-const Card = () => {
+const Card = ({ post }) => {
   const [isLiked, setLiked] = useState(false);
-
-  const onClickCard = () => {
-    console.log("전체클릭");
-  };
-
-  useEffect(() => {
-    axios.get("http://localhost:3000/data/medium.json").then((res) => {
-      // console.log(res.data);
-    });
-  }, []);
 
   return (
     <Container>
-      <CardWrap onClick={onClickCard}>
-        <ImageBox />
+      <CardWrap onClick={() => window.location.assign(`${post.link}`)}>
+        <ImageBox img={post.thumbnail || "/Images/test.png"} />
         <ContentsBox>
           <div className="profileWrap">
-            <ProfileIcon size={40} img={"/Images/logo.png"} />
+            <ProfileIcon size={40} img={post.user_profile} />
             <div className="ProfileText">
               <div className="nth">10기</div>
-              <div className="name">최준</div>
+              <div className="name">{post.user_name}</div>
             </div>
           </div>
           <div className="textWrap">
-            <div className="title">여기는 제목입니다. 뭘 적지?</div>
-            <div className="content">
+            <div className="title">{post.title}</div>
+            {/* <div className="content">
               Greyhound divisively hello coldly wonderfully margina wonderfully
-              margina ivisively hello coldly wonderfully margina wonderfullyonde
-              rfully margina wonderfull...
-            </div>
+              margo...
+            </div> */}
           </div>
         </ContentsBox>
       </CardWrap>
@@ -61,6 +49,7 @@ const Container = styled.div`
   box-shadow: 7px 7px 30px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   transition: box-shadow 0.5s ease-in-out;
+  cursor: pointer;
 
   &:hover {
     transform: translate(0, -10px);
@@ -74,7 +63,8 @@ const CardWrap = styled.div`
 
 const ImageBox = styled.div`
   height: 45%;
-  background: url("/Images/test.png");
+  /* background: url("/Images/test.png"); */
+  background: url(${({ img }) => img});
   background-size: cover;
   background-position: center;
 `;
@@ -91,16 +81,16 @@ const ContentsBox = styled.div`
     .ProfileText {
       margin-left: 16px;
 
-      .name {
-        font-weight: 500;
-        font-size: 17px;
-        line-height: 28px;
-      }
-
       .nth {
         font-size: 13px;
-        line-height: 20px;
         color: rgba(0, 0, 0, 0.6);
+      }
+
+      .name {
+        margin-top: 5px;
+        font-weight: 500;
+        font-size: 17px;
+        color: #2d2b2b;
       }
     }
   }
@@ -112,7 +102,8 @@ const ContentsBox = styled.div`
     .title {
       font-size: 15px;
       line-height: 20px;
-      margin-bottom: 8px;
+      margin-bottom: 2px;
+      color: #2d2b2b;
     }
 
     .content {
