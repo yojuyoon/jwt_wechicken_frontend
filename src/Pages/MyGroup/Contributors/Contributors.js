@@ -3,19 +3,16 @@ import styled from "styled-components";
 import theme from "../../../Styles/Theme";
 import ProfileIcon from "../../../Components/ProfileIcon";
 import Contributor from "../Contributors/Contributor/Contributor";
+import { useSelector } from "react-redux";
 
 const Contributors = ({ myContribution, contributor }) => {
+  const userProfileImg = useSelector((state) => state.userProfileReducer);
 
   return (
     <Container>
       <MyContribution>
         <InfoContainer>
-          <ProfileIcon
-            size={46}
-            img={
-              "https://miro.medium.com/fit/c/256/256/1*Mzkzg31wDXjEDVKYRqsLXw.jpeg"
-            }
-          />
+          <ProfileIcon size={46} img={userProfileImg} />
           <UserInfo>
             <div className="name">{myContribution.name}</div>
             <span className="penalty" role="img" aria-labelledby="celebration">

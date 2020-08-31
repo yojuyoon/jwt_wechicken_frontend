@@ -9,14 +9,14 @@ const Contributor = ({ person }) => {
     } else if (counts === 2) {
       return "💸 3000";
     } else {
-      return "🎉";
+      return "🎉 no penalty";
     }
   };
 
   return (
     <Container>
       <InfoContainer>
-        <ProfileIcon size={41} img={person.user_profile} />
+        <ProfileIcon size={41} img={person.profile} />
         <UserInfo>
           <div className="name">{person.name}</div>
           <span className="penalty" role="img" aria-labelledby="money">
