@@ -18,7 +18,7 @@ const Contributor = ({ person }) => {
       <InfoContainer>
         <ProfileIcon size={41} img={person.user_profile} />
         <UserInfo>
-          <div className="name">{person.user_name}</div>
+          <div className="name">{person.name}</div>
           <span className="penalty" role="img" aria-labelledby="money">
             {calculatePenalty(person.blog_counts)}
           </span>

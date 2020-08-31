@@ -1,52 +1,50 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import DayColumn from "./DayColumn";
-import styled from "styled-components";
-import axios from "axios";
-import theme, { flexCenter } from "../../Styles/Theme";
+import styled, { css } from "styled-components";
 import Calendar from "react-calendar";
-import { API_URL } from "../../config";
+import MyGroupJoinModal from "./MyGroupJoinModal";
+import theme, { flexCenter } from "../../Styles/Theme";
 import "react-calendar/dist/Calendar.css";
 
-function PostsOfTheWeek() {
-  const [dayPosts, setdayPosts] = useState([]);
+function PostsOfTheWeek({ dayPosts, isGroupJoined, submit }) {
   const [calender, setCalender] = useState(false);
   const [value, onChange] = useState(new Date());
 
-  useEffect(() => {
-    axios.get(`${API_URL}/mygroup`).then((res) => {
-      setdayPosts(res.data.by_days);
-    });
-  }, []);
-
-  // useEffect(() => {
-  //   axios.post(``, {});
-  // });
 
   const handleShowCalendar = () => {
     setCalender(!calender);
   };
 
   return (
-    <Container>
-      <CalendarContainer>
-        {calender && <Calendar onChange={onChange} value={value} />}
-      </CalendarContainer>
-      <MonthOfTheWeek onClick={handleShowCalendar}>
-        <span>
-          August<span className="moreBtn">▾</span>
-        </span>
-        <span className="week">2nd week</span>
-      </MonthOfTheWeek>
-      <DayColumns>
-        {Object.keys(dayPosts).map((day) => {
-          return <DayColumn day={day} dayPosts={dayPosts} />;
-        })}
-      </DayColumns>
-    </Container>
+    <Wrap>
+      {!isGroupJoined && <MyGroupJoinModal submit={submit} />}
+      <Container isGroupJoined={isGroupJoined}>
+        <CalendarContainer>
+          {calender && <Calendar onChange={onChange} value={value} />}
+        </CalendarContainer>
+        <MonthOfTheWeek onClick={handleShowCalendar}>
+          <span>
+            August<span className="moreBtn">▾</span>
+          </span>
+          <span className="week">2nd week</span>
+        </MonthOfTheWeek>
+        <DayColumns>
+          {Object.keys(dayPosts).map((day) => {
+            return <DayColumn day={day} dayPosts={dayPosts} />;
+          })}
+        </DayColumns>
+      </Container>
+      {!isGroupJoined && <ModalBackground />}
+    </Wrap>
   );
 }
 
 export default PostsOfTheWeek;
+
+const Wrap = styled.div`
+position:relative;
+${flexCenter};
+`
 
 const Container = styled.div`
   height: 560px;
@@ -57,10 +55,13 @@ const Container = styled.div`
   background-color: ${theme.white};
   box-shadow: 7px 7px 30px rgba(0, 0, 0, 0.08);
   border-radius: 35px;
+    ${props => !props.isGroupJoined && css`filter:blur(4px);`}
 `;
+
 
 const CalendarContainer = styled.div`
   z-index: 999;
+
   @keyframes showBox {
     0% {
       opacity: 0.2;
@@ -119,7 +120,6 @@ const MonthOfTheWeek = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 30px;
-  z-index: 2;
 
   span {
     cursor: pointer;
@@ -150,3 +150,13 @@ const DayColumns = styled.div`
     border-radius: 10px;
   }
 `;
+
+const ModalBackground = styled.div`
+  width:101%;
+  height:100%;
+  position:absolute;
+  border-radius: 35px;
+  background-color:${theme.white};
+  opacity:0.5;
+  z-index:988;
+`
