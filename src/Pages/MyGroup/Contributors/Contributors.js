@@ -1,22 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import axios from "axios";
 import theme from "../../../Styles/Theme";
 import ProfileIcon from "../../../Components/ProfileIcon";
 import Contributor from "../Contributors/Contributor/Contributor";
-import { API_URL } from "../../../config";
 
-const Contributors = () => {
-  const [contributors, setContributors] = useState([]);
-
-  useEffect(() => {
-    axios.get(`${API_URL}/mygroup`).then((res) => {
-      console.log(res.data.contributors);
-      setContributors(res.data.contributors);
-    });
-
-    // .then((res) => console.log(res.data.by_days));
-  }, []);
+const Contributors = ({ myContribution, contributor }) => {
 
   return (
     <Container>
@@ -29,7 +17,7 @@ const Contributors = () => {
             }
           />
           <UserInfo>
-            <div className="name">JunChoi</div>
+            <div className="name">{myContribution.name}</div>
             <span className="penalty" role="img" aria-labelledby="celebration">
               🎉 no penalty
             </span>
@@ -40,8 +28,8 @@ const Contributors = () => {
         </span>
       </MyContribution>
       <OtherContribution>
-        {contributors.map((person) => {
-          return <Contributor person={person} />;
+        {contributor.map((person, idx) => {
+          return <Contributor key={idx} person={person} />;
         })}
       </OtherContribution>
     </Container>
