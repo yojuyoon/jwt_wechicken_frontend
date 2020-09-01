@@ -84,7 +84,7 @@ const Nav = () => {
             onClick={handleSelected}
             className={selectedMenu === "전체 블로그" ? "focused" : undefined}
           >
-            전체 블로그
+            <Link to="/">전체 블로그</Link>
           </li>
           <li
             onClick={handleSelected}
