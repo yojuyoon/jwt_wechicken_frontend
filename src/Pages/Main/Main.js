@@ -93,6 +93,7 @@ const MainPageContainer = styled.div`
   ${flexCenter}
   flex-direction:column;
   color: ${theme.deepGrey};
+  background-color: ${theme.background};
 `;
 
 const MainBanner = styled.div`

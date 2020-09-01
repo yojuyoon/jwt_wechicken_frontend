@@ -52,7 +52,7 @@ function MyPage() {
 export default MyPage;
 
 const MyPageContainer = styled.div`
-  padding: 100px;
+  padding: 120px;
 
   button {
     cursor: pointer;

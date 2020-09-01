@@ -4,8 +4,6 @@ import Nav from "./Components/Nav";
 import Main from "./Pages/Main/Main";
 import MyGroup from "./Pages/MyGroup/MyGroup";
 import MyPage from "./Pages/MyPage/MyPage";
-import Loading from "./Components/Loading/Loading";
-
 class Routes extends React.Component {
   render() {
     return (

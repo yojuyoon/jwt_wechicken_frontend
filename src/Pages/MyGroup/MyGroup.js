@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import theme from "../../Styles/Theme";
 import axios from "axios";
 import { API_URL } from "../../config";
 import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css'
 import Contributors from "./Contributors/Contributors";
 import PostsOfTheWeek from "../../Components/PostsOfTheWeek/PostsOfTheWeek";
 import Loading from "../../Components/Common/Loading";
+import Error from "../../Components/Common/Error";
+import theme from "../../Styles/Theme";
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 const MyGroup = () => {
   const [isGroupJoined, setIsGroupJoined] = useState(true);
@@ -16,6 +17,7 @@ const MyGroup = () => {
   const [myContribution, setMyContribution] = useState({})
   const [joinedMessage, setJoinedMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   // useEffect(() => {
   //   sessionStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJ3ZWNvZGVfbnRoIjoxMCwiaWF0IjoxNTk4NzE0NjM3fQ.l9mY6ZBwg3UoJX0_JMKAQz3HsPCFw-obXKZz2aCJhFk")
@@ -38,6 +40,7 @@ const MyGroup = () => {
       setContributor(res.data.users);
       setMyContribution(res.data.myProfile);
     } catch (e) {
+      setIsError(true);
     } finally {
       setIsLoading(false);
     }
@@ -69,6 +72,7 @@ const MyGroup = () => {
   }
 
   if (isLoading) return <Loading />;
+  if (isError) return <Error />;
 
   return (
     <Container>
@@ -94,6 +98,7 @@ export default MyGroup;
 const Container = styled.body`
   padding: 0 81px;
   padding-top: 111px;
+  background-color: ${theme.background};
 `;
 
 const HallFrame = styled.div`
