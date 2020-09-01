@@ -4,6 +4,8 @@ import Nav from "./Components/Nav";
 import Main from "./Pages/Main/Main";
 import MyGroup from "./Pages/MyGroup/MyGroup";
 import MyPage from "./Pages/MyPage/MyPage";
+import CreateMyGroup from "./Pages/MyGroup/CreateMyGroup/CreateMyGroup";
+
 class Routes extends React.Component {
   render() {
     return (
@@ -14,6 +16,7 @@ class Routes extends React.Component {
           <Route exact path="/Mygroup" component={MyGroup} />
           <Route exact path="/MyPage" component={MyPage} />
           <Route exact path="/Main" component={Main} />
+          <Route exact path="/CreateMyGroup" component={CreateMyGroup} />
         </Switch>
       </Router>
     );
