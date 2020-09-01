@@ -7,6 +7,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import Contributors from "./Contributors/Contributors";
 import PostsOfTheWeek from "../../Components/PostsOfTheWeek/PostsOfTheWeek";
+import Loading from "../../Components/Common/Loading";
 
 const MyGroup = () => {
   const [isGroupJoined, setIsGroupJoined] = useState(true);
@@ -14,25 +15,35 @@ const MyGroup = () => {
   const [contributor, setContributor] = useState([]);
   const [myContribution, setMyContribution] = useState({})
   const [joinedMessage, setJoinedMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   // useEffect(() => {
   //   sessionStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJ3ZWNvZGVfbnRoIjoxMCwiaWF0IjoxNTk4NzE0NjM3fQ.l9mY6ZBwg3UoJX0_JMKAQz3HsPCFw-obXKZz2aCJhFk")
   // })
 
   useEffect(() => {
-    axios.get(`${API_URL}/mygroup`, { headers: { Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token } }).then((res) => {
-      setIsGroupJoined(res.data.is_group_joined);
-      setdayPosts(res.data.by_days);
-      setContributor(res.data.users);
-      setMyContribution(res.data.myProfile);
-    });
+    getMyGroupStatus();
   }, []);
 
   useEffect(() => {
     joinedMessage === "JOIN" && setIsGroupJoined(true);
   }, [joinedMessage])
 
-  const submit = (res) => {
+  const getMyGroupStatus = async () => {
+    try {
+      setIsLoading(true);
+      const res = await axios.get(`${API_URL}/mygroup`, { headers: { Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token } })
+      setIsGroupJoined(res.data.is_group_joined);
+      setdayPosts(res.data.by_days);
+      setContributor(res.data.users);
+      setMyContribution(res.data.myProfile);
+    } catch (e) {
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  const submit = () => {
     confirmAlert({
       message: '치킨계에 가입하시겠습니까?',
       buttons: [
@@ -56,6 +67,8 @@ const MyGroup = () => {
       setJoinedMessage(res.data.message)
     })
   }
+
+  if (isLoading) return <Loading />;
 
   return (
     <Container>
