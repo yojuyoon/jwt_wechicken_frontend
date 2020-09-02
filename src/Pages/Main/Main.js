@@ -14,7 +14,6 @@ function Main() {
 
   useEffect(() => {
     axios.get(`${API_URL}/main`).then((res) => {
-      // console.log(res.data.posts);
       setPosts(res.data.posts);
     });
   }, []);
