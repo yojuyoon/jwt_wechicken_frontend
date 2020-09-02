@@ -1,13 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import ProfileIcon from "../ProfileIcon";
 
 function MiniPostCard({ post }) {
   return (
     <MiniPostCardContainer>
       <PostContent onClick={() => window.location.assign(`${post.link}`)}>
-        <div className="profile">
-          <img alt="profile" src={post.user_profile} />
-        </div>
+        <ProfileIcon size={33} img={post.user_profile} />
         <div className="contents">
           <span>{post.user_name}</span>
           <span className="postText">{post.title}</span>
@@ -38,13 +37,8 @@ const PostContent = styled.div`
   align-items: center;
   padding: 10px;
   cursor: pointer;
-  img {
-    width: 33px;
-    height: 33px;
-    margin-right: 10px;
-    border-radius: 50%;
-  }
   .contents {
+    margin-left: 10px;
     display: flex;
     flex-direction: column;
     span {

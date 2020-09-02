@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-// import MiniPostCard from "./MiniPostCard";
 import theme, { flexCenter } from "../../Styles/Theme";
 import MiniPostCard from "./MiniPostCard";
 
@@ -13,8 +12,8 @@ function DayColumn({ day, dayPosts, hideCalendar }) {
         </div>
       </DayOfTheWeek>
       <Wrap>
-        {dayPosts[day].map((post) => {
-          return <MiniPostCard post={post} />;
+        {dayPosts[day].map((post, i) => {
+          return <MiniPostCard post={post} key={i} />;
         })}
       </Wrap>
     </DayColumnContainer>
@@ -28,7 +27,7 @@ const DayColumnContainer = styled.div`
 `;
 
 const DayOfTheWeek = styled.div`
-  display:flex;
+  display: flex;
   right: 0;
 
   div {
@@ -38,13 +37,12 @@ const DayOfTheWeek = styled.div`
     ${flexCenter}
     background-color:${(props) =>
       props.day === "SUN" ? `${theme.orange}` : `${theme.grey}`};
-     color:${(props) => props.day === "SUN" && `${theme.white}`};
+    color: ${(props) => props.day === "SUN" && `${theme.white}`};
     border-radius: 17px;
-
   }
-  .flex{
-    display:flex;
-    flex-direction:row;
+  .flex {
+    display: flex;
+    flex-direction: row;
   }
 `;
 

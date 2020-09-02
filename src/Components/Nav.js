@@ -68,7 +68,7 @@ const Nav = () => {
           <FontAwesomeIcon className="bookmarkIcon" icon={faBookmark} />
           <FontAwesomeIcon className="heartIcon" icon={faHeart} />
           <div onMouseOver={() => setDropDownOpen(true)}>
-            <ProfileIcon size={50} img={`${userProfileImg}`} />
+            <ProfileIcon size={50} img={userProfileImg} />
           </div>
         </UserWrap>
       )}
