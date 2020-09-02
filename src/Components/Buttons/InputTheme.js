@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const InputTheme = ({ width, type, value, handleType }) => {
+const InputTheme = ({ width, type, value, handleType, placeholder }) => {
   return (
     <Container width={width}>
       <div className="nameBox">
@@ -10,6 +10,7 @@ const InputTheme = ({ width, type, value, handleType }) => {
           type="text"
           value={value}
           onChange={(e) => handleType(e.target.value)}
+          placeholder={placeholder}
         ></input>
       </div>
     </Container>
@@ -26,7 +27,7 @@ margin: 5px 0;
     padding-bottom: 2px;
 
     .type {
-      margin-left: 5px;
+      margin-left: 2px;
       margin-bottom: 2px;
       font-weight: 500;
       font-size: 10px;
@@ -42,4 +43,9 @@ margin: 5px 0;
       cursor: text;
       caret-color: #FF7425;
     }
+    input::placeholder{
+      font-size:10px;
+      opacity:0.7;
+    }
+  }
 `;
