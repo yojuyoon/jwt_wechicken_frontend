@@ -8,6 +8,7 @@ import PostsOfTheWeek from "../../Components/PostsOfTheWeek/PostsOfTheWeek";
 import Loading from "../../Components/Common/Loading";
 import Error from "../../Components/Common/Error";
 import theme from "../../Styles/Theme";
+import BtnTheme from "../../Components/Buttons/BtnTheme";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
 const MyGroup = () => {
@@ -29,7 +30,6 @@ const MyGroup = () => {
 
   const getMyGroupStatus = async () => {
     try {
-      setIsLoading(true);
       const res = await axios.get(`${API_URL}/mygroup`, {
         headers: {
           Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
@@ -41,8 +41,6 @@ const MyGroup = () => {
       setMyContribution(res.data.myProfile);
     } catch (e) {
       setIsError(true);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -77,6 +75,23 @@ const MyGroup = () => {
       });
   };
 
+  const handleUpdateBtn = async () => {
+    try {
+      setIsLoading(true);
+      await axios({
+        method: "post",
+        url: `${API_URL}/mygroup/update`,
+        headers: {
+          Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
+        },
+      });
+    } catch (e) {
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   if (isLoading) return <Loading />;
   if (isError) return <Error />;
 
@@ -87,7 +102,12 @@ const MyGroup = () => {
       </HallFrame>
       <ContentWrap>
         <ThisWeek>
-          <div className="title">이주의 포스팅</div>
+          <div className="headerBox">
+            <div className="title">이주의 포스팅</div>
+            <div onClick={() => handleUpdateBtn()}>
+              {isGroupJoined && <BtnTheme value={"업데이트"} />}
+            </div>
+          </div>
           <PostsOfTheWeek
             submit={submit}
             isGroupJoined={isGroupJoined}
@@ -137,8 +157,15 @@ const ContentWrap = styled.div`
 
 const ThisWeek = styled.div`
   width: 80%;
+
+  .headerBox {
+    display: flex;
+    /* justify-content: space-between; */
+  }
+
   .title {
     width: 146px;
+    margin-right: 20px;
     padding-bottom: 3px;
     font-family: ${theme.fontContent};
     font-weight: normal;
