@@ -52,12 +52,7 @@ function MyPage() {
       <MyPageContents>
         {myPageContents.map((item, index) => {
           return (
-            <ContentsColumn
-              deleteProfileImg={deleteProfileImg}
-              myProfile={myProfile}
-              key={index}
-              item={item}
-            />
+            <ContentsColumn myProfile={myProfile} key={index} item={item} />
           );
         })}
       </MyPageContents>

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { API_URL } from "../../../config";
 import theme, { flexCenter } from "../../../Styles/Theme";
-import useUpload from "../../../Components/hooks/useUpload";
+import useUpload from "../../../hooks/useUpload";
 import { userProfileImg } from "../../../store/actions/loginAction";
 import { useDispatch, useSelector } from "react-redux";
 

@@ -43,7 +43,7 @@ export default Card;
 const Container = styled.div`
   width: 288px;
   height: 327px;
-  margin: 10px;
+  margin: 20px;
   position: relative;
   border-radius: 7px;
   box-shadow: 7px 7px 30px rgba(0, 0, 0, 0.08);
@@ -63,7 +63,6 @@ const CardWrap = styled.div`
 
 const ImageBox = styled.div`
   height: 45%;
-  /* background: url("/Images/test.png"); */
   background: url(${({ img }) => img});
   background-size: cover;
   background-position: center;

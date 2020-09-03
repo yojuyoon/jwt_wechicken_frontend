@@ -16,13 +16,8 @@ const MyGroup = () => {
   const [dayPosts, setdayPosts] = useState([]);
   const [contributor, setContributor] = useState([]);
   const [myContribution, setMyContribution] = useState({});
-  const [joinedMessage, setJoinedMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-
-  useEffect(() => {
-    joinedMessage === "JOIN" && setIsGroupJoined(true);
-  }, [joinedMessage]);
 
   useEffect(() => {
     getMyGroupStatus();
@@ -71,7 +66,10 @@ const MyGroup = () => {
         }
       )
       .then((res) => {
-        setJoinedMessage(res.data.message);
+        setIsGroupJoined(res.data.is_group_joined);
+        setdayPosts(res.data.by_days);
+        setContributor(res.data.users);
+        setMyContribution(res.data.myProfile);
       });
   };
 
@@ -114,13 +112,15 @@ const MyGroup = () => {
             dayPosts={dayPosts}
           />
         </ThisWeek>
-        <Contribution>
-          <div className="title">이주의 공헌</div>
-          <Contributors
-            myContribution={myContribution}
-            contributor={contributor}
-          />
-        </Contribution>
+        {isGroupJoined && (
+          <Contribution>
+            <div className="title">이주의 공헌</div>
+            <Contributors
+              myContribution={myContribution}
+              contributor={contributor}
+            />
+          </Contribution>
+        )}
       </ContentWrap>
     </Container>
   );
@@ -128,20 +128,21 @@ const MyGroup = () => {
 
 export default MyGroup;
 
-const Container = styled.body`
+const Container = styled.div`
   padding: 0 81px;
   padding-top: 111px;
   background-color: ${theme.background};
 `;
 
 const HallFrame = styled.div`
-  height: 304px;
-  margin-top: 36px;
+  height: 380px;
+  margin: 36px auto 0px;
   padding: 70px;
   border-radius: 34px;
   background-color: ${theme.yellow};
   display: flex;
   align-items: center;
+
   img {
     width: 200px;
     height: 200px;
@@ -152,7 +153,7 @@ const HallFrame = styled.div`
 const ContentWrap = styled.div`
   margin-top: 80px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 `;
 
 const ThisWeek = styled.div`
@@ -160,7 +161,6 @@ const ThisWeek = styled.div`
 
   .headerBox {
     display: flex;
-    /* justify-content: space-between; */
   }
 
   .title {
@@ -177,7 +177,8 @@ const ThisWeek = styled.div`
 
 const Contribution = styled.div`
   width: 250px;
-  margin-left: 20px;
+  margin-left: 60px;
+
   .title {
     width: 123px;
     padding-bottom: 3px;

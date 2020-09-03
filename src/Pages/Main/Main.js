@@ -74,10 +74,9 @@ function Main() {
           )}
         </MainContentTitle>
         <MainContentCards>
-          {posts &&
-            posts.map((post, i) => {
-              return <Card post={post} key={i} />;
-            })}
+          {posts.map((post, i) => {
+            return <Card post={post} key={i} />;
+          })}
           {/* <Card /> */}
         </MainContentCards>
       </MainContents>
@@ -148,6 +147,7 @@ const BannerContent = styled.div`
 
 const MainContents = styled.div`
   width: 90%;
+  max-width: 1450px;
   padding: 50px 0;
   margin-top: 55px;
   position: relative;
