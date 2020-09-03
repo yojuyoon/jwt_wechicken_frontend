@@ -23,7 +23,6 @@ const Login = ({ setModalOn }) => {
       ) : (
         <FormModal setModalOn={setModalOn} googleInput={googleInput} />
       )}
-      {/* <FormModal setModalOn={setModalOn} googleInput={googleInput} /> */}
     </>
   );
 };

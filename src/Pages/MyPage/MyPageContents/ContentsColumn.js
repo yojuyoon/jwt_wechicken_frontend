@@ -6,10 +6,15 @@ import OptInOrOutBtn from "./Components/OptInOrOutBtn";
 import theme, { flexCenter } from "../../../Styles/Theme";
 import { API_URL } from "../../../config";
 
-function ContentsColumn({ item, myProfile, deleteProfileImg }) {
+function ContentsColumn({ item, myProfile }) {
   const [selected, setSelected] = useState({});
   const [isEdit, setisEdit] = useState(false);
   const [contentValue, setContentValue] = useState("");
+  const [isJoined, setIsJoined] = useState(false);
+
+  useEffect(() => {
+    setIsJoined(myProfile.is_group_joined);
+  }, [myProfile]);
 
   useEffect(() => {
     setContentValue(myProfile.blog_address);
@@ -37,9 +42,15 @@ function ContentsColumn({ item, myProfile, deleteProfileImg }) {
     );
   };
 
-  const handleRemoveUser = (e) => {
+  const handleRemoveGroup = () => {
     if (window.confirm("정말로 탈퇴하시겠습니까?")) {
-      deleteProfileImg(e);
+      axios({
+        method: "post",
+        url: `${API_URL}/mypage?leave=group`,
+        headers: {
+          Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
+        },
+      }).then(() => setIsJoined(false));
     }
   };
 
@@ -73,8 +84,12 @@ function ContentsColumn({ item, myProfile, deleteProfileImg }) {
       />
     ),
     withdrawal: (
-      <WithdrawalBtn data-name="user" onClick={handleRemoveUser}>
-        회원 탈퇴
+      <WithdrawalBtn
+        isJoined={isJoined}
+        onClick={isJoined && handleRemoveGroup}
+        onClick={isJoined ? handleRemoveGroup : undefined}
+      >
+        치킨계 탈퇴
       </WithdrawalBtn>
     ),
   };
@@ -146,15 +161,18 @@ const ContentsColumnContainer = styled.div`
 `;
 
 const WithdrawalBtn = styled.button`
-  width: 88px;
+  width: 100px;
   height: 33px;
   border: none;
   ${flexCenter};
   font-size: 16px;
   font-weight: 600;
   border-radius: 4px;
-  background-color: ${theme.vermilion};
-  color: ${theme.white};
+  outline: none;
+  cursor: ${({ isJoined }) =>
+    isJoined ? "pointer" : "not-allowed"} !important;
+  color: ${({ isJoined }) => (isJoined ? theme.white : "#767676")};
+  background-color: ${(props) => (props.isJoined ? theme.vermilion : "#eee;")};
 
   &:hover {
     opacity: 0.8;

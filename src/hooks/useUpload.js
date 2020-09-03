@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ProfileIcon from "../ProfileIcon";
+import ProfileIcon from "../Components/ProfileIcon";
 
 const useUpload = (input) => {
   const [convertedImage, setconvertedImage] = useState(input);

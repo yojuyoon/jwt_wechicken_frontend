@@ -8,14 +8,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faCamera } from "@fortawesome/free-solid-svg-icons";
 import InputTheme from "../Buttons/InputTheme";
 import BtnCheck from "../Buttons/BtnCheck";
-import useUpload from "../hooks/useUpload";
+import useUpload from "../../hooks/useUpload";
 import LogoBox from "./LogoBox";
 import { API_URL } from "../../config";
 
 const LoginModal = ({ setModalOn, googleInput }) => {
   // eslint-disable-next-line
   const [inputImage, setInputImage] = useState(googleInput.jK);
-  const [inputName, setInputName] = useState(googleInput.Ad);
+  const [inputName, setInputName] = useState("");
   const [nth, setNth] = useState("");
   const [blogAddress, setBlogAddress] = useState("");
   const [isJoinGroup, setJoinGroup] = useState(true);
@@ -55,6 +55,11 @@ const LoginModal = ({ setModalOn, googleInput }) => {
     formData.append("blog_address", blogAddress);
     formData.append("gmail_id", googleInput.aU);
     formData.append("gmail", googleInput.bu);
+    formData.append("is_group_joined", isJoinGroup);
+
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
+    }
 
     axios
       .post(`${API_URL}/auth/additional`, formData, {
@@ -89,7 +94,7 @@ const LoginModal = ({ setModalOn, googleInput }) => {
       <LogoBox />
       <ContentsBox>
         <Greeting>
-          <div className="name">{inputName}님</div>
+          <div className="name">{googleInput.Ad}님</div>
           <div className="greeting">환영합니다!</div>
           <div className="type">추가 정보를 입력해주세요</div>
         </Greeting>
