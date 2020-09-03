@@ -12,9 +12,19 @@ function Main() {
   const [selectedNth, setSelectedNth] = useState("");
   const [posts, setPosts] = useState([]);
 
+  //(임시)카드 컴포넌트 무작위 정렬
+  const shuffleArray = (array) => {
+    for (let i = 0; i < array.length; i++) {
+      let random = Math.floor(Math.random() * (i + 1));
+      [array[i], array[random]] = [array[random], array[i]];
+    }
+    return array;
+  };
+
   useEffect(() => {
+    window.scrollTo(0, 0);
     axios.get(`${API_URL}/main`).then((res) => {
-      setPosts(res.data.posts);
+      setPosts(shuffleArray(res.data.posts));
     });
   }, []);
 

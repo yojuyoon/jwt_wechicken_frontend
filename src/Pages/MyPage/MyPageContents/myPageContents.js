@@ -21,6 +21,6 @@ export const myPageContents = [
   {
     id: "withdrawal",
     title: "치킨계 탈퇴",
-    description: "탈퇴 시 모든 정보가 삭제되어 복구되지 않습니다.",
+    description: "해당 기수의 치킨계에서 탈퇴하는 버튼입니다.",
   },
 ];

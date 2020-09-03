@@ -60,10 +60,6 @@ const LoginModal = ({ setModalOn, googleInput }) => {
     formData.append("gmail", googleInput.bu);
     formData.append("is_group_joined", isJoinGroup);
 
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
-
     axios
       .post(`${API_URL}/auth/additional`, formData, {
         headers: {

@@ -44,7 +44,9 @@ const Nav = () => {
   };
 
   const handleMyGroup = (e) => {
+    setDropDownOpen(false);
     if (e.target.innerText === "내 기수 블로그") {
+      setSelectedMenu(e.target.innerText);
       history.push("/MyGroup");
     } else {
       setCreateMyGroupModalOn(true);
@@ -71,9 +73,11 @@ const Nav = () => {
           <div className="searchIcon">{SearchSvg}</div>
         </SearchIcon>
         {loginStatus ? (
-          <div onMouseOver={() => setDropDownOpen(true)}>
-            <ProfileIcon size={50} img={userProfileImg} />
-          </div>
+          <>
+            <div onMouseOver={() => setDropDownOpen(true)}>
+              <ProfileIcon size={50} img={userProfileImg} />
+            </div>
+          </>
         ) : (
           <div onClick={() => setModalOn(true)}>
             <BtnTheme value={"로그인"} />
@@ -81,9 +85,8 @@ const Nav = () => {
         )}
       </UserWrap>
       {isdropDownOpen && (
-        <Dropdown selectedMenu={selectedMenu}>
+        <Dropdown>
           <li
-            onClick={handleSelected}
             className={
               selectedMenu === "내 기수 블로그" ? "focused" : undefined
             }
@@ -91,6 +94,12 @@ const Nav = () => {
             <div onClick={handleMyGroup}>
               {myGroupStatus ? "내 기수 블로그" : "내 기수 페이지 생성"}
             </div>
+          </li>
+          <li
+            onClick={handleSelected}
+            className={selectedMenu === "북마크" ? "focused" : undefined}
+          >
+            <Link to="/Liked">북마크</Link>
           </li>
           <li
             onClick={handleSelected}
@@ -195,7 +204,7 @@ const Dropdown = styled.ul`
   padding: 8px 0px;
   position: absolute;
   width: 190px;
-  height: 160px;
+  height: 208px;
   right: 81px;
   top: 111px;
   background: #ffffff;

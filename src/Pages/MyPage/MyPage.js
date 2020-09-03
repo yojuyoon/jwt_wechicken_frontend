@@ -13,6 +13,7 @@ function MyPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     axios
       .get(`${API_URL}/mypage`, {
         headers: {

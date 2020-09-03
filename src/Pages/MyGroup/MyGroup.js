@@ -25,11 +25,13 @@ const MyGroup = () => {
 
   useEffect(() => {
     fetchMyGroupStatus();
-    // eslint-disable-next-line
+    window.scrollTo(0, 0);
+    //eslint-disable-next-line
   }, []);
 
   const fetchMyGroupStatus = async () => {
     try {
+      setIsLoading(true);
       const res = await axios.get(`${API_URL}/mygroup`, {
         headers: {
           Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
@@ -43,6 +45,9 @@ const MyGroup = () => {
       dispatch(myGroupTitle(res.data.myGroup.title));
     } catch (e) {
       setIsError(e);
+      setIsError(true);
+    } finally {
+      setTimeout(() => setIsLoading(false), 1000);
     }
   };
 
@@ -106,7 +111,7 @@ const MyGroup = () => {
         <img alt="chicken_bong" src="/Images/chicken.png" />
       </HallFrame>
       <ContentWrap>
-        <ThisWeek>
+        <ThisWeek isGroupJoined={isGroupJoined}>
           <div className="headerBox">
             <div className="title">이주의 포스팅</div>
             <div onClick={() => handleUpdateBtn()}>
@@ -164,7 +169,7 @@ const ContentWrap = styled.div`
 `;
 
 const ThisWeek = styled.div`
-  width: 80%;
+  width: ${({ isGroupJoined }) => (isGroupJoined ? "80%" : "100%")};
 
   .headerBox {
     display: flex;

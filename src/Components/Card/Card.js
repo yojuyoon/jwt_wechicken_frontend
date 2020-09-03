@@ -50,6 +50,9 @@ const Container = styled.div`
   overflow: hidden;
   transition: box-shadow 0.5s ease-in-out;
   cursor: pointer;
+  @media (max-width: 1450px) {
+    width: 250px;
+  }
 
   @media (max-width: 1450px) {
     width: 250px;
