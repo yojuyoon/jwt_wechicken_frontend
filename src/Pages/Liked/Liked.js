@@ -74,6 +74,7 @@ const ActiveTab = styled.div`
       padding-bottom: 3px;
       font-size: 18px;
       line-height: 29px;
+      cursor: pointer;
     }
 
     .focused {

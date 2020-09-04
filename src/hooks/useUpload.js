@@ -12,4 +12,5 @@ const useUpload = (input) => {
 
   return [handleImage, convertedImage, ProfileIcon, inputImage];
 };
+
 export default useUpload;
