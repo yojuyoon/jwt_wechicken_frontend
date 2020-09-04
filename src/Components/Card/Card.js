@@ -6,11 +6,11 @@ import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import ProfileIcon from "../ProfileIcon";
 import HeartIcon from "../Buttons/HeartIcon";
 
-const Card = ({ post }) => {
+const Card = ({ post, width, space }) => {
   const [isLiked, setLiked] = useState(false);
 
   return (
-    <Container>
+    <Container space={space} width={width}>
       <CardWrap onClick={() => window.location.assign(`${post.link}`)}>
         <ImageBox img={post.thumbnail || "/Images/test.png"} />
         <ContentsBox>
@@ -41,15 +41,19 @@ const Card = ({ post }) => {
 export default Card;
 
 const Container = styled.div`
-  width: 288px;
+  width: ${({ width }) => width}px;
   height: 327px;
-  margin: 20px;
+  margin: ${({ space }) => space}px;
   position: relative;
   border-radius: 7px;
   box-shadow: 7px 7px 30px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   transition: box-shadow 0.5s ease-in-out;
   cursor: pointer;
+
+  @media (max-width: 1450px) {
+    width: 250px;
+  }
 
   &:hover {
     transform: translate(0, -10px);
