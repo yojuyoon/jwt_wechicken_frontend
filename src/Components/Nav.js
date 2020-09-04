@@ -54,24 +54,20 @@ const Nav = () => {
         </Logo>
         <NthTitle>10고 뜯고 10기 치킨계</NthTitle>
       </LogoWrap>
-      {!loginStatus && (
-        <NonUserWrap>
+      <UserWrap>
+        <SearchIcon>
           <div className="searchIcon">{SearchSvg}</div>
-          <div onClick={() => setModalOn(true)}>
-            <BtnTheme value={"로그인"} />
-          </div>
-        </NonUserWrap>
-      )}
-      {loginStatus && (
-        <UserWrap>
-          <div className="searchIcon">{SearchSvg}</div>
-          <FontAwesomeIcon className="bookmarkIcon" icon={faBookmark} />
-          <FontAwesomeIcon className="heartIcon" icon={faHeart} />
+        </SearchIcon>
+        {loginStatus ? (
           <div onMouseOver={() => setDropDownOpen(true)}>
             <ProfileIcon size={50} img={userProfileImg} />
           </div>
-        </UserWrap>
-      )}
+        ) : (
+          <div onClick={() => setModalOn(true)}>
+            <BtnTheme value={"로그인"} />
+          </div>
+        )}
+      </UserWrap>
       {isdropDownOpen && (
         <Dropdown selectedMenu={selectedMenu}>
           <li
@@ -161,43 +157,27 @@ const NthTitle = styled.div`
   color: ${theme.orange};
 `;
 
-const NonUserWrap = styled.div`
-  ${flexCenter}
-  justify-content: space-between;
-  width: 120px;
-  height: 47px;
-
-  .searchIcon svg {
-    width: 21px;
-    height: 21px;
-    margin-top: 5px;
-    fill: ${theme.deepGrey};
-  }
-`;
-
 const UserWrap = styled.div`
   ${flexCenter}
-  justify-content: space-between;
-  width: 162px;
   height: 47px;
+`;
 
+const SearchIcon = styled.div`
+  ${flexCenter}
+  width: 38px;
+  height: 38px;
+  margin-right: 18px;
+  border-radius: 50%;
+  background-color: inherit;
+  &:hover {
+    background-color: ${theme.grey};
+  }
   .searchIcon svg {
-    width: 21px;
-    height: 21px;
-    margin-top: 5px;
+    width: 22px;
+    height: 22px;
+    margin-top: 3px;
     fill: ${theme.deepGrey};
-  }
-
-  .bookmarkIcon {
-    width: 21px;
-    height: 21px;
-    color: ${theme.deepGrey};
-  }
-
-  .heartIcon {
-    width: 21px;
-    height: 21px;
-    color: ${theme.deepGrey};
+    cursor: pointer;
   }
 `;
 

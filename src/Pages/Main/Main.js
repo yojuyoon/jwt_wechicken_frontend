@@ -75,7 +75,7 @@ function Main() {
         </MainContentTitle>
         <MainContentCards>
           {posts.map((post, i) => {
-            return <Card post={post} key={i} />;
+            return <Card post={post} width={288} space={20} key={i} />;
           })}
           {/* <Card /> */}
         </MainContentCards>
