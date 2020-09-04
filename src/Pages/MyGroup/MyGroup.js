@@ -37,7 +37,6 @@ const MyGroup = () => {
           Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
         },
       });
-      console.log(res.data);
       setIsGroupJoined(res.data.is_group_joined);
       setdayPosts(res.data.by_days);
       setContributor(res.data.users);
