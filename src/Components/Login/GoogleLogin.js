@@ -67,7 +67,6 @@ const GoogleLogin = ({ setExistingUser, handleGoogleInput, setModalOn }) => {
         if (res.data.message === "FIRST") {
           setExistingUser(false);
         } else {
-          console.log(res.data);
           sessionStorage.setItem(
             "USER",
             JSON.stringify({

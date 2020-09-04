@@ -10,12 +10,15 @@ import InputTheme from "../../../Components/Buttons/InputTheme";
 import BtnSubmit from "../../../Components/Buttons/BtnSubmit";
 import theme from "../../../Styles/Theme";
 import axios from "axios";
+import CelebratingModal from "./CelebratingModal";
 
 const CreateMyGroupModal = ({ setCreateMyGroupModalOn }) => {
   const [myGroupTitle, setMyGroupTitle] = useState("");
   const [count, setCount] = useState("");
   const [penalty, setPenalty] = useState("");
   const [submitActivate, setSubmitActivate] = useState(false);
+  const [isCelebratingModalOn, setCelebratingModalOn] = useState(false);
+
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -29,6 +32,7 @@ const CreateMyGroupModal = ({ setCreateMyGroupModalOn }) => {
   }, [myGroupTitle, count, penalty]);
 
   const setMyGroupPage = async () => {
+    await setCelebratingModalOn(true);
     await axios.post(
       `${API_URL}/mygroup/createMyGroup`,
       {
@@ -42,77 +46,87 @@ const CreateMyGroupModal = ({ setCreateMyGroupModalOn }) => {
         },
       }
     );
-    history.push("/");
-    setCreateMyGroupModalOn(false);
+    setTimeout(() => setCreateMyGroupModalOn(false), 2000);
+    history.push("/MyGroup");
     dispatch(myGroupStatus(true));
+    sessionStorage.setItem(
+      "USER",
+      JSON.stringify({
+        ...JSON.parse(sessionStorage.getItem("USER")),
+        myGroupStatus: true,
+      })
+    );
   };
 
   return (
-    <Container>
-      <Title>
-        <img className="logoImage" alt="logo" src="/Images/logo.png" />
-        <div className="titleTextWrap">
-          <span className="logoText">{">"}wechicken</span>
-          <span className="titleText">내 기수 페이지 생성</span>
-        </div>
-      </Title>
-      <FontAwesomeIcon
-        onClick={() => setCreateMyGroupModalOn(false)}
-        className="BtnClose"
-        icon={faTimes}
-      />
-      <Contents>
-        <Description>
-          <h1>치킨계 기수 가입 안내</h1>
-          <p>
-            wecode 그리고<br></br>
-            wechicken에 오신 것을 환영합니다!
-          </p>
+    <>
+      <Container>
+        <Title>
+          <img className="logoImage" alt="logo" src="/Images/logo.png" />
+          <div className="titleTextWrap">
+            <span className="logoText">{">"}wechicken</span>
+            <span className="titleText">내 기수 페이지 생성</span>
+          </div>
+        </Title>
+        <FontAwesomeIcon
+          onClick={() => setCreateMyGroupModalOn(false)}
+          className="BtnClose"
+          icon={faTimes}
+        />
+        <Contents>
+          <Description>
+            <h1>치킨계 기수 가입 안내</h1>
+            <p>
+              wecode 그리고<br></br>
+              wechicken에 오신 것을 환영합니다!
+            </p>
 
-          <p>
-            wechicken은 보다 성실한 여러분들로<br></br>
-            거듭날 수 있도록 도와줄 것입니다.
-          </p>
+            <p>
+              wechicken은 보다 성실한 여러분들로<br></br>
+              거듭날 수 있도록 도와줄 것입니다.
+            </p>
 
-          <p>
-            페이지 생성 후 계장 권한을 가진 분은<br></br>
-            블로그 업로드 횟수 및 기부금 수정이<br></br>
-            가능합니다.
-          </p>
+            <p>
+              페이지 생성 후 계장 권한을 가진 분은<br></br>
+              블로그 업로드 횟수 및 기부금 수정이<br></br>
+              가능합니다.
+            </p>
 
-          <p>
-            수정시에는 동기들과 충분한 상의 후에<br></br>
-            진행해주세요 (•ө•)♡ 화이팅!
-          </p>
-        </Description>
-        <InputFormWrap>
-          <span>{JSON.parse(sessionStorage.getItem("USER"))?.myNth}기</span>
-          <InputTheme
-            width={170}
-            type={"기수 페이지명"}
-            handleType={setMyGroupTitle}
-            placeholder={"예시)10고 뜯고 10기 치킨계"}
-          />
-          <InputTheme
-            width={170}
-            type={"주 블로그 업로드 횟수"}
-            handleType={setCount}
-            placeholder={"예시)3회"}
-          />
-          <InputTheme
-            width={170}
-            type={"회당 기부금"}
-            handleType={setPenalty}
-            placeholder={"예시)3000원"}
-          />
-        </InputFormWrap>
-      </Contents>
-      <BtnSubmit
-        btnText={"생성"}
-        executeFunction={setMyGroupPage}
-        submitActivate={submitActivate}
-      ></BtnSubmit>
-    </Container>
+            <p>
+              수정시에는 동기들과 충분한 상의 후에<br></br>
+              진행해주세요 (•ө•)♡ 화이팅!
+            </p>
+          </Description>
+          <InputFormWrap>
+            <span>{JSON.parse(sessionStorage.getItem("USER"))?.myNth}기</span>
+            <InputTheme
+              width={170}
+              type={"기수 페이지명"}
+              handleType={setMyGroupTitle}
+              placeholder={"예시)10고 뜯고 10기 치킨계"}
+            />
+            <InputTheme
+              width={170}
+              type={"주 블로그 업로드 횟수"}
+              handleType={setCount}
+              placeholder={"예시)3회"}
+            />
+            <InputTheme
+              width={170}
+              type={"회당 기부금"}
+              handleType={setPenalty}
+              placeholder={"예시)3000원"}
+            />
+          </InputFormWrap>
+        </Contents>
+        <BtnSubmit
+          btnText={"생성"}
+          executeFunction={setMyGroupPage}
+          submitActivate={submitActivate}
+        ></BtnSubmit>
+      </Container>
+      {isCelebratingModalOn && <CelebratingModal />}
+    </>
   );
 };
 
