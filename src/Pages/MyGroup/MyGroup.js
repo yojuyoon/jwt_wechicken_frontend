@@ -10,6 +10,8 @@ import Error from "../../Components/Common/Error";
 import theme from "../../Styles/Theme";
 import BtnTheme from "../../Components/Buttons/BtnTheme";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import { myGroupTitle } from "../../store/actions/myGroupTitleAction";
+import { useDispatch } from "react-redux";
 
 const MyGroup = () => {
   const [isGroupJoined, setIsGroupJoined] = useState(true);
@@ -19,23 +21,28 @@ const MyGroup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    getMyGroupStatus();
+    fetchMyGroupStatus();
+    // eslint-disable-next-line
   }, []);
 
-  const getMyGroupStatus = async () => {
+  const fetchMyGroupStatus = async () => {
     try {
       const res = await axios.get(`${API_URL}/mygroup`, {
         headers: {
           Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
         },
       });
+      console.log(res.data);
       setIsGroupJoined(res.data.is_group_joined);
       setdayPosts(res.data.by_days);
       setContributor(res.data.users);
       setMyContribution(res.data.myProfile);
+      dispatch(myGroupTitle(res.data.myGroup.title));
     } catch (e) {
-      setIsError(true);
+      setIsError(e);
     }
   };
 
