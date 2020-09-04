@@ -3,6 +3,7 @@ import styled from "styled-components";
 import theme from "../../Styles/Theme";
 import axios from "axios";
 import { loginToken, userProfileImg } from "../../store/actions/loginAction";
+import { myGroupStatus } from "../../store/actions/myGroupStatusAction";
 import { useDispatch } from "react-redux";
 import { API_URL } from "../../config";
 
@@ -66,16 +67,20 @@ const GoogleLogin = ({ setExistingUser, handleGoogleInput, setModalOn }) => {
         if (res.data.message === "FIRST") {
           setExistingUser(false);
         } else {
+          console.log(res.data);
           sessionStorage.setItem(
             "USER",
             JSON.stringify({
               token: res.data.token,
               profile: res.data.profile,
+              myGroupStatus: res.data.myGroupStatus,
+              myNth: res.data.nth,
             })
           );
           setModalOn(false);
           dispatch(loginToken(res.data.token));
           dispatch(userProfileImg(res.data.profile));
+          dispatch(myGroupStatus(res.data.myGroupStatus));
           alert("로그인 되었습니다");
         }
       })

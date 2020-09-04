@@ -1,55 +1,117 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { myGroupStatus } from "../../../store/actions/myGroupStatusAction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { API_URL } from "../../../config";
 import InputTheme from "../../../Components/Buttons/InputTheme";
-import theme, { flexCenter } from "../../../Styles/Theme";
+import BtnSubmit from "../../../Components/Buttons/BtnSubmit";
+import theme from "../../../Styles/Theme";
+import axios from "axios";
 
-const CreateMyGroupModal = () => {
-  const [nth, setNth] = useState("");
+const CreateMyGroupModal = ({ setCreateMyGroupModalOn }) => {
   const [myGroupTitle, setMyGroupTitle] = useState("");
+  const [count, setCount] = useState("");
+  const [penalty, setPenalty] = useState("");
+  const [submitActivate, setSubmitActivate] = useState(false);
+  const history = useHistory();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (myGroupTitle && count && penalty) {
+      setSubmitActivate(true);
+    } else {
+      setSubmitActivate(false);
+    }
+  }, [myGroupTitle, count, penalty]);
+
+  const setMyGroupPage = async () => {
+    await axios.post(
+      `${API_URL}/mygroup/createMyGroup`,
+      {
+        title: myGroupTitle,
+        count: count.replace(/[^0-9]/g, ""),
+        penalty: penalty.replace(/[^0-9]/g, ""),
+      },
+      {
+        headers: {
+          Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
+        },
+      }
+    );
+    history.push("/");
+    setCreateMyGroupModalOn(false);
+    dispatch(myGroupStatus(true));
+  };
 
   return (
     <Container>
       <Title>
         <img className="logoImage" alt="logo" src="/Images/logo.png" />
         <div className="titleTextWrap">
-          <span className="logoText">{'>'}wechicken</span>
+          <span className="logoText">{">"}wechicken</span>
           <span className="titleText">내 기수 페이지 생성</span>
         </div>
       </Title>
       <FontAwesomeIcon
+        onClick={() => setCreateMyGroupModalOn(false)}
         className="BtnClose"
         icon={faTimes}
       />
       <Contents>
         <Description>
           <h1>치킨계 기수 가입 안내</h1>
-          <p>wecode 그리고<br></br>
-             wechicken에 오신 것을 환영합니다!</p>
+          <p>
+            wecode 그리고<br></br>
+            wechicken에 오신 것을 환영합니다!
+          </p>
 
-          <p>wechicken은 보다 성실한 여러분들로<br></br>
-             거듭날 수 있도록 도와줄 것입니다.</p>
+          <p>
+            wechicken은 보다 성실한 여러분들로<br></br>
+            거듭날 수 있도록 도와줄 것입니다.
+          </p>
 
-          <p>페이지 생성 후 계장 권한을 가진 분은<br></br>
-				     블로그 업로드 횟수 및 기부금 수정이<br></br>
-             가능합니다.</p>
+          <p>
+            페이지 생성 후 계장 권한을 가진 분은<br></br>
+            블로그 업로드 횟수 및 기부금 수정이<br></br>
+            가능합니다.
+          </p>
 
-          <p>수정시에는 동기들과 충분한 상의 후에<br></br>
-             진행해주세요 (•ө•)♡ 화이팅!</p>
+          <p>
+            수정시에는 동기들과 충분한 상의 후에<br></br>
+            진행해주세요 (•ө•)♡ 화이팅!
+          </p>
         </Description>
         <InputFormWrap>
-          <InputTheme width={170} type={"기수"} handleType={setNth} placeholder={"예시)10기"} />
-          <InputTheme width={170} type={"기수 페이지명"} handleType={setMyGroupTitle} placeholder={"예시)10고 뜯고 10기 치킨계"} />
-          <InputTheme width={170} type={"주 블로그 업로드 횟수"} handleType={setMyGroupTitle} placeholder={"예시)3회"} />
-          <InputTheme width={170} type={"회당 기부금"} handleType={setMyGroupTitle} placeholder={"예시)3000원"} />
+          <span>{JSON.parse(sessionStorage.getItem("USER"))?.myNth}기</span>
+          <InputTheme
+            width={170}
+            type={"기수 페이지명"}
+            handleType={setMyGroupTitle}
+            placeholder={"예시)10고 뜯고 10기 치킨계"}
+          />
+          <InputTheme
+            width={170}
+            type={"주 블로그 업로드 횟수"}
+            handleType={setCount}
+            placeholder={"예시)3회"}
+          />
+          <InputTheme
+            width={170}
+            type={"회당 기부금"}
+            handleType={setPenalty}
+            placeholder={"예시)3000원"}
+          />
         </InputFormWrap>
       </Contents>
-      <Submit
-        className="submit"
-      >
-        <div className="SubmitBtn">생성</div>
-      </Submit>
+      <BtnSubmit
+        btnText={"생성"}
+        executeFunction={setMyGroupPage}
+        submitActivate={submitActivate}
+      ></BtnSubmit>
     </Container>
   );
 };
@@ -58,13 +120,13 @@ export default CreateMyGroupModal;
 
 const Container = styled.div`
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   position: fixed;
   top: 50%;
   left: 50%;
   width: 675px;
   height: 470px;
-  background-color:${theme.white};
+  background-color: ${theme.white};
   transform: translate(-50%, -50%);
   box-shadow: -14px -14px 20px rgba(0, 0, 0, 0.02),
     14px 14px 20px rgba(0, 0, 0, 0.05);
@@ -82,84 +144,67 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
-  display:flex;
-  align-items:center;
+  display: flex;
+  align-items: center;
 
-  .logoImage{
-      width:60px;
-      height:60px;
-      margin: 30px;
+  .logoImage {
+    width: 60px;
+    height: 60px;
+    margin: 30px;
   }
 
-  .titleTextWrap{
-      display:flex;
-      flex-direction:column;
+  .titleTextWrap {
+    display: flex;
+    flex-direction: column;
 
-    .logoText{
-        font-size:16px;
-        font-family:${theme.fontTitle};
+    .logoText {
+      font-size: 16px;
+      font-family: ${theme.fontTitle};
     }
 
-    .titleText{
-        margin-top:7px;
-        font-size:16px;
-        font-weight:600;
-        font-family:${theme.fontContent};
-        color:${theme.orange};
+    .titleText {
+      margin-top: 7px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: ${theme.fontContent};
+      color: ${theme.orange};
     }
   }
-`
+`;
 
 const Description = styled.div`
-	width:230px;
-	font-family:${theme.fontContent};
-	color:${theme.deepGrey};
+  width: 230px;
+  font-family: ${theme.fontContent};
+  color: ${theme.deepGrey};
 
-      h1{
-					margin-bottom:20px;
-					font-weight:500;
-					font-size:15px;
-					color:${theme.fontColor};
-			}
-
-			p{
-				margin-bottom:15px;
-				line-height:18px;
-				font-size:12px;
-			}
-`
-
-const Contents = styled.div`
-  margin:10px 95px;
-  display:flex;
-  justify-content:space-between;
-`
-
-const InputFormWrap = styled.form`
-  height:250px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-around;
-`
-
-const Submit = styled.div`
-	width: 80px;
-  position:absolute;
-  bottom:35px;
-  right:50px;
-
-  .SubmitBtn {
-    ${flexCenter}
-    height: 32px;
-    padding: 0 18px;
-    border-radius: 1rem;
-    cursor: pointer;
-    color: ${theme.white};
-    background-color: ${theme.orange};
-    opacity:0.8;
+  h1 {
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 15px;
+    color: ${theme.fontColor};
   }
 
-  .SubmitBtn:hover{
-    opacity:1;
+  p {
+    margin-bottom: 15px;
+    line-height: 18px;
+    font-size: 12px;
+  }
+`;
+
+const Contents = styled.div`
+  margin: 10px 95px;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const InputFormWrap = styled.form`
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  span {
+    margin-left: 12px;
+    color: ${theme.fontColor};
   }
 `;

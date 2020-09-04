@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import theme, { flexCenter } from "../../src/Styles/Theme";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookmark, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { useHistory, Link } from "react-router-dom";
 import { SearchSvg } from "../../src/Styles/svg";
 import ProfileIcon from "../Components/ProfileIcon";
 import Login from "../Components/Login/Login";
 import BtnTheme from "../Components/Buttons/BtnTheme";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginToken } from "../store/actions/loginAction";
-import { useDispatch } from "react-redux";
+import CreateMyGroup from "../Pages/MyGroup/CreateMyGroup/CreateMyGroup";
 
 const Nav = () => {
   const [isdropDownOpen, setDropDownOpen] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState("");
   const [isModalOn, setModalOn] = useState(false);
+  const [isCreateMyGroupModalOn, setCreateMyGroupModalOn] = useState(false);
   const history = useHistory();
   //redux
   const loginStatus = useSelector((state) => state.loginReducer);
   const userProfileImg = useSelector((state) => state.userProfileReducer);
+  const getMyGroupTitle = useSelector((state) => state.myGroupTitleReducer);
+  const myGroupStatus = useSelector((state) => state.myGroupStatusReducer);
   const dispatch = useDispatch();
 
   const handleSelected = (e) => {
@@ -42,17 +43,28 @@ const Nav = () => {
     }
   };
 
+  const handleMyGroup = (e) => {
+    if (e.target.innerText === "내 기수 블로그") {
+      history.push("/MyGroup");
+    } else {
+      setCreateMyGroupModalOn(true);
+    }
+  };
+
   return (
     <NavContainer onMouseLeave={() => setDropDownOpen(false)}>
       {isModalOn && <Login setModalOn={setModalOn} />}
+      {isCreateMyGroupModalOn && (
+        <CreateMyGroup setCreateMyGroupModalOn={setCreateMyGroupModalOn} />
+      )}
       <LogoWrap>
         <Logo>
           <Link to="/">
             <img className="logoImage" alt="logo" src="/Images/logo.png" />
           </Link>
-          <div className="logoText">>wechicken</div>
+          <div className="logoText">{">"}wechicken</div>
         </Logo>
-        <NthTitle>10고 뜯고 10기 치킨계</NthTitle>
+        <NthTitle>{getMyGroupTitle}</NthTitle>
       </LogoWrap>
       <UserWrap>
         <SearchIcon>
@@ -72,23 +84,19 @@ const Nav = () => {
         <Dropdown selectedMenu={selectedMenu}>
           <li
             onClick={handleSelected}
-            className={selectedMenu === "마이페이지" ? "focused" : undefined}
-          >
-            <Link to="/MyPage">마이페이지</Link>
-          </li>
-          <li
-            onClick={handleSelected}
-            className={selectedMenu === "전체 블로그" ? "focused" : undefined}
-          >
-            <Link to="/">전체 블로그</Link>
-          </li>
-          <li
-            onClick={handleSelected}
             className={
               selectedMenu === "내 기수 블로그" ? "focused" : undefined
             }
           >
-            <Link to="/Mygroup">내 기수 블로그</Link>
+            <div onClick={handleMyGroup}>
+              {myGroupStatus ? "내 기수 블로그" : "내 기수 페이지 생성"}
+            </div>
+          </li>
+          <li
+            onClick={handleSelected}
+            className={selectedMenu === "마이페이지" ? "focused" : undefined}
+          >
+            <Link to="/MyPage">마이페이지</Link>
           </li>
           <li
             onClick={handleSelected}
@@ -186,8 +194,8 @@ const Dropdown = styled.ul`
   flex-direction: column;
   padding: 8px 0px;
   position: absolute;
-  width: 216px;
-  height: 208px;
+  width: 190px;
+  height: 160px;
   right: 81px;
   top: 111px;
   background: #ffffff;

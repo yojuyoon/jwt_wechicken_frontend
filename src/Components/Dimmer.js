@@ -18,5 +18,4 @@ const Container = styled.div`
   z-index: 0;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.3);
-  /* padding: 35px 6vw 100px; */
 `;

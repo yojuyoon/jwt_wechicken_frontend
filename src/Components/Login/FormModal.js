@@ -3,6 +3,7 @@ import styled from "styled-components";
 import theme, { flexCenter } from "../../../src/Styles/Theme";
 import axios from "axios";
 import { loginToken, userProfileImg } from "../../store/actions/loginAction";
+import { myGroupStatus } from "../../store/actions/myGroupStatusAction";
 import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faCamera } from "@fortawesome/free-solid-svg-icons";
@@ -10,6 +11,8 @@ import InputTheme from "../Buttons/InputTheme";
 import BtnCheck from "../Buttons/BtnCheck";
 import useUpload from "../../hooks/useUpload";
 import LogoBox from "./LogoBox";
+import BtnSubmit from "../Buttons/BtnSubmit";
+
 import { API_URL } from "../../config";
 
 const LoginModal = ({ setModalOn, googleInput }) => {
@@ -74,11 +77,14 @@ const LoginModal = ({ setModalOn, googleInput }) => {
             JSON.stringify({
               token: res.data.token,
               profile: res.data.profile,
+              myGroupStatus: res.data.myGroupStatus,
+              myNth: res.data.nth,
             })
           );
           setModalOn(false);
           dispatch(loginToken(res.data.token));
           dispatch(userProfileImg(res.data.profile));
+          dispatch(myGroupStatus(res.data.myGroupStatus));
           alert("로그인 되었습니다");
         }
       });
@@ -131,19 +137,11 @@ const LoginModal = ({ setModalOn, googleInput }) => {
             />
           </FormWrap>
         </Form>
-        <Submit
+        <BtnSubmit
+          btnText={"제출"}
+          executeFunction={handleUploadForm}
           submitActivate={submitActivate}
-          className="submit"
-          onClick={
-            submitActivate
-              ? () => handleUploadForm()
-              : () => {
-                  alert("필수 항목을 모두 채워주세요🙃");
-                }
-          }
-        >
-          <div className="SubmitBtn">제출</div>
-        </Submit>
+        ></BtnSubmit>
       </ContentsBox>
     </Container>
   );
@@ -249,21 +247,4 @@ const FormWrap = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-`;
-
-const Submit = styled.div`
-  width: 80px;
-  margin-left: auto;
-  margin-right: 14px;
-
-  .SubmitBtn {
-    ${flexCenter}
-    height: 32px;
-    padding: 0 18px;
-    border-radius: 1rem;
-    cursor: ${(props) => (props.submitActivate ? "pointer" : "not-allowed")};
-    color: ${(props) => (props.submitActivate ? theme.white : "#767676")};
-    background-color: ${(props) =>
-      props.submitActivate ? theme.orange : "#eee;"};
-  }
 `;
