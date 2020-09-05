@@ -10,8 +10,9 @@ export default BtnTheme;
 
 const Container = styled.div`
   ${flexCenter}
+  width: 80px;
   height: 32px;
-  padding: 0 18px;
+  padding-top: 4px;
   color: ${theme.white};
   background-color: ${theme.orange};
   border-radius: 1rem;

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import theme from "../../../Styles/Theme";
 
-function CelebratingModal() {
+function CelebratingModal({ celebratingMessage }) {
   return (
     <Container>
       <CelebratingImg>
@@ -11,9 +11,7 @@ function CelebratingModal() {
         <div className="firework" />
       </CelebratingImg>
       <CelebratingText>
-        <span>
-          11기 치킨계 가입을<br></br> 축하합니다!
-        </span>
+        <span>{celebratingMessage}</span>
       </CelebratingText>
     </Container>
   );

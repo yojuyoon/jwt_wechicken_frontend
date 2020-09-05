@@ -74,6 +74,7 @@ const GoogleLogin = ({ setExistingUser, handleGoogleInput, setModalOn }) => {
               profile: res.data.profile,
               myGroupStatus: res.data.myGroupStatus,
               myNth: res.data.nth,
+              master: res.data.master,
             })
           );
           setModalOn(false);

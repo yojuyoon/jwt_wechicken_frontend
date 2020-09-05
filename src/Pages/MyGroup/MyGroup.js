@@ -10,7 +10,10 @@ import Error from "../../Components/Common/Error";
 import theme from "../../Styles/Theme";
 import BtnTheme from "../../Components/Buttons/BtnTheme";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import { myGroupTitle } from "../../store/actions/myGroupTitleAction";
+import {
+  myGroupTitle,
+  myGroupTitleStatus,
+} from "../../store/actions/myGroupTitleAction";
 import { useDispatch } from "react-redux";
 
 const MyGroup = () => {
@@ -26,6 +29,14 @@ const MyGroup = () => {
   useEffect(() => {
     fetchMyGroupStatus();
     window.scrollTo(0, 0);
+    //eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    dispatch(myGroupTitleStatus(true));
+    return () => {
+      dispatch(myGroupTitleStatus(false));
+    };
     //eslint-disable-next-line
   }, []);
 

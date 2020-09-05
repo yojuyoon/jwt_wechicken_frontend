@@ -38,7 +38,11 @@ function ContentsColumn({ item, myProfile }) {
     axios.post(
       `${API_URL}/mypage`,
       { blog_address: contentValue },
-      { headers: { Authorization: sessionStorage.getItem("token") } }
+      {
+        headers: {
+          Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
+        },
+      }
     );
   };
 
