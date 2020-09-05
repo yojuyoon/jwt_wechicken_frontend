@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import theme, { flexCenter } from "../../src/Styles/Theme";
+import theme, { flexCenter } from "../../Styles/Theme";
 import { useHistory, Link } from "react-router-dom";
-import { SearchSvg } from "../../src/Styles/svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
-import ProfileIcon from "../Components/ProfileIcon";
-import Login from "../Components/Login/Login";
-import BtnTheme from "../Components/Buttons/BtnTheme";
+import ProfileIcon from "../ProfileIcon";
+import Login from "../Login/Login";
+import BtnTheme from "../Buttons/BtnTheme";
 import { useDispatch, useSelector } from "react-redux";
-import { loginToken } from "../store/actions/loginAction";
-import CreateMyGroup from "../Pages/MyGroup/CreateMyGroup/CreateMyGroup";
-import ModifyMyGroup from "../Pages/MyGroup/ModifyMyGroup/ModifyMyGroup";
+import { loginToken } from "../../store/actions/loginAction";
+import CreateMyGroup from "../../Pages/MyGroup/CreateMyGroup/CreateMyGroup";
+import ModifyMyGroup from "../../Pages/MyGroup/ModifyMyGroup/ModifyMyGroup";
+import DropDown from "./DropDown";
+import SearchBar from "./SearchBar";
 
 const Nav = () => {
   const [isdropDownOpen, setDropDownOpen] = useState(false);
@@ -20,19 +21,15 @@ const Nav = () => {
   const [isCreateMyGroupModalOn, setCreateMyGroupModalOn] = useState(false);
   const [isModifyMyGroup, setModifyMyGroup] = useState(false);
   const history = useHistory();
+
   //redux
   const loginStatus = useSelector((state) => state.loginReducer);
   const userProfileImg = useSelector((state) => state.userProfileReducer);
   const getMyGroupTitle = useSelector((state) => state.myGroupTitleReducer);
-  const myGroupStatus = useSelector((state) => state.myGroupStatusReducer);
   const myGroupTitleStatus = useSelector(
     (state) => state.myGroupTitleStatusReducer
   );
   const dispatch = useDispatch();
-
-  const handleSelected = (e) => {
-    setSelectedMenu(e.target.innerText);
-  };
 
   useEffect(() => {
     handleSelectedFunctions(selectedMenu);
@@ -47,16 +44,6 @@ const Nav = () => {
       dispatch(loginToken(""));
       alert("로그아웃 되었습니다");
       window.location.reload();
-    }
-  };
-
-  const handleMyGroup = (e) => {
-    setDropDownOpen(false);
-    if (e.target.innerText === "내 기수 블로그") {
-      setSelectedMenu(e.target.innerText);
-      history.push("/MyGroup");
-    } else {
-      setCreateMyGroupModalOn(true);
     }
   };
 
@@ -90,9 +77,7 @@ const Nav = () => {
           )}
       </LogoWrap>
       <UserWrap>
-        <SearchIcon>
-          <div className="searchIcon">{SearchSvg}</div>
-        </SearchIcon>
+        <SearchBar />
         {loginStatus ? (
           <>
             {JSON.parse(sessionStorage.getItem("USER"))?.master && (
@@ -113,35 +98,12 @@ const Nav = () => {
         )}
       </UserWrap>
       {isdropDownOpen && (
-        <Dropdown>
-          <li
-            className={
-              selectedMenu === "내 기수 블로그" ? "focused" : undefined
-            }
-          >
-            <div onClick={handleMyGroup}>
-              {myGroupStatus ? "내 기수 블로그" : "내 기수 페이지 생성"}
-            </div>
-          </li>
-          <li
-            onClick={handleSelected}
-            className={selectedMenu === "북마크" ? "focused" : undefined}
-          >
-            <Link to="/Liked">북마크</Link>
-          </li>
-          <li
-            onClick={handleSelected}
-            className={selectedMenu === "마이페이지" ? "focused" : undefined}
-          >
-            <Link to="/MyPage">마이페이지</Link>
-          </li>
-          <li
-            onClick={handleSelected}
-            className={selectedMenu === "로그아웃" ? "focused" : undefined}
-          >
-            로그아웃
-          </li>
-        </Dropdown>
+        <DropDown
+          setDropDownOpen={setDropDownOpen}
+          selectedMenu={selectedMenu}
+          setSelectedMenu={setSelectedMenu}
+          setCreateMyGroupModalOn={setCreateMyGroupModalOn}
+        />
       )}
     </NavContainer>
   );
@@ -156,7 +118,7 @@ const NavContainer = styled.header`
   height: 111px;
   padding: 0 160px;
   background-color: ${theme.white};
-  z-index: 1;
+  z-index: 999;
 
   a {
     text-decoration: none;
@@ -223,63 +185,6 @@ const UserWrap = styled.div`
     position: absolute;
     top: -20px;
     right: 12px;
-  }
-`;
-
-const SearchIcon = styled.div`
-  ${flexCenter}
-  width: 38px;
-  height: 38px;
-  margin-right: 18px;
-  border-radius: 50%;
-  background-color: inherit;
-
-  &:hover {
-    background-color: ${theme.grey};
-  }
-
-  .searchIcon svg {
-    width: 22px;
-    height: 22px;
-    margin-top: 3px;
-    fill: ${theme.deepGrey};
-    cursor: pointer;
-  }
-`;
-
-const Dropdown = styled.ul`
-  display: flex;
-  flex-direction: column;
-  padding: 8px 0px;
-  position: absolute;
-  width: 190px;
-  height: 208px;
-  right: 81px;
-  top: 111px;
-  background: #ffffff;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1), 0px 8px 16px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-
-  li {
-    ${flexCenter}
-    justify-content: flex-start;
-    height: 48px;
-    padding: 16px 12px;
-    font-family: ${theme.fontContent};
-    font-style: normal;
-    font-size: 16px;
-    line-height: 24px;
-    cursor: pointer;
-
-    &:hover {
-      color: ${theme.orange};
-      font-weight: 400;
-    }
-  }
-
-  .focused {
-    color: ${theme.orange};
-    font-weight: 900;
   }
 `;
 

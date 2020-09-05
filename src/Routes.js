@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Nav from "./Components/Nav";
+import Nav from "./Components/Nav/Nav";
 import Main from "./Pages/Main/Main";
 import MyGroup from "./Pages/MyGroup/MyGroup";
 import MyPage from "./Pages/MyPage/MyPage";

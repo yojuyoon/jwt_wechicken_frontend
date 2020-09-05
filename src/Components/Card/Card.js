@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import theme, { flexCenter } from "../../Styles/Theme";
+import { flexCenter } from "../../Styles/Theme";
 import ProfileIcon from "../ProfileIcon";
 import BtnLike from "../Buttons/BtnLike";
 
@@ -22,14 +22,14 @@ const Card = ({ post, width, space, handleRemoveCard }) => {
               <div className="name">{post.user_name}</div>
             </div>
           </Profile>
-          <Title>{post.title}</Title>
+          <Title>
+            {post.title.length > 48
+              ? post.title.substring(0, 48) + "..."
+              : post.title}
+          </Title>
         </ContentsBox>
       </CardWrap>
-      <Tags>
-        <Tag>알고리즘</Tag>
-        <Tag>ReactJs</Tag>
-        <Tag>위코드</Tag>
-      </Tags>
+      {/* <Tags></Tags> */}
       <ButtonWrap>
         <BtnLike
           id={post.id}
@@ -125,28 +125,13 @@ const Title = styled.div`
   color: #2d2b2b;
 `;
 
-const Tags = styled.div`
-  position: absolute;
-  top: 77%;
-  left: 15px;
-  height: 40px;
-  display: flex;
-`;
-
-const Tag = styled.div`
-  ${flexCenter};
-  height: 25px;
-  margin-right: 8px;
-  padding: 0 3px;
-  background-color: ${theme.grey};
-  border-radius: 2px;
-  font-size: 13px;
-  color: ${theme.deepGrey};
-  &:hover {
-    background-color: ${theme.grey};
-    opacity: 0.7;
-  }
-`;
+// const Tags = styled.div`
+//   position: absolute;
+//   top: 77%;
+//   left: 15px;
+//   display: flex;
+//   height: 40px;
+// `;
 
 const ButtonWrap = styled.div`
   width: 80px;

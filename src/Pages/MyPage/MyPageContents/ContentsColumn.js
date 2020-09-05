@@ -90,7 +90,7 @@ function ContentsColumn({ item, myProfile }) {
     withdrawal: (
       <WithdrawalBtn
         isJoined={isJoined}
-        onClick={isJoined && handleRemoveGroup}
+        onClick={isJoined ? handleRemoveGroup : undefined}
       >
         치킨계 탈퇴
       </WithdrawalBtn>
