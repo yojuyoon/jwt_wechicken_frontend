@@ -11,7 +11,7 @@ const InputTheme = ({ width, type, value, handleType, placeholder }) => {
           value={value}
           onChange={(e) => handleType(e.target.value)}
           placeholder={placeholder}
-        ></input>
+        />
       </div>
     </Container>
   );

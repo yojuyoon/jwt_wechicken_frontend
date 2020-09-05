@@ -1,49 +1,69 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import theme, { flexCenter } from "../../Styles/Theme";
 import axios from "axios";
-import { API_URL } from "../../config";
+import theme, { flexCenter } from "../../Styles/Theme";
 import Card from "../../Components/Card/Card";
+import { API_URL } from "../../config";
 
 const Liked = () => {
-  const [selectedMenu, setSelectedMenu] = useState("북마크한 포스트");
+  const [selectedMenu, setSelectedMenu] = useState("bookmarks");
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    axios.get(`${API_URL}/main`).then((res) => {
+    setPosts([]);
+    axios({
+      method: "get",
+      url: `${API_URL}/posts/${selectedMenu}`,
+      headers: {
+        Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
+      },
+    }).then((res) => {
       setPosts(res.data.posts);
     });
-  }, []);
+  }, [selectedMenu]);
+
+  const handleRemoveCard = (inputId, type) => {
+    if (type === selectedMenu) {
+      setPosts([...posts].filter((post) => post.id !== inputId));
+    }
+  };
 
   return (
     <Container>
       <ActiveTab>
         <div className="tabWrap">
           <li
-            onClick={(e) => {
-              setSelectedMenu(e.target.innerText);
+            onClick={() => {
+              setSelectedMenu("bookmarks");
             }}
-            className={selectedMenu === "좋아한 포스트" ? "focused" : undefined}
-          >
-            좋아한 포스트
-          </li>
-          <li
-            onClick={(e) => {
-              setSelectedMenu(e.target.innerText);
-            }}
-            className={
-              selectedMenu === "북마크한 포스트" ? "focused" : undefined
-            }
+            className={selectedMenu === "bookmarks" ? "focused" : ""}
           >
             북마크한 포스트
+          </li>
+          <li
+            onClick={() => {
+              setSelectedMenu("likes");
+            }}
+            className={selectedMenu === "likes" ? "focused" : ""}
+          >
+            좋아한 포스트
           </li>
           <UnderBar selectedMenu={selectedMenu}></UnderBar>
         </div>
       </ActiveTab>
       <Contents>
-        {posts.map((post, i) => {
-          return <Card post={post} width={288} space={20} key={i} />;
-        })}
+        {posts &&
+          posts.map((post, i) => {
+            return (
+              <Card
+                post={post}
+                width={288}
+                space={20}
+                key={post.id}
+                handleRemoveCard={handleRemoveCard}
+              />
+            );
+          })}
       </Contents>
     </Container>
   );
@@ -53,7 +73,7 @@ export default Liked;
 
 const Container = styled.div`
   padding-top: 111px;
-  padding: 111px 81px 0px;
+  padding: 111px 200px 0px;
   margin-left: auto;
   margin-right: auto;
 `;
@@ -92,7 +112,7 @@ const UnderBar = styled.div`
   bottom: 0px;
   background: ${theme.orange};
   transform: ${({ selectedMenu }) =>
-    selectedMenu === "좋아한 포스트" ? "translateX(0)" : "translateX(140px)"};
+    selectedMenu === "likes" ? "translateX(140px)" : "translateX(0)"};
   transition: all 0.5s ease-in-out;
 `;
 
