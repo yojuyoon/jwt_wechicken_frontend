@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import EditForm from "./Components/EditForm";
 import OptInOrOutBtn from "./Components/OptInOrOutBtn";
+import Alert from "../../../Components/Alert";
 import theme, { flexCenter } from "../../../Styles/Theme";
 import { API_URL } from "../../../config";
 
@@ -11,6 +12,7 @@ function ContentsColumn({ item, myProfile }) {
   const [isEdit, setisEdit] = useState(false);
   const [contentValue, setContentValue] = useState("");
   const [isJoined, setIsJoined] = useState(false);
+  const [isActiveAlert, setActiveAlert] = useState(false);
 
   useEffect(() => {
     setIsJoined(myProfile.is_group_joined);
@@ -47,15 +49,13 @@ function ContentsColumn({ item, myProfile }) {
   };
 
   const handleRemoveGroup = () => {
-    if (window.confirm("정말로 탈퇴하시겠습니까?")) {
-      axios({
-        method: "post",
-        url: `${API_URL}/mypage?leave=group`,
-        headers: {
-          Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
-        },
-      }).then(() => setIsJoined(false));
-    }
+    axios({
+      method: "post",
+      url: `${API_URL}/mypage?leave=group`,
+      headers: {
+        Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
+      },
+    }).then(() => setIsJoined(false));
   };
 
   const contentArea = {
@@ -90,7 +90,7 @@ function ContentsColumn({ item, myProfile }) {
     withdrawal: (
       <WithdrawalBtn
         isJoined={isJoined}
-        onClick={isJoined ? handleRemoveGroup : undefined}
+        onClick={() => (isJoined ? setActiveAlert(true) : undefined)}
       >
         치킨계 탈퇴
       </WithdrawalBtn>
@@ -99,6 +99,15 @@ function ContentsColumn({ item, myProfile }) {
 
   return (
     <>
+      {isActiveAlert && (
+        <Alert
+          setActiveAlert={setActiveAlert}
+          alertMessage={"치킨계를 탈퇴하시겠습니까?"}
+          excuteFunction={handleRemoveGroup}
+          submitBtn={"탈퇴"}
+          closeBtn={"취소"}
+        />
+      )}
       <ContentsColumnContainer>
         <div className="wrapper">
           <h3 className="title">{item.title}</h3>

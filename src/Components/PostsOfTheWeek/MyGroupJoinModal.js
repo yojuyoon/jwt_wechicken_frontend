@@ -2,14 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import theme, { flexCenter } from "../../Styles/Theme";
 
-const MyGroupJoinModal = ({ submit }) => {
+const MyGroupJoinModal = ({ setActiveAlert }) => {
   return (
-    <MyGroupJoinModalContainer>
-      <span>동기들의 포스트를 보고싶다면?</span>
-      <button onClick={submit} className="joinBtn">
-        치킨계 가입하고 전체 보기
-      </button>
-    </MyGroupJoinModalContainer>
+    <>
+      <MyGroupJoinModalContainer>
+        <span>동기들의 포스트를 보고싶다면?</span>
+        <button onClick={() => setActiveAlert(true)} className="joinBtn">
+          치킨계 가입하고 전체 보기
+        </button>
+      </MyGroupJoinModalContainer>
+    </>
   );
 };
 
@@ -24,7 +26,7 @@ const MyGroupJoinModalContainer = styled.div`
   top: 150px;
   background-color: ${theme.white};
   box-shadow: 7px 7px 30px rgba(0, 0, 0, 0.09);
-  z-index: 11;
+  z-index: 2;
 
   span {
     font-size: 16px;

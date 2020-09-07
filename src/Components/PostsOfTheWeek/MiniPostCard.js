@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import ProfileIcon from "../ProfileIcon";
+import theme from "../../Styles/Theme";
 
 function MiniPostCard({ post }) {
   return (
@@ -30,6 +31,7 @@ const MiniPostCardContainer = styled.div`
   margin: 10px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 7px;
+  font-family: ${theme.fontContent};
 `;
 
 const PostContent = styled.div`
@@ -37,13 +39,18 @@ const PostContent = styled.div`
   align-items: center;
   padding: 10px;
   cursor: pointer;
+
   .contents {
-    margin-left: 10px;
+    margin: 6px 0 0 10px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+
     span {
       font-size: 12px;
+      font-weight: 500;
     }
+
     .postText {
       width: 112px;
       height: 23px;
@@ -52,18 +59,23 @@ const PostContent = styled.div`
       text-overflow: ellipsis;
       margin-top: 6px;
       font-size: 13px;
+      font-weight: 200;
+      color: ${theme.fontColor};
     }
   }
 `;
 
 const PostDateAndType = styled.div`
-  margin: 0px 8px;
+  margin: -3px 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   span {
     font-size: 12px;
+    color: ${theme.deepGrey};
   }
+
   img {
     width: 20px;
     height: 20px;

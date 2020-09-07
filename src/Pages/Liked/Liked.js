@@ -79,7 +79,7 @@ const ActiveTab = styled.div`
   padding: 0 20px;
   position: fixed;
   background-color: white;
-  z-index: 10;
+  z-index: 8;
   width: 100%;
 
   .tabWrap {
