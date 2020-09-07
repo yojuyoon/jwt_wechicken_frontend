@@ -6,27 +6,35 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import GoogleLogin from "./GoogleLogin";
 import LogoBox from "./LogoBox";
 
-const LoginModal = ({ setModalOn, setExistingUser, handleGoogleInput }) => {
+const LoginModal = ({
+  setModalOn,
+  setExistingUser,
+  handleGoogleInput,
+  setLoginSuccess,
+}) => {
   return (
-    <Container>
-      <FontAwesomeIcon
-        onClick={() => setModalOn(false)}
-        className="BtnClose"
-        icon={faTimes}
-      />
-      <LogoBox />
-      <ContentsBox>
-        <Greeting>
-          <div className="greeting">환영합니다!</div>
-          <div className="type">로그인</div>
-        </Greeting>
-        <GoogleLogin
-          setModalOn={setModalOn}
-          setExistingUser={setExistingUser}
-          handleGoogleInput={handleGoogleInput}
+    <>
+      <Container>
+        <FontAwesomeIcon
+          onClick={() => setModalOn(false)}
+          className="BtnClose"
+          icon={faTimes}
         />
-      </ContentsBox>
-    </Container>
+        <LogoBox />
+        <ContentsBox>
+          <Greeting>
+            <div className="greeting">환영합니다!</div>
+            <div className="type">로그인</div>
+          </Greeting>
+          <GoogleLogin
+            setLoginSuccess={setLoginSuccess}
+            setModalOn={setModalOn}
+            setExistingUser={setExistingUser}
+            handleGoogleInput={handleGoogleInput}
+          />
+        </ContentsBox>
+      </Container>
+    </>
   );
 };
 

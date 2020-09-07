@@ -10,7 +10,7 @@ import InputTheme from "../../../Components/Buttons/InputTheme";
 import BtnSubmit from "../../../Components/Buttons/BtnSubmit";
 import theme from "../../../Styles/Theme";
 import axios from "axios";
-import CelebratingModal from "./CelebratingModal";
+import CelebratingModal from "../../../Components/Common/CelebratingModal";
 
 const CreateOrModifyMyGroupModal = ({
   title,
