@@ -23,9 +23,19 @@ function Main() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    axios.get(`${API_URL}/main`).then((res) => {
-      setPosts(shuffleArray(res.data.posts));
-    });
+
+    axios
+      .get(
+        `${API_URL}/main`,
+        sessionStorage.getItem("USER") && {
+          headers: {
+            Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
+          },
+        }
+      )
+      .then((res) => {
+        setPosts(shuffleArray(res.data.posts));
+      });
   }, []);
 
   const handleSelectedNth = (e) => {

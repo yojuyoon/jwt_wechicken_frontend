@@ -30,9 +30,11 @@ const Submit = styled.div`
     height: 32px;
     padding-top: 4px;
     border-radius: 1rem;
-    cursor: ${(props) => (props.submitActivate ? "pointer" : "not-allowed")};
-    color: ${(props) => (props.submitActivate ? theme.white : "#767676")};
-    background-color: ${(props) =>
-      props.submitActivate ? theme.orange : "#eee;"};
+    cursor: ${({ submitActivate }) =>
+      submitActivate ? "pointer" : "not-allowed"};
+    color: ${({ submitActivate }) =>
+      submitActivate ? theme.white : "#767676"};
+    background-color: ${({ submitActivate }) =>
+      submitActivate ? theme.orange : "#eee"};
   }
 `;
