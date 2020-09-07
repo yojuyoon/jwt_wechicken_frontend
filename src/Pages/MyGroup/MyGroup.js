@@ -54,7 +54,6 @@ const MyGroup = () => {
       setMyContribution(res.data.myProfile);
       dispatch(myGroupTitle(res.data.myGroup.title));
     } catch (e) {
-      setIsError(e);
       setIsError(true);
     } finally {
       setTimeout(() => setIsLoading(false), 1000);

@@ -7,7 +7,12 @@ import { myGroupStatus } from "../../store/actions/myGroupStatusAction";
 import { useDispatch } from "react-redux";
 import { API_URL } from "../../config";
 
-const GoogleLogin = ({ setExistingUser, handleGoogleInput, setModalOn }) => {
+const GoogleLogin = ({
+  setExistingUser,
+  handleGoogleInput,
+  setModalOn,
+  setLoginSuccess,
+}) => {
   const googleLoginBtn = useRef(null);
 
   //redux
@@ -15,7 +20,6 @@ const GoogleLogin = ({ setExistingUser, handleGoogleInput, setModalOn }) => {
 
   useEffect(() => {
     googleSDK();
-
     return () => {
       axios.CancelToken.source().cancel();
     };
@@ -58,33 +62,35 @@ const GoogleLogin = ({ setExistingUser, handleGoogleInput, setModalOn }) => {
     })(document, "script", "google-jssdk");
   };
 
-  const GoogleApiPOST = (token) => {
-    axios
-      .post(`${API_URL}/auth/login/google`, {
+  const GoogleApiPOST = async (token) => {
+    try {
+      await setLoginSuccess(true);
+      const res = await axios.post(`${API_URL}/auth/login/google`, {
         googleToken: token,
-      })
-      .then((res) => {
-        if (res.data.message === "FIRST") {
-          setExistingUser(false);
-        } else {
-          sessionStorage.setItem(
-            "USER",
-            JSON.stringify({
-              token: res.data.token,
-              profile: res.data.profile,
-              myGroupStatus: res.data.myGroupStatus,
-              myNth: res.data.nth,
-              master: res.data.master,
-            })
-          );
-          setModalOn(false);
-          dispatch(loginToken(res.data.token));
-          dispatch(userProfileImg(res.data.profile));
-          dispatch(myGroupStatus(res.data.myGroupStatus));
-          alert("로그인 되었습니다");
-        }
-      })
-      .catch((error) => alert("Error:", error));
+      });
+      if (res.data.message === "FIRST") {
+        setExistingUser(false);
+      } else {
+        sessionStorage.setItem(
+          "USER",
+          JSON.stringify({
+            token: res.data.token,
+            profile: res.data.profile,
+            myGroupStatus: res.data.myGroupStatus,
+            myNth: res.data.nth,
+            master: res.data.master,
+          })
+        );
+        setLoginSuccess(false);
+        setModalOn(false);
+        dispatch(loginToken(res.data.token));
+        dispatch(userProfileImg(res.data.profile));
+        dispatch(myGroupStatus(res.data.myGroupStatus));
+        alert("로그인 되었습니다");
+      }
+    } catch (error) {
+      alert("에러가 발생했습니다");
+    }
   };
 
   return (
