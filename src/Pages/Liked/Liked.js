@@ -52,18 +52,17 @@ const Liked = () => {
         </div>
       </ActiveTab>
       <Contents>
-        {posts &&
-          posts.map((post, i) => {
-            return (
-              <Card
-                post={post}
-                width={288}
-                space={20}
-                key={post.id}
-                handleRemoveCard={handleRemoveCard}
-              />
-            );
-          })}
+        {posts?.map((post, i) => {
+          return (
+            <Card
+              post={post}
+              width={288}
+              space={20}
+              key={post.id}
+              handleRemoveCard={handleRemoveCard}
+            />
+          );
+        })}
       </Contents>
     </Container>
   );
@@ -74,12 +73,14 @@ export default Liked;
 const Container = styled.div`
   padding-top: 111px;
   padding: 111px 200px 0px;
-  margin-left: auto;
-  margin-right: auto;
 `;
 
 const ActiveTab = styled.div`
   padding: 0 20px;
+  position: fixed;
+  background-color: white;
+  z-index: 10;
+  width: 100%;
 
   .tabWrap {
     position: relative;
@@ -109,7 +110,7 @@ const UnderBar = styled.div`
   width: 48%;
   height: 2px;
   display: block;
-  bottom: 0px;
+  bottom: 3px;
   background: ${theme.orange};
   transform: ${({ selectedMenu }) =>
     selectedMenu === "likes" ? "translateX(140px)" : "translateX(0)"};
@@ -121,5 +122,5 @@ const Contents = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 0px !important;
-  margin: 28px auto 0 auto;
+  margin: 52px auto 0 auto;
 `;
