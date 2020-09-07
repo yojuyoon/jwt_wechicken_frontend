@@ -12,7 +12,14 @@ import theme from "../../../Styles/Theme";
 import axios from "axios";
 import CelebratingModal from "./CelebratingModal";
 
-const CreateMyGroupModal = ({ setCreateMyGroupModalOn }) => {
+const CreateOrModifyMyGroupModal = ({
+  title,
+  informationText,
+  myGroupTitleText,
+  btnText,
+  closeModal,
+  celebratingMessage,
+}) => {
   const [myGroupTitle, setMyGroupTitle] = useState("");
   const [count, setCount] = useState("");
   const [penalty, setPenalty] = useState("");
@@ -34,7 +41,7 @@ const CreateMyGroupModal = ({ setCreateMyGroupModalOn }) => {
   const setMyGroupPage = async () => {
     await setCelebratingModalOn(true);
     await axios.post(
-      `${API_URL}/mygroup/createMyGroup`,
+      `${API_URL}/mygroup/createOrModifyMyGroup`,
       {
         title: myGroupTitle,
         count: count.replace(/[^0-9]/g, ""),
@@ -46,7 +53,7 @@ const CreateMyGroupModal = ({ setCreateMyGroupModalOn }) => {
         },
       }
     );
-    setTimeout(() => setCreateMyGroupModalOn(false), 2000);
+    setTimeout(() => closeModal(false), 2000);
     history.push("/MyGroup");
     dispatch(myGroupStatus(true));
     sessionStorage.setItem(
@@ -54,6 +61,7 @@ const CreateMyGroupModal = ({ setCreateMyGroupModalOn }) => {
       JSON.stringify({
         ...JSON.parse(sessionStorage.getItem("USER")),
         myGroupStatus: true,
+        master: true,
       })
     );
   };
@@ -65,17 +73,17 @@ const CreateMyGroupModal = ({ setCreateMyGroupModalOn }) => {
           <img className="logoImage" alt="logo" src="/Images/logo.png" />
           <div className="titleTextWrap">
             <span className="logoText">{">"}wechicken</span>
-            <span className="titleText">내 기수 페이지 생성</span>
+            <span className="titleText">{title}</span>
           </div>
         </Title>
         <FontAwesomeIcon
-          onClick={() => setCreateMyGroupModalOn(false)}
+          onClick={() => closeModal(false)}
           className="BtnClose"
           icon={faTimes}
         />
         <Contents>
           <Description>
-            <h1>치킨계 기수 가입 안내</h1>
+            <h1>{informationText}</h1>
             <p>
               wecode 그리고<br></br>
               wechicken에 오신 것을 환영합니다!
@@ -103,13 +111,13 @@ const CreateMyGroupModal = ({ setCreateMyGroupModalOn }) => {
               width={170}
               type={"기수 페이지명"}
               handleType={setMyGroupTitle}
-              placeholder={"예시)10고 뜯고 10기 치킨계"}
+              placeholder={myGroupTitleText}
             />
             <InputTheme
               width={170}
               type={"주 블로그 업로드 횟수"}
               handleType={setCount}
-              placeholder={"예시)3회"}
+              placeholder={"예시) 주 3회"}
             />
             <InputTheme
               width={170}
@@ -120,17 +128,19 @@ const CreateMyGroupModal = ({ setCreateMyGroupModalOn }) => {
           </InputFormWrap>
         </Contents>
         <BtnSubmit
-          btnText={"생성"}
+          btnText={btnText}
           executeFunction={setMyGroupPage}
           submitActivate={submitActivate}
         ></BtnSubmit>
       </Container>
-      {isCelebratingModalOn && <CelebratingModal />}
+      {isCelebratingModalOn && (
+        <CelebratingModal celebratingMessage={celebratingMessage} />
+      )}
     </>
   );
 };
 
-export default CreateMyGroupModal;
+export default CreateOrModifyMyGroupModal;
 
 const Container = styled.div`
   display: flex;

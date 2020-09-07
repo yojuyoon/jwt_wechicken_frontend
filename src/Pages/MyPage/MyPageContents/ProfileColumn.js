@@ -45,12 +45,12 @@ function ProfileColumn({ myProfile, deleteProfileImg }) {
       })
       .then((res) => {
         if (res.statusText === "OK") {
-          dispatch(userProfileImg(editedProfileImg));
+          dispatch(userProfileImg(res.data.profile));
           sessionStorage.setItem(
             "USER",
             JSON.stringify({
-              token: JSON.parse(sessionStorage.getItem("USER"))?.token,
-              profile: editedProfileImg,
+              ...JSON.parse(sessionStorage.getItem("USER")),
+              profile: res.data.profile,
             })
           );
         }

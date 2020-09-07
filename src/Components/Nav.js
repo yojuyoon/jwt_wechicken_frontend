@@ -3,24 +3,31 @@ import styled from "styled-components";
 import theme, { flexCenter } from "../../src/Styles/Theme";
 import { useHistory, Link } from "react-router-dom";
 import { SearchSvg } from "../../src/Styles/svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCog } from "@fortawesome/free-solid-svg-icons";
 import ProfileIcon from "../Components/ProfileIcon";
 import Login from "../Components/Login/Login";
 import BtnTheme from "../Components/Buttons/BtnTheme";
 import { useDispatch, useSelector } from "react-redux";
 import { loginToken } from "../store/actions/loginAction";
 import CreateMyGroup from "../Pages/MyGroup/CreateMyGroup/CreateMyGroup";
+import ModifyMyGroup from "../Pages/MyGroup/ModifyMyGroup/ModifyMyGroup";
 
 const Nav = () => {
   const [isdropDownOpen, setDropDownOpen] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState("");
   const [isModalOn, setModalOn] = useState(false);
   const [isCreateMyGroupModalOn, setCreateMyGroupModalOn] = useState(false);
+  const [isModifyMyGroup, setModifyMyGroup] = useState(false);
   const history = useHistory();
   //redux
   const loginStatus = useSelector((state) => state.loginReducer);
   const userProfileImg = useSelector((state) => state.userProfileReducer);
   const getMyGroupTitle = useSelector((state) => state.myGroupTitleReducer);
   const myGroupStatus = useSelector((state) => state.myGroupStatusReducer);
+  const myGroupTitleStatus = useSelector(
+    (state) => state.myGroupTitleStatusReducer
+  );
   const dispatch = useDispatch();
 
   const handleSelected = (e) => {
@@ -59,6 +66,12 @@ const Nav = () => {
       {isCreateMyGroupModalOn && (
         <CreateMyGroup setCreateMyGroupModalOn={setCreateMyGroupModalOn} />
       )}
+      {isModifyMyGroup && (
+        <ModifyMyGroup
+          getMyGroupTitle={getMyGroupTitle}
+          setModifyMyGroup={setModifyMyGroup}
+        />
+      )}
       <LogoWrap>
         <Logo>
           <Link to="/">
@@ -66,7 +79,15 @@ const Nav = () => {
           </Link>
           <div className="logoText">{">"}wechicken</div>
         </Logo>
-        <NthTitle>{getMyGroupTitle}</NthTitle>
+        <NthTitle>{myGroupTitleStatus ? getMyGroupTitle : ""}</NthTitle>
+        {history.location.pathname === "/MyGroup" &&
+          JSON.parse(sessionStorage.getItem("USER"))?.master && (
+            <FontAwesomeIcon
+              onClick={() => setModifyMyGroup(true)}
+              className="settingMyGroup"
+              icon={faCog}
+            />
+          )}
       </LogoWrap>
       <UserWrap>
         <SearchIcon>
@@ -74,6 +95,13 @@ const Nav = () => {
         </SearchIcon>
         {loginStatus ? (
           <>
+            {JSON.parse(sessionStorage.getItem("USER"))?.master && (
+              <img
+                className="masterCrown"
+                alt="master"
+                src="/Images/crown.png"
+              />
+            )}
             <div onMouseOver={() => setDropDownOpen(true)}>
               <ProfileIcon size={50} img={userProfileImg} />
             </div>
@@ -126,7 +154,7 @@ const NavContainer = styled.header`
   justify-content: space-between;
   width: 100%;
   height: 111px;
-  padding: 0 81px;
+  padding: 0 160px;
   background-color: ${theme.white};
   z-index: 1;
 
@@ -137,10 +165,20 @@ const NavContainer = styled.header`
 `;
 
 const LogoWrap = styled.div`
-  display: flex;
-  align-items: center;
   width: 422px;
   height: 52px;
+  display: flex;
+  align-items: center;
+
+  .settingMyGroup {
+    margin-left: 15px;
+    color: ${theme.deepGrey};
+    cursor: pointer;
+    opacity: 0.7;
+  }
+  .settingMyGroup:hover {
+    opacity: 1;
+  }
 `;
 
 const Logo = styled.div`
@@ -177,6 +215,15 @@ const NthTitle = styled.div`
 const UserWrap = styled.div`
   ${flexCenter}
   height: 47px;
+  position: relative;
+
+  .masterCrown {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    top: -20px;
+    right: 12px;
+  }
 `;
 
 const SearchIcon = styled.div`
@@ -186,9 +233,11 @@ const SearchIcon = styled.div`
   margin-right: 18px;
   border-radius: 50%;
   background-color: inherit;
+
   &:hover {
     background-color: ${theme.grey};
   }
+
   .searchIcon svg {
     width: 22px;
     height: 22px;

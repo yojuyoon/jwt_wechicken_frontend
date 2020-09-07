@@ -1,8 +1,7 @@
 import { GET_MYGROUP_TITLE } from "../actions/myGroupTitleAction";
+import { IS_MYGROUP_TITLE } from "../actions/myGroupTitleAction";
 
-const INITIAL_STATE = "";
-
-const myGroupTitleReducer = (state = INITIAL_STATE, action) => {
+const myGroupTitleReducer = (state = "", action) => {
   switch (action.type) {
     case GET_MYGROUP_TITLE:
       return action.payload;
@@ -12,4 +11,14 @@ const myGroupTitleReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default myGroupTitleReducer;
+const myGroupTitleStatusReducer = (state = false, action) => {
+  switch (action.type) {
+    case IS_MYGROUP_TITLE:
+      return action.payload;
+
+    default:
+      return state;
+  }
+};
+
+export { myGroupTitleReducer, myGroupTitleStatusReducer };

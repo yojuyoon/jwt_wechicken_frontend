@@ -36,7 +36,7 @@ function MyPage() {
           sessionStorage.setItem(
             "USER",
             JSON.stringify({
-              token: JSON.parse(sessionStorage.getItem("USER"))?.token,
+              ...JSON.parse(sessionStorage.getItem("USER")),
               profile: null,
             })
           );

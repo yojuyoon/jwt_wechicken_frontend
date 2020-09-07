@@ -160,5 +160,5 @@ const ModalBackground = styled.div`
   border-radius: 35px;
   background-color: ${theme.white};
   opacity: 0.5;
-  z-index: 988;
+  z-index: 10;
 `;

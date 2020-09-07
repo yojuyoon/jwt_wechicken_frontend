@@ -28,7 +28,7 @@ const Submit = styled.div`
   .SubmitBtn {
     ${flexCenter}
     height: 32px;
-    padding: 0 18px;
+    padding-top: 4px;
     border-radius: 1rem;
     cursor: ${(props) => (props.submitActivate ? "pointer" : "not-allowed")};
     color: ${(props) => (props.submitActivate ? theme.white : "#767676")};
