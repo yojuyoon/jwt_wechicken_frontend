@@ -86,7 +86,6 @@ const GoogleLogin = ({
         dispatch(loginToken(res.data.token));
         dispatch(userProfileImg(res.data.profile));
         dispatch(myGroupStatus(res.data.myGroupStatus));
-        alert("로그인 되었습니다");
       }
     } catch (error) {
       alert("에러가 발생했습니다");

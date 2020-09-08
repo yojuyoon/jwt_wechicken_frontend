@@ -23,9 +23,9 @@ function MyPage() {
       .then((res) => setMyProfile(res.data.mypage));
   }, []);
 
-  const deleteProfileImg = (e) => {
+  const deleteProfileImg = (deleteTarget) => {
     axios
-      .delete(`${API_URL}/mypage?deleted=${e.target.dataset.name}`, {
+      .delete(`${API_URL}/mypage?deleted=${deleteTarget}`, {
         headers: {
           Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
         },

@@ -3,12 +3,14 @@ import DayColumn from "./DayColumn";
 import styled, { css } from "styled-components";
 import Calendar from "react-calendar";
 import MyGroupJoinModal from "./MyGroupJoinModal";
+import Alert from "../Alert";
 import theme, { flexCenter } from "../../Styles/Theme";
 import "react-calendar/dist/Calendar.css";
 
-function PostsOfTheWeek({ dayPosts, isGroupJoined, submit }) {
+function PostsOfTheWeek({ dayPosts, isGroupJoined, excuteFunction }) {
   const [calender, setCalender] = useState(false);
   const [value, onChange] = useState(new Date());
+  const [isActiveAlert, setActiveAlert] = useState(false);
 
   const handleShowCalendar = () => {
     setCalender(!calender);
@@ -16,7 +18,16 @@ function PostsOfTheWeek({ dayPosts, isGroupJoined, submit }) {
 
   return (
     <Wrap>
-      {!isGroupJoined && <MyGroupJoinModal submit={submit} />}
+      {isActiveAlert && (
+        <Alert
+          setActiveAlert={setActiveAlert}
+          alertMessage={"치킨계에 가입하시겠습니까?"}
+          excuteFunction={excuteFunction}
+          submitBtn={"가입"}
+          closeBtn={"취소"}
+        />
+      )}
+      {!isGroupJoined && <MyGroupJoinModal setActiveAlert={setActiveAlert} />}
       <Container isGroupJoined={isGroupJoined}>
         <CalendarContainer>
           {calender && <Calendar onChange={onChange} value={value} />}
@@ -62,7 +73,7 @@ const Container = styled.div`
 `;
 
 const CalendarContainer = styled.div`
-  z-index: 999;
+  z-index: 20;
 
   @keyframes showBox {
     0% {
@@ -118,7 +129,7 @@ const CalendarContainer = styled.div`
 `;
 
 const MonthOfTheWeek = styled.div`
-  padding: 50px;
+  padding: 40px;
   display: flex;
   flex-direction: column;
   font-size: 30px;
@@ -160,5 +171,5 @@ const ModalBackground = styled.div`
   border-radius: 35px;
   background-color: ${theme.white};
   opacity: 0.5;
-  z-index: 10;
+  z-index: 1;
 `;

@@ -2,14 +2,12 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { API_URL } from "../../config";
-import { confirmAlert } from "react-confirm-alert";
 import Contributors from "./Contributors/Contributors";
 import PostsOfTheWeek from "../../Components/PostsOfTheWeek/PostsOfTheWeek";
 import Loading from "../../Components/Common/Loading";
 import Error from "../../Components/Common/Error";
 import theme from "../../Styles/Theme";
 import BtnTheme from "../../Components/Buttons/BtnTheme";
-import "react-confirm-alert/src/react-confirm-alert.css";
 import {
   myGroupTitle,
   myGroupTitleStatus,
@@ -60,21 +58,6 @@ const MyGroup = () => {
     }
   };
 
-  const submit = () => {
-    confirmAlert({
-      message: "치킨계에 가입하시겠습니까?",
-      buttons: [
-        {
-          label: "취소",
-        },
-        {
-          label: "가입",
-          onClick: () => handleGroupJoined(),
-        },
-      ],
-    });
-  };
-
   const handleGroupJoined = () => {
     axios
       .post(
@@ -97,13 +80,16 @@ const MyGroup = () => {
   const handleUpdateBtn = async () => {
     try {
       setIsLoading(true);
-      await axios({
-        method: "post",
-        url: `${API_URL}/mygroup/update`,
-        headers: {
-          Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
-        },
-      });
+      const res = await axios.post(
+        `${API_URL}/mygroup/update`,
+        {},
+        {
+          headers: {
+            Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
+          },
+        }
+      );
+      setdayPosts(res.data.by_days);
     } catch (e) {
       setIsError(true);
     } finally {
@@ -128,7 +114,7 @@ const MyGroup = () => {
             </div>
           </div>
           <PostsOfTheWeek
-            submit={submit}
+            excuteFunction={handleGroupJoined}
             isGroupJoined={isGroupJoined}
             dayPosts={dayPosts}
           />
@@ -150,8 +136,7 @@ const MyGroup = () => {
 export default MyGroup;
 
 const Container = styled.div`
-  padding: 0 81px;
-  padding-top: 111px;
+  padding: 111px 81px;
   background-color: ${theme.background};
 `;
 

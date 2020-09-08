@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { API_URL } from "../../../config";
 import theme, { flexCenter } from "../../../Styles/Theme";
 import useUpload from "../../../hooks/useUpload";
+import Alert from "../../../Components/Alert";
 import { userProfileImg } from "../../../store/actions/loginAction";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -15,6 +16,8 @@ function ProfileColumn({ myProfile, deleteProfileImg }) {
     defaultImg,
   ] = useUpload();
   const { wecode_nth, user_name } = myProfile;
+  const [isActiveAlert, setActiveAlert] = useState(false);
+  const [deleteEvent, setDeleteEvent] = useState("");
   const dispatch = useDispatch();
   const userProfileImgVariable = useSelector(
     (state) => state.userProfileReducer
@@ -26,12 +29,6 @@ function ProfileColumn({ myProfile, deleteProfileImg }) {
     }
     // eslint-disable-next-line
   }, [editedProfileImg]);
-
-  const handleRemoveProfileImg = (e) => {
-    if (window.confirm("프로필 이미지를 삭제하시겠습니까?")) {
-      deleteProfileImg(e);
-    }
-  };
 
   const modifyProfileImg = () => {
     const formData = new FormData();
@@ -59,6 +56,17 @@ function ProfileColumn({ myProfile, deleteProfileImg }) {
 
   return (
     <ProfileContainer>
+      {isActiveAlert && (
+        <Alert
+          setActiveAlert={setActiveAlert}
+          alertMessage={"프로필 이미지를 삭제하시겠습니까?"}
+          excuteFunction={() => {
+            deleteProfileImg(deleteEvent);
+          }}
+          submitBtn={"확인"}
+          closeBtn={"취소"}
+        />
+      )}
       <ProfilePhoto>
         <ProfileIcon size={131} img={userProfileImgVariable} />
         <label>
@@ -71,7 +79,10 @@ function ProfileColumn({ myProfile, deleteProfileImg }) {
         </label>
         <DeletePhotoBtn
           data-name="user_thumbnail"
-          onClick={handleRemoveProfileImg}
+          onClick={(e) => {
+            setDeleteEvent(e.target.dataset.name);
+            setActiveAlert(true);
+          }}
         >
           이미지 제거
         </DeletePhotoBtn>

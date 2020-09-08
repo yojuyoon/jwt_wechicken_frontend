@@ -13,6 +13,7 @@ import CreateMyGroup from "../../Pages/MyGroup/CreateMyGroup/CreateMyGroup";
 import ModifyMyGroup from "../../Pages/MyGroup/ModifyMyGroup/ModifyMyGroup";
 import DropDown from "./DropDown";
 import SearchBar from "./SearchBar";
+import Alert from "../../Components/Alert";
 
 const Nav = () => {
   const [isdropDownOpen, setDropDownOpen] = useState(false);
@@ -20,6 +21,7 @@ const Nav = () => {
   const [isModalOn, setModalOn] = useState(false);
   const [isCreateMyGroupModalOn, setCreateMyGroupModalOn] = useState(false);
   const [isModifyMyGroup, setModifyMyGroup] = useState(false);
+  const [isActiveAlert, setActiveAlert] = useState(false);
   const history = useHistory();
 
   //redux
@@ -33,79 +35,92 @@ const Nav = () => {
 
   useEffect(() => {
     handleSelectedFunctions(selectedMenu);
-    // eslint-disable-next-line
   }, [selectedMenu]);
 
   const handleSelectedFunctions = (selected) => {
     setDropDownOpen(false);
     if (selected === "로그아웃") {
-      history.push("/");
-      sessionStorage.removeItem("USER");
-      dispatch(loginToken(""));
-      alert("로그아웃 되었습니다");
-      window.location.reload();
+      setActiveAlert(true);
     }
   };
 
   return (
-    <NavContainer onMouseLeave={() => setDropDownOpen(false)}>
-      {isModalOn && <Login setModalOn={setModalOn} />}
-      {isCreateMyGroupModalOn && (
-        <CreateMyGroup setCreateMyGroupModalOn={setCreateMyGroupModalOn} />
-      )}
-      {isModifyMyGroup && (
-        <ModifyMyGroup
-          getMyGroupTitle={getMyGroupTitle}
-          setModifyMyGroup={setModifyMyGroup}
+    <>
+      {isActiveAlert && (
+        <Alert
+          setActiveAlert={setActiveAlert}
+          setSelectedMenu={setSelectedMenu}
+          selectedMenu={selectedMenu}
+          alertMessage={"로그아웃 하시겠습니까?"}
+          excuteFunction={() => {
+            sessionStorage.removeItem("USER");
+            dispatch(loginToken(""));
+            history.push("/");
+            window.location.reload();
+          }}
+          submitBtn={"확인"}
+          closeBtn={"취소"}
         />
       )}
-      <LogoWrap>
-        <Logo>
-          <Link to="/">
-            <img className="logoImage" alt="logo" src="/Images/logo.png" />
-          </Link>
-          <div className="logoText">{">"}wechicken</div>
-        </Logo>
-        <NthTitle>{myGroupTitleStatus ? getMyGroupTitle : ""}</NthTitle>
-        {history.location.pathname === "/MyGroup" &&
-          JSON.parse(sessionStorage.getItem("USER"))?.master && (
-            <FontAwesomeIcon
-              onClick={() => setModifyMyGroup(true)}
-              className="settingMyGroup"
-              icon={faCog}
-            />
-          )}
-      </LogoWrap>
-      <UserWrap>
-        <SearchBar />
-        {loginStatus ? (
-          <>
-            {JSON.parse(sessionStorage.getItem("USER"))?.master && (
-              <img
-                className="masterCrown"
-                alt="master"
-                src="/Images/crown.png"
+      <NavContainer onMouseLeave={() => setDropDownOpen(false)}>
+        {isModalOn && <Login setModalOn={setModalOn} />}
+        {isCreateMyGroupModalOn && (
+          <CreateMyGroup setCreateMyGroupModalOn={setCreateMyGroupModalOn} />
+        )}
+        {isModifyMyGroup && (
+          <ModifyMyGroup
+            getMyGroupTitle={getMyGroupTitle}
+            setModifyMyGroup={setModifyMyGroup}
+          />
+        )}
+        <LogoWrap>
+          <Logo>
+            <Link to="/">
+              <img className="logoImage" alt="logo" src="/Images/logo.png" />
+            </Link>
+            <div className="logoText">{">"}wechicken</div>
+          </Logo>
+          <NthTitle>{myGroupTitleStatus ? getMyGroupTitle : ""}</NthTitle>
+          {history.location.pathname === "/MyGroup" &&
+            JSON.parse(sessionStorage.getItem("USER"))?.master && (
+              <FontAwesomeIcon
+                onClick={() => setModifyMyGroup(true)}
+                className="settingMyGroup"
+                icon={faCog}
               />
             )}
-            <div onMouseOver={() => setDropDownOpen(true)}>
-              <ProfileIcon size={50} img={userProfileImg} />
+        </LogoWrap>
+        <UserWrap>
+          <SearchBar />
+          {loginStatus ? (
+            <>
+              {JSON.parse(sessionStorage.getItem("USER"))?.master && (
+                <img
+                  className="masterCrown"
+                  alt="master"
+                  src="/Images/crown.png"
+                />
+              )}
+              <div onMouseOver={() => setDropDownOpen(true)}>
+                <ProfileIcon size={50} img={userProfileImg} />
+              </div>
+            </>
+          ) : (
+            <div onClick={() => setModalOn(true)}>
+              <BtnTheme value={"로그인"} />
             </div>
-          </>
-        ) : (
-          <div onClick={() => setModalOn(true)}>
-            <BtnTheme value={"로그인"} />
-          </div>
+          )}
+        </UserWrap>
+        {isdropDownOpen && (
+          <DropDown
+            setDropDownOpen={setDropDownOpen}
+            selectedMenu={selectedMenu}
+            setSelectedMenu={setSelectedMenu}
+            setCreateMyGroupModalOn={setCreateMyGroupModalOn}
+          />
         )}
-      </UserWrap>
-      {isdropDownOpen && (
-        <DropDown
-          setDropDownOpen={setDropDownOpen}
-          selectedMenu={selectedMenu}
-          setSelectedMenu={setSelectedMenu}
-          setCreateMyGroupModalOn={setCreateMyGroupModalOn}
-        />
-      )}
-    </NavContainer>
+      </NavContainer>
+    </>
   );
 };
 
@@ -118,7 +133,7 @@ const NavContainer = styled.header`
   height: 111px;
   padding: 0 160px;
   background-color: ${theme.white};
-  z-index: 999;
+  z-index: 9;
 
   a {
     text-decoration: none;

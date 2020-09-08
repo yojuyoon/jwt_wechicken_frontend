@@ -47,7 +47,7 @@ const DayOfTheWeek = styled.div`
 `;
 
 const Wrap = styled.div`
-  height: 500px;
+  height: 450px;
   margin-top: 20px;
   overflow-y: scroll;
 `;

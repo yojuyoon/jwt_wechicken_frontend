@@ -156,7 +156,7 @@ const Container = styled.div`
   background-color: ${theme.white};
   box-shadow: -14px -14px 20px rgba(0, 0, 0, 0.02),
     14px 14px 20px rgba(0, 0, 0, 0.05);
-  z-index: 2;
+  z-index: 11;
 
   .BtnClose {
     position: absolute;
