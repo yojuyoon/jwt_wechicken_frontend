@@ -4,16 +4,38 @@ import styled, { css } from "styled-components";
 import Calendar from "react-calendar";
 import MyGroupJoinModal from "./MyGroupJoinModal";
 import Alert from "../Alert";
+import axios from "axios";
+import { API_URL } from "../../config";
 import theme, { flexCenter } from "../../Styles/Theme";
 import "react-calendar/dist/Calendar.css";
 
-function PostsOfTheWeek({ dayPosts, isGroupJoined, excuteFunction }) {
+function PostsOfTheWeek({
+  dayPosts,
+  isGroupJoined,
+  excuteFunction,
+  setdayPosts,
+}) {
   const [calender, setCalender] = useState(false);
-  const [value, onChange] = useState(new Date());
   const [isActiveAlert, setActiveAlert] = useState(false);
 
   const handleShowCalendar = () => {
     setCalender(!calender);
+  };
+
+  const selectDate = (date) => {
+    const yyyy = date.getFullYear();
+    const mm = date.getMonth() + 1;
+    const dd = date.getDate();
+    const formattedDate = String(10000 * yyyy + 100 * mm + dd);
+    axios
+      .get(`${API_URL}/mygroup/calendar/:${formattedDate}`, {
+        headers: {
+          Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
+        },
+      })
+      .then((res) => {
+        setdayPosts(res.data.by_days);
+      });
   };
 
   return (
@@ -30,7 +52,7 @@ function PostsOfTheWeek({ dayPosts, isGroupJoined, excuteFunction }) {
       {!isGroupJoined && <MyGroupJoinModal setActiveAlert={setActiveAlert} />}
       <Container isGroupJoined={isGroupJoined}>
         <CalendarContainer>
-          {calender && <Calendar onChange={onChange} value={value} />}
+          {calender && <Calendar onClickDay={selectDate} />}
         </CalendarContainer>
         <MonthOfTheWeek onClick={handleShowCalendar}>
           <span>

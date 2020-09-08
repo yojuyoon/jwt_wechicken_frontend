@@ -4,14 +4,12 @@ import theme, { flexCenter } from "../../Styles/Theme";
 
 const MyGroupJoinModal = ({ setActiveAlert }) => {
   return (
-    <>
-      <MyGroupJoinModalContainer>
-        <span>동기들의 포스트를 보고싶다면?</span>
-        <button onClick={() => setActiveAlert(true)} className="joinBtn">
-          치킨계 가입하고 전체 보기
-        </button>
-      </MyGroupJoinModalContainer>
-    </>
+    <MyGroupJoinModalContainer>
+      <span>동기들의 포스트를 보고싶다면?</span>
+      <button onClick={() => setActiveAlert(true)} className="joinBtn">
+        치킨계 가입하고 전체 보기
+      </button>
+    </MyGroupJoinModalContainer>
   );
 };
 
