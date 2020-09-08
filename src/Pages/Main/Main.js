@@ -11,31 +11,54 @@ function Main() {
   const [isNthDropdownOpen, setNthDropdownOpen] = useState(false);
   const [selectedNth, setSelectedNth] = useState("");
   const [posts, setPosts] = useState([]);
+  const [target, setTarget] = useState("");
+  const [page, setPage] = useState(0);
+  const SIZE = 24;
 
-  //(임시)카드 컴포넌트 무작위 정렬
-  const shuffleArray = (array) => {
-    for (let i = 0; i < array.length; i++) {
-      let random = Math.floor(Math.random() * (i + 1));
-      [array[i], array[random]] = [array[random], array[i]];
+  const handleFetch = async () => {
+    await setPage(page + 1);
+    const res = await axios.get(
+      `${API_URL}/main?page=${page}&size=${SIZE}`,
+      sessionStorage.getItem("USER") && {
+        headers: {
+          Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
+        },
+      }
+    );
+    setPosts([...posts, ...res.data.posts]);
+    setTarget(document.querySelector("#last"));
+  };
+
+  const checkIntersect = async ([entry], observer) => {
+    if (entry.isIntersecting && entry.intersectionRatio !== 1) {
+      observer.unobserve(entry.target);
+      await handleFetch();
+      observer.observe(entry.target);
     }
-    return array;
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    let observer;
+    if (target) {
+      observer = new IntersectionObserver(checkIntersect, { threshold: 0.2 });
+      observer.observe(target);
+    } else {
+      handleFetch();
+    }
+    return () => observer && observer.disconnect();
+  }, [target]);
 
-    axios
-      .get(
-        `${API_URL}/main`,
-        sessionStorage.getItem("USER") && {
-          headers: {
-            Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
-          },
-        }
-      )
-      .then((res) => {
-        setPosts(shuffleArray(res.data.posts));
-      });
+  //(임시)카드 컴포넌트 무작위 정렬
+  // const shuffleArray = (array) => {
+  //   for (let i = 0; i < array.length; i++) {
+  //     let random = Math.floor(Math.random() * (i + 1));
+  //     [array[i], array[random]] = [array[random], array[i]];
+  //   }
+  //   return array;
+  // };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
   }, []);
 
   const handleSelectedNth = (e) => {
@@ -94,10 +117,15 @@ function Main() {
           )}
         </MainContentTitle>
         <MainContentCards>
-          {posts.map((post, i) => {
-            return <Card post={post} width={288} space={20} key={i} />;
+          {posts.map((post, idx) => {
+            return idx !== posts.length - 1 ? (
+              <Card post={post} width={288} space={20} key={post.id} />
+            ) : (
+              <div id="last" key={post.id}>
+                <Card post={post} width={288} space={20} />
+              </div>
+            );
           })}
-          {/* <Card /> */}
         </MainContentCards>
       </MainContents>
     </MainPageContainer>

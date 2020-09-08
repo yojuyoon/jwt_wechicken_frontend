@@ -22,11 +22,7 @@ const Card = ({ post, width, space, handleRemoveCard }) => {
               <div className="name">{post.user_name}</div>
             </div>
           </Profile>
-          <Title>
-            {post.title.length > 48
-              ? post.title.substring(0, 48) + "..."
-              : post.title}
-          </Title>
+          <Title>{post.title}</Title>
         </ContentsBox>
       </CardWrap>
       {/* <Tags></Tags> */}
