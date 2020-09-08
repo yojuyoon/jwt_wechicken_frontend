@@ -117,6 +117,7 @@ const MyGroup = () => {
             excuteFunction={handleGroupJoined}
             isGroupJoined={isGroupJoined}
             dayPosts={dayPosts}
+            setdayPosts={setdayPosts}
           />
         </ThisWeek>
         {isGroupJoined && (
