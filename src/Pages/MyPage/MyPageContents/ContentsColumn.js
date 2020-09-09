@@ -90,7 +90,7 @@ function ContentsColumn({ item, myProfile }) {
     withdrawal: (
       <WithdrawalBtn
         isJoined={isJoined}
-        onClick={() => (isJoined ? setActiveAlert(true) : undefined)}
+        onClick={() => isJoined && setActiveAlert(true)}
       >
         치킨계 탈퇴
       </WithdrawalBtn>
