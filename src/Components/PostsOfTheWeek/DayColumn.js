@@ -12,9 +12,11 @@ function DayColumn({ day, dayPosts, hideCalendar }) {
         </div>
       </DayOfTheWeek>
       <Wrap>
-        {dayPosts[day].map((post, i) => {
-          return <MiniPostCard post={post} key={i} />;
-        })}
+        {dayPosts[day]
+          .sort((a, b) => b.id - a.id)
+          .map((post, i) => {
+            return <MiniPostCard post={post} key={i} />;
+          })}
       </Wrap>
     </DayColumnContainer>
   );

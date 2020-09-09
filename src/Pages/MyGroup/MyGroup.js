@@ -6,6 +6,7 @@ import Contributors from "./Contributors/Contributors";
 import PostsOfTheWeek from "../../Components/PostsOfTheWeek/PostsOfTheWeek";
 import Loading from "../../Components/Common/Loading";
 import Error from "../../Components/Common/Error";
+import MyGroupBanner from "./MyGroupBanner";
 import theme from "../../Styles/Theme";
 import BtnTheme from "../../Components/Buttons/BtnTheme";
 import {
@@ -19,9 +20,11 @@ const MyGroup = () => {
   const [dayPosts, setdayPosts] = useState([]);
   const [contributor, setContributor] = useState([]);
   const [myContribution, setMyContribution] = useState({});
+  const [ranking, setRanking] = useState([]);
+  const [postsCounting, setPostCounting] = useState({});
+  const [myGroup, setMyGroup] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -46,10 +49,13 @@ const MyGroup = () => {
           Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
         },
       });
+      setRanking(res.data.Ranks);
       setIsGroupJoined(res.data.is_group_joined);
       setdayPosts(res.data.by_days);
       setContributor(res.data.users);
       setMyContribution(res.data.myProfile);
+      setPostCounting(res.data.userPostsCounting);
+      setMyGroup(res.data.myGroup);
       dispatch(myGroupTitle(res.data.myGroup.title));
     } catch (e) {
       setIsError(true);
@@ -102,9 +108,7 @@ const MyGroup = () => {
 
   return (
     <Container>
-      <HallFrame>
-        <img alt="chicken_bong" src="/Images/chicken.png" />
-      </HallFrame>
+      <MyGroupBanner ranking={ranking} />
       <ContentWrap>
         <ThisWeek isGroupJoined={isGroupJoined}>
           <div className="headerBox">
@@ -124,6 +128,8 @@ const MyGroup = () => {
           <Contribution>
             <div className="title">이주의 공헌</div>
             <Contributors
+              myGroup={myGroup}
+              postsCounting={postsCounting}
               myContribution={myContribution}
               contributor={contributor}
             />
@@ -137,28 +143,12 @@ const MyGroup = () => {
 export default MyGroup;
 
 const Container = styled.div`
-  padding: 111px 81px;
+  padding: 111px 160px;
   background-color: ${theme.background};
 `;
 
-const HallFrame = styled.div`
-  height: 380px;
-  margin: 36px auto 0px;
-  padding: 70px;
-  border-radius: 34px;
-  background-color: ${theme.yellow};
-  display: flex;
-  align-items: center;
-
-  img {
-    width: 200px;
-    height: 200px;
-    background: none;
-  }
-`;
-
 const ContentWrap = styled.div`
-  margin-top: 80px;
+  margin-top: 100px;
   display: flex;
   justify-content: center;
 `;

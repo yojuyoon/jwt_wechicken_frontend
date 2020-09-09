@@ -15,8 +15,26 @@ function PostsOfTheWeek({
   excuteFunction,
   setdayPosts,
 }) {
+  const currentDate = new Date();
   const [calender, setCalender] = useState(false);
   const [isActiveAlert, setActiveAlert] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
+  const [currentDay, setCurrentDay] = useState(currentDate.getDate());
+
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
   const handleShowCalendar = () => {
     setCalender(!calender);
@@ -35,7 +53,9 @@ function PostsOfTheWeek({
       })
       .then((res) => {
         setdayPosts(res.data.by_days);
-      });
+      })
+      .then(setCurrentMonth(date.getMonth()))
+      .then(setCurrentDay(date.getDate()));
   };
 
   return (
@@ -56,9 +76,10 @@ function PostsOfTheWeek({
         </CalendarContainer>
         <MonthOfTheWeek onClick={handleShowCalendar}>
           <span>
-            August<span className="moreBtn">▾</span>
+            {months[currentMonth]}
+            <span className="moreBtn">▾</span>
           </span>
-          <span className="week">2nd week</span>
+          <span className="week">{currentDay}일</span>
         </MonthOfTheWeek>
         <DayColumns>
           {Object.keys(dayPosts).map((day, i) => {
@@ -154,6 +175,7 @@ const MonthOfTheWeek = styled.div`
   padding: 40px;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   font-size: 30px;
 
   span {
@@ -168,7 +190,7 @@ const MonthOfTheWeek = styled.div`
   }
 
   .week {
-    margin: 8px 0 0 0px;
+    margin: 8px 24px 0 0px;
     font-size: 17px;
     color: ${theme.deepGrey};
   }

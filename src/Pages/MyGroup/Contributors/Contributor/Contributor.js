@@ -1,18 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import Emoji from "../../../../Components/Emoji";
+import theme from "../../../../Styles/Theme";
 import ProfileIcon from "../../../../Components/ProfileIcon";
 
-const Contributor = ({ person }) => {
-  const calculatePenalty = (counts) => {
-    if (counts === 1) {
-      return "💸 6000";
-    } else if (counts === 2) {
-      return "💸 3000";
-    } else {
-      return "🎉 no penalty";
-    }
-  };
-
+const Contributor = ({ person, postsCounting, calculatePenalty }) => {
   return (
     <Container>
       <InfoContainer>
@@ -20,12 +12,13 @@ const Contributor = ({ person }) => {
         <UserInfo>
           <div className="name">{person.name}</div>
           <span className="penalty" role="img" aria-labelledby="money">
-            {calculatePenalty(person.blog_counts)}
+            <span>{calculatePenalty(person.blog_counts)}</span>
           </span>
         </UserInfo>
       </InfoContainer>
       <span role="img" aria-labelledby="check">
-        ✔️ {person.blog_counts}
+        <Emoji symbol="✔️" />
+        {postsCounting[person.gmail]}
       </span>
     </Container>
   );
@@ -55,7 +48,11 @@ const UserInfo = styled.div`
   }
 
   .penalty {
-    color: red;
     font-size: 14px;
+    color: ${theme.vermilion};
+
+    span {
+      margin-left: 4px;
+    }
   }
 `;

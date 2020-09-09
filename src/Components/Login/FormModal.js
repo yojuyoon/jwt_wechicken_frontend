@@ -47,7 +47,7 @@ const LoginModal = ({ setModalOn, googleInput }) => {
     }
   }, [inputName, nth, blogAddress, agreementStatus]);
 
-  const handleUploadForm = () => {
+  const handleUploadForm = async () => {
     const formData = new FormData();
     formData.append(
       "user_thumbnail",
@@ -59,7 +59,6 @@ const LoginModal = ({ setModalOn, googleInput }) => {
     formData.append("gmail_id", googleInput.aU);
     formData.append("gmail", googleInput.bu);
     formData.append("is_group_joined", isJoinGroup);
-
     axios
       .post(`${API_URL}/auth/additional`, formData, {
         headers: {
@@ -81,7 +80,6 @@ const LoginModal = ({ setModalOn, googleInput }) => {
           dispatch(loginToken(res.data.token));
           dispatch(userProfileImg(res.data.profile));
           dispatch(myGroupStatus(res.data.myGroupStatus));
-          alert("로그인 되었습니다");
         }
       });
   };
