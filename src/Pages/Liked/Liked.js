@@ -24,7 +24,7 @@ const Liked = () => {
 
   const handleRemoveCard = (inputId, type) => {
     if (type === selectedMenu) {
-      setPosts([...posts].filter((post) => post.id !== inputId));
+      setPosts(posts.filter((post) => post.id !== inputId));
     }
   };
 

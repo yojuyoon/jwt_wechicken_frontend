@@ -19,7 +19,7 @@ const Search = () => {
     return () => {
       dispatch(searchAction(""));
     };
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     let handleDebouncingWords = setTimeout(() => {
@@ -30,6 +30,7 @@ const Search = () => {
     return () => {
       clearTimeout(handleDebouncingWords);
     };
+    // eslint-disable-next-line
   }, [keyword]);
 
   const FetchSearchingWords = () => {
@@ -50,7 +51,7 @@ const Search = () => {
         <InputTheme width={650} value={keyword} handleType={setKeyword} />
       </SearchWrap>
       <PostWrap>
-        {posts?.map((post) => {
+        {posts.map((post) => {
           return <Card post={post} width={650} space={20} key={post.id} />;
         })}
       </PostWrap>

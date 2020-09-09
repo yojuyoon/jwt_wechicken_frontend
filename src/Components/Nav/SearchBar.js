@@ -12,11 +12,10 @@ function SearchBar() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleInput = async (e) => {
-    e.persist();
+  const handleInput = (e) => {
     setKeyword(true);
     if (e.keyCode === 13) {
-      await dispatch(searchAction(e.target.value));
+      dispatch(searchAction(e.target.value));
       history.push("/search");
     }
   };

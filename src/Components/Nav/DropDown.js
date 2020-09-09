@@ -12,18 +12,25 @@ function DropDown({
 }) {
   const myGroupStatus = useSelector((state) => state.myGroupStatusReducer);
   const history = useHistory();
+  const page = {
+    myGroup: "내 기수 블로그",
+    createMyGroup: "내 기수 페이지 생성",
+    bookmark: "북마크",
+    myPage: "마이페이지",
+    logout: "로그아웃",
+  };
 
   const handleSelected = (e) => {
     setSelectedMenu(e.target.innerText);
   };
 
   const handleFocus = (input) => {
-    if (selectedMenu === input) return "fucused";
+    if (selectedMenu === input) return "focused";
   };
 
   const handleMyGroup = (e) => {
     setDropDownOpen(false);
-    if (e.target.innerText === "내 기수 블로그") {
+    if (e.target.innerText === page.myGroup) {
       setSelectedMenu(e.target.innerText);
       history.push("/MyGroup");
     } else {
@@ -33,22 +40,20 @@ function DropDown({
 
   return (
     <Container>
-      <li onClick={handleMyGroup} className={handleFocus("내 기수 블로그")}>
-        <div>{myGroupStatus ? "내 기수 블로그" : "내 기수 페이지 생성"}</div>
+      <li onClick={handleMyGroup} className={handleFocus(page.myGroup)}>
+        <div>{myGroupStatus ? page.myGroup : page.createMyGroup}</div>
       </li>
       <Link to="/Liked">
-        <li onClick={handleSelected} className={handleFocus("북마크")}>
-          북마크
+        <li onClick={handleSelected} className={handleFocus(page.bookmark)}>
+          {page.bookmark}
         </li>
       </Link>
       <Link to="/MyPage">
-        <li onClick={handleSelected} className={handleFocus("마이페이지")}>
-          마이페이지
+        <li onClick={handleSelected} className={handleFocus(page.myPage)}>
+          {page.myPage}
         </li>
       </Link>
-      <li onClick={handleSelected} className={handleFocus("로그아웃")}>
-        로그아웃
-      </li>
+      <li onClick={handleSelected}>{page.logout}</li>
     </Container>
   );
 }
