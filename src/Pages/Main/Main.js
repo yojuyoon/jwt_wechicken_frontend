@@ -15,6 +15,10 @@ function Main() {
   const [page, setPage] = useState(0);
   const SIZE = 24;
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleFetch = async () => {
     await setPage(page + 1);
     const res = await axios.get(
@@ -47,19 +51,6 @@ function Main() {
     }
     return () => observer && observer.disconnect();
   }, [target]);
-
-  //(임시)카드 컴포넌트 무작위 정렬
-  // const shuffleArray = (array) => {
-  //   for (let i = 0; i < array.length; i++) {
-  //     let random = Math.floor(Math.random() * (i + 1));
-  //     [array[i], array[random]] = [array[random], array[i]];
-  //   }
-  //   return array;
-  // };
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   const handleSelectedNth = (e) => {
     setNthDropdownOpen(false);

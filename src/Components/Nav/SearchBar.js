@@ -1,20 +1,38 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import theme, { flexCenter } from "../../Styles/Theme";
 import { SearchSvg } from "../../Styles/svg";
+import { useDispatch } from "react-redux";
+import { searchAction } from "../../store/actions/searchAction";
 
 function SearchBar() {
   const [isSearchActive, setSearchActive] = useState(false);
+  const [keyword, setKeyword] = useState(false);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handleInput = async (e) => {
+    e.persist();
+    setKeyword(true);
+    if (e.keyCode === 13) {
+      await dispatch(searchAction(e.target.value));
+      history.push("/search");
+    }
+  };
 
   return (
     <>
       <Input isSearchActive={isSearchActive}>
-        <input placeholder="블로그 포스팅을 검색하세요"></input>
+        <input
+          onKeyDown={(e) => handleInput(e)}
+          placeholder="블로그 포스팅을 검색하세요"
+        />
       </Input>
       <SearchIcon
         isSearchActive={isSearchActive}
         onClick={() => {
-          setSearchActive(!isSearchActive);
+          !keyword && setSearchActive(!isSearchActive);
         }}
         onBlur={() => setSearchActive(!isSearchActive)}
       >
@@ -46,7 +64,7 @@ const Input = styled.div`
 const SearchIcon = styled.div`
   ${flexCenter}
   position: absolute;
-  right: 75px;
+  right: 85px;
   width: 38px;
   height: 38px;
   border-radius: 50%;

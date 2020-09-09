@@ -31,6 +31,7 @@ const Nav = () => {
   const myGroupTitleStatus = useSelector(
     (state) => state.myGroupTitleStatusReducer
   );
+  const searchKeyword = useSelector((state) => state.searchKeywordReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -91,7 +92,7 @@ const Nav = () => {
             )}
         </LogoWrap>
         <UserWrap>
-          <SearchBar />
+          {!searchKeyword && <SearchBar />}
           {loginStatus ? (
             <>
               {JSON.parse(sessionStorage.getItem("USER"))?.master && (

@@ -33,10 +33,8 @@ function DropDown({
 
   return (
     <Container>
-      <li className={handleFocus("내 기수 블로그")}>
-        <div onClick={handleMyGroup}>
-          {myGroupStatus ? "내 기수 블로그" : "내 기수 페이지 생성"}
-        </div>
+      <li onClick={handleMyGroup} className={handleFocus("내 기수 블로그")}>
+        <div>{myGroupStatus ? "내 기수 블로그" : "내 기수 페이지 생성"}</div>
       </li>
       <Link to="/Liked">
         <li onClick={handleSelected} className={handleFocus("북마크")}>
