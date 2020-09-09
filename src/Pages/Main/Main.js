@@ -6,21 +6,21 @@ import axios from "axios";
 import Card from "../../Components/Card/Card";
 import theme, { flexCenter } from "../../Styles/Theme";
 import { API_URL } from "../../config";
+import usePagination from "../../hooks/usePagination";
 
 function Main() {
-  const [isNthDropdownOpen, setNthDropdownOpen] = useState(false);
-  const [selectedNth, setSelectedNth] = useState("");
   const [posts, setPosts] = useState([]);
   const [target, setTarget] = useState("");
   const [page, setPage] = useState(0);
-  const SIZE = 24;
+  const SIZE = 8;
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    window.onbeforeunload = () => window.scrollTo(0, 0);
   }, []);
 
   const handleFetch = async () => {
-    await setPage(page + 1);
+    setPage(page + 1);
     const res = await axios.get(
       `${API_URL}/main?page=${page}&size=${SIZE}`,
       sessionStorage.getItem("USER") && {
@@ -33,40 +33,8 @@ function Main() {
     setTarget(document.querySelector("#last"));
   };
 
-  const checkIntersect = async ([entry], observer) => {
-    if (entry.isIntersecting && entry.intersectionRatio !== 1) {
-      observer.unobserve(entry.target);
-      await handleFetch();
-      observer.observe(entry.target);
-    }
-  };
-
-  useEffect(() => {
-    let observer;
-    if (target) {
-      observer = new IntersectionObserver(checkIntersect, { threshold: 0.2 });
-      observer.observe(target);
-    } else {
-      handleFetch();
-    }
-    return () => observer && observer.disconnect();
-  }, [target]);
-
-  const handleSelectedNth = (e) => {
-    setNthDropdownOpen(false);
-    setSelectedNth(e.target.innerText);
-  };
-
-  const nthNumber = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
-  const nthList = nthNumber.map((list) => (
-    <li
-      key={list}
-      onClick={handleSelectedNth}
-      className={selectedNth === `${list}기` ? "focused" : undefined}
-    >
-      {list}기
-    </li>
-  ));
+  const pagination = usePagination(target, handleFetch);
+  useEffect(() => pagination, [target, pagination]);
 
   return (
     <MainPageContainer>
@@ -91,30 +59,16 @@ function Main() {
             <FontAwesomeIcon className="check" icon={faCheck} />
             <h1 className="contentTitle">트렌딩 포스트</h1>
           </div>
-          <div
-            onClick={() => setNthDropdownOpen(!isNthDropdownOpen)}
-            className="selectNth"
-          >
-            <span>
-              기수별 <span className="btn">▾</span>
-            </span>
-          </div>
-          {isNthDropdownOpen && (
-            <>
-              <NthDropdown selectedNth={selectedNth}>
-                <ul>{nthList}</ul>
-              </NthDropdown>
-            </>
-          )}
         </MainContentTitle>
         <MainContentCards>
           {posts.map((post, idx) => {
-            return idx !== posts.length - 1 ? (
-              <Card post={post} width={288} space={20} key={post.id} />
-            ) : (
+            const isLast = idx === posts.length - 1;
+            return isLast ? (
               <div id="last" key={post.id}>
                 <Card post={post} width={288} space={20} />
               </div>
+            ) : (
+              <Card post={post} width={288} space={20} key={post.id} />
             );
           })}
         </MainContentCards>
@@ -231,37 +185,4 @@ const MainContentCards = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-`;
-
-const NthDropdown = styled.div`
-  width: 100px;
-  height: 200px;
-  right: 50px;
-  top: 80px;
-  display: flex;
-  flex-direction: column;
-  padding: 8px 0px;
-  position: absolute;
-  overflow: hidden;
-  overflow-y: scroll;
-  background: #ffffff;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1), 0px 8px 16px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  z-index: 4;
-
-  li {
-    height: 30px;
-    ${flexCenter};
-    cursor: pointer;
-  }
-
-  li:hover {
-    font-weight: 900;
-    color: ${theme.orange};
-  }
-
-  .focused {
-    font-weight: 900;
-    color: ${theme.orange};
-  }
 `;
