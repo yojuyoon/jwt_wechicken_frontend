@@ -7,6 +7,7 @@ import Card from "../../Components/Card/Card";
 import theme, { flexCenter } from "../../Styles/Theme";
 import { API_URL } from "../../config";
 import usePagination from "../../hooks/usePagination";
+import MainBanner from "./MainBanner";
 
 function Main() {
   const [posts, setPosts] = useState([]);
@@ -38,21 +39,7 @@ function Main() {
 
   return (
     <MainPageContainer>
-      <MainBanner>
-        <div className="bannerImg" />
-        <BannerContent>
-          <h1 className="greeting">Hi!</h1>
-          <h2 className="title">wechicken OPEN!</h2>
-          <div className="text">
-            <p>
-              wechicken OPEN! <br></br>
-              릴리즈 기념 이벤 진행! <br></br>
-              기수 전원 가입 시 치킨 한마리 공짜!<br></br>
-            </p>
-          </div>
-          <button className="moreBtn">더보기 ▸</button>
-        </BannerContent>
-      </MainBanner>
+      <MainBanner />
       <MainContents>
         <MainContentTitle>
           <div className="titleContainer">
@@ -85,57 +72,6 @@ const MainPageContainer = styled.div`
   flex-direction:column;
   color: ${theme.deepGrey};
   background-color: ${theme.background};
-`;
-
-const MainBanner = styled.div`
-  width: 90%;
-  display: flex;
-  justify-content: center;
-
-  .bannerImg {
-    width: 630px;
-    height: 340px;
-    background: url("/Images/banner.jpg");
-    border-radius: 20px;
-  }
-`;
-
-const BannerContent = styled.div`
-  width: 35%;
-  padding: 10px 0 0 75px;
-  display: flex;
-  flex-direction: column;
-  font-family: ${theme.fontTitle};
-  font-weight: 600;
-
-  .greeting {
-    font-size: 39px;
-    color: ${theme.orange};
-  }
-
-  .title {
-    font-size: 35px;
-  }
-
-  p {
-    margin-top: 140px;
-    line-height: 30px;
-    font-size: 20px;
-    font-weight: 300;
-    font-family: ${theme.fontContent};
-  }
-
-  .moreBtn {
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-end;
-    border: none;
-    outline: none;
-    font-size: 17px;
-    background-color: transparent;
-    color: ${theme.orange};
-    cursor: pointer;
-  }
 `;
 
 const MainContents = styled.div`

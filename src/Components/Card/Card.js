@@ -8,7 +8,7 @@ const Card = ({ post, width, space, handleRemoveCard }) => {
   return (
     <Container space={space} width={width}>
       <CardWrap onClick={() => window.location.assign(`${post.link}`)}>
-        <ImageBox img={post.thumbnail || "/Images/test.png"} />
+        <ImageBox img={post.thumbnail || "/Images/blogDefaultImg.png"} />
         <img
           className="blogLogo"
           alt="blog_logo"

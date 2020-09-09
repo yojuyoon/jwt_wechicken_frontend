@@ -1,12 +1,36 @@
 import React from "react";
 import styled from "styled-components";
 import theme from "../../../Styles/Theme";
+import Emoji from "../../../Components/Emoji";
 import ProfileIcon from "../../../Components/ProfileIcon";
 import Contributor from "../Contributors/Contributor/Contributor";
 import { useSelector } from "react-redux";
 
-const Contributors = ({ myContribution, contributor }) => {
+const Contributors = ({
+  myContribution,
+  contributor,
+  postsCounting,
+  myGroup,
+}) => {
   const userProfileImg = useSelector((state) => state.userProfileReducer);
+
+  const calculatePenalty = (counts) => {
+    if (counts) {
+      return (
+        <>
+          <Emoji symbol="💸" />
+          <span>{myGroup.penalty * myGroup.count}</span>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Emoji symbol="🎉" />
+          <span>no penalty</span>
+        </>
+      );
+    }
+  };
 
   return (
     <Container>
@@ -16,17 +40,24 @@ const Contributors = ({ myContribution, contributor }) => {
           <UserInfo>
             <div className="name">{myContribution.name}</div>
             <span className="penalty" role="img" aria-labelledby="celebration">
-              🎉 no penalty
+              {calculatePenalty(myContribution.postsCount)}
             </span>
           </UserInfo>
         </InfoContainer>
         <span role="img" aria-labelledby="check">
-          ✔️ 3
+          <Emoji symbol="✔️" /> {myContribution.postsCount}
         </span>
       </MyContribution>
       <OtherContribution>
         {contributor.map((person, idx) => {
-          return <Contributor key={idx} person={person} />;
+          return (
+            <Contributor
+              calculatePenalty={calculatePenalty}
+              postsCounting={postsCounting}
+              key={idx}
+              person={person}
+            />
+          );
         })}
       </OtherContribution>
     </Container>
@@ -63,7 +94,6 @@ const MyContribution = styled.div`
 `;
 
 const InfoContainer = styled.div`
-  /* width: 80%; */
   display: flex;
 `;
 
