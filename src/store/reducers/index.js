@@ -6,6 +6,7 @@ import {
   myGroupTitleReducer,
   myGroupTitleStatusReducer,
 } from "./myGroupTitleReducer";
+import searchKeywordReducer from "./searchReducer";
 
 export default combineReducers({
   loginReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   myGroupStatusReducer,
   myGroupTitleReducer,
   myGroupTitleStatusReducer,
+  searchKeywordReducer,
 });

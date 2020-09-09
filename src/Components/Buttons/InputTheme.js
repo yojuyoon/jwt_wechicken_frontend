@@ -42,6 +42,8 @@ const Container = styled.div`
       outline: none;
       cursor: text;
       caret-color: #ff7425;
+      height: 45px;
+      font-size: 45px;
     }
     input::placeholder {
       font-size: 11px;

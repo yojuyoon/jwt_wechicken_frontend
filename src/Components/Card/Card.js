@@ -25,7 +25,7 @@ const Card = ({ post, width, space, handleRemoveCard }) => {
           <Title>{post.title}</Title>
         </ContentsBox>
       </CardWrap>
-      {/* <Tags></Tags> */}
+      <Tags>2020.02.08</Tags>
       <ButtonWrap>
         <BtnLike
           id={post.id}
@@ -121,13 +121,12 @@ const Title = styled.div`
   color: #2d2b2b;
 `;
 
-// const Tags = styled.div`
-//   position: absolute;
-//   top: 77%;
-//   left: 15px;
-//   display: flex;
-//   height: 40px;
-// `;
+const Tags = styled.div`
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  font-size: 14px;
+`;
 
 const ButtonWrap = styled.div`
   width: 80px;

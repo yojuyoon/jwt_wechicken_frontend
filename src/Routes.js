@@ -5,6 +5,7 @@ import Main from "./Pages/Main/Main";
 import MyGroup from "./Pages/MyGroup/MyGroup";
 import MyPage from "./Pages/MyPage/MyPage";
 import Liked from "./Pages/Liked/Liked";
+import Search from "./Pages/Search/Search";
 
 class Routes extends React.Component {
   render() {
@@ -16,6 +17,7 @@ class Routes extends React.Component {
           <Route exact path="/Mygroup" component={MyGroup} />
           <Route exact path="/MyPage" component={MyPage} />
           <Route exact path="/Liked" component={Liked} />
+          <Route exact path="/Search" component={Search} />
         </Switch>
       </Router>
     );
