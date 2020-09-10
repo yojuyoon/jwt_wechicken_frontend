@@ -33,7 +33,7 @@ const HeartIcon = ({ id, status, handleRemoveCard, type, setActiveAlert }) => {
       headers: {
         Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
       },
-    }).then((res) => console.log("응 갔어"));
+    });
   };
 
   return (
