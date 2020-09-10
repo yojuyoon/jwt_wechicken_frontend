@@ -75,12 +75,12 @@ const Nav = () => {
           />
         )}
         <LogoWrap>
-          <Logo>
-            <Link to="/">
+          <Link onClick={() => setSelectedMenu("")} to="/">
+            <Logo>
               <img className="logoImage" alt="logo" src="/Images/logo.png" />
-            </Link>
-            <div className="logoText">{">"}wechicken</div>
-          </Logo>
+              <div className="logoText">{">"}wechicken</div>
+            </Logo>
+          </Link>
           <NthTitle>{myGroupTitleStatus ? getMyGroupTitle : ""}</NthTitle>
           {history.location.pathname === "/MyGroup" &&
             JSON.parse(sessionStorage.getItem("USER"))?.master && (

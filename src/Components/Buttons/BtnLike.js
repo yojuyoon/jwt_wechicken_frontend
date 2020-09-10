@@ -9,14 +9,21 @@ import { faHeart as filledHeart } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark as blankBookmarks } from "@fortawesome/free-regular-svg-icons";
 import { faBookmark as filledBookmarks } from "@fortawesome/free-solid-svg-icons";
 
-const HeartIcon = ({ id, status, handleRemoveCard, type }) => {
+const HeartIcon = ({ id, status, handleRemoveCard, type, setActiveAlert }) => {
   const [isLiked, setLiked] = useState(status);
 
   const handleLikeStatus = () => {
     setLiked(!isLiked);
     if (handleRemoveCard) setTimeout(() => handleRemoveCard(id, type), 500);
-
     fetchLikeStatus();
+  };
+
+  const checkLoginStatus = () => {
+    if (JSON.parse(sessionStorage.getItem("USER"))) {
+      handleLikeStatus();
+    } else {
+      setActiveAlert(true);
+    }
   };
 
   const fetchLikeStatus = () => {
@@ -26,30 +33,30 @@ const HeartIcon = ({ id, status, handleRemoveCard, type }) => {
       headers: {
         Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
       },
-    });
+    }).then((res) => console.log("응 갔어"));
   };
 
   return (
-    <Container type={type} onClick={() => handleLikeStatus()}>
-      <BlankIcon isLiked={isLiked}>
-        <FontAwesomeIcon
-          className="blank"
-          icon={type === "likes" ? blankHeart : blankBookmarks}
-        />
-      </BlankIcon>
-      <FilledIcon isLiked={isLiked} type={type}>
-        <FontAwesomeIcon
-          className="filled"
-          icon={type === "likes" ? filledHeart : filledBookmarks}
-        />
-      </FilledIcon>
-    </Container>
+    <>
+      <Container type={type} onClick={() => checkLoginStatus()}>
+        <BlankIcon isLiked={isLiked}>
+          <FontAwesomeIcon
+            className="blank"
+            icon={type === "likes" ? blankHeart : blankBookmarks}
+          />
+        </BlankIcon>
+        <FilledIcon isLiked={isLiked} type={type}>
+          <FontAwesomeIcon
+            className="filled"
+            icon={type === "likes" ? filledHeart : filledBookmarks}
+          />
+        </FilledIcon>
+      </Container>
+    </>
   );
 };
 
-export default HeartIcon;
-
-// Styled Components
+export default React.memo(HeartIcon);
 
 const Container = styled.div`
   position: absolute;

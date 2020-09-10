@@ -112,18 +112,21 @@ const CreateOrModifyMyGroupModal = ({
               type={"기수 페이지명"}
               handleType={setMyGroupTitle}
               placeholder={myGroupTitleText}
+              size={14}
             />
             <InputTheme
               width={170}
               type={"주 블로그 업로드 횟수"}
               handleType={setCount}
               placeholder={"예시) 주 3회"}
+              size={14}
             />
             <InputTheme
               width={170}
               type={"회당 기부금"}
               handleType={setPenalty}
               placeholder={"예시)3000원"}
+              size={14}
             />
           </InputFormWrap>
         </Contents>
