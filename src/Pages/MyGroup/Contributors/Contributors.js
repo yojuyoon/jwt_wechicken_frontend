@@ -14,15 +14,18 @@ const Contributors = ({
 }) => {
   const userProfileImg = useSelector((state) => state.userProfileReducer);
 
-  const calculatePenalty = (counts) => {
-    if (counts) {
+  const calculatePenalty = (count) => {
+    if (count !== myGroup.count) {
       return (
         <>
           <Emoji symbol="💸" />
-          <span>{myGroup.penalty * myGroup.count}</span>
+          <span>
+            {myGroup.penalty * myGroup.count - myGroup.penalty * count}
+          </span>
         </>
       );
-    } else {
+    }
+    if (count === myGroup.count) {
       return (
         <>
           <Emoji symbol="🎉" />
@@ -40,12 +43,12 @@ const Contributors = ({
           <UserInfo>
             <div className="name">{myContribution.name}</div>
             <span className="penalty" role="img" aria-labelledby="celebration">
-              {calculatePenalty(myContribution.postsCount)}
+              {calculatePenalty(postsCounting[myContribution.gmail])}
             </span>
           </UserInfo>
         </InfoContainer>
         <span role="img" aria-labelledby="check">
-          <Emoji symbol="✔️" /> {myContribution.postsCount}
+          <Emoji symbol="✔️" /> {postsCounting[myContribution.gmail]}
         </span>
       </MyContribution>
       <OtherContribution>
@@ -99,14 +102,14 @@ const InfoContainer = styled.div`
 
 const UserInfo = styled.div`
   width: 100px;
-  margin-left: 2px;
+  margin-left: 5px;
 
   .name {
     margin-bottom: 10px;
   }
 
   .penalty {
-    color: red;
+    color: ${theme.vermilion};
     font-size: 14px;
   }
 `;

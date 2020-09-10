@@ -12,13 +12,13 @@ const Contributor = ({ person, postsCounting, calculatePenalty }) => {
         <UserInfo>
           <div className="name">{person.name}</div>
           <span className="penalty" role="img" aria-labelledby="money">
-            <span>{calculatePenalty(person.blog_counts)}</span>
+            <span>{calculatePenalty(postsCounting[person.gmail] || 0)}</span>
           </span>
         </UserInfo>
       </InfoContainer>
       <span role="img" aria-labelledby="check">
         <Emoji symbol="✔️" />
-        {postsCounting[person.gmail]}
+        {postsCounting[person.gmail] || 0}
       </span>
     </Container>
   );
@@ -41,7 +41,7 @@ const InfoContainer = styled.div`
 
 const UserInfo = styled.div`
   width: 100px;
-  margin-left: 2px;
+  margin-left: 5px;
 
   .name {
     margin-bottom: 10px;
@@ -50,9 +50,5 @@ const UserInfo = styled.div`
   .penalty {
     font-size: 14px;
     color: ${theme.vermilion};
-
-    span {
-      margin-left: 4px;
-    }
   }
 `;

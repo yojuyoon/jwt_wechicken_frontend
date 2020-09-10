@@ -55,7 +55,8 @@ function PostsOfTheWeek({
         setdayPosts(res.data.by_days);
       })
       .then(setCurrentMonth(date.getMonth()))
-      .then(setCurrentDay(date.getDate()));
+      .then(setCurrentDay(date.getDate()))
+      .then(setCalender(false));
   };
 
   return (
