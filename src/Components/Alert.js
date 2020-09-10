@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import theme, { flexCenter } from "../Styles/Theme";
 
@@ -11,6 +11,13 @@ const Alert = ({
   submitBtn,
   closeBtn,
 }) => {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
+
   const handleExecuteFunction = () => {
     excuteFunction();
     setActiveAlert(false);

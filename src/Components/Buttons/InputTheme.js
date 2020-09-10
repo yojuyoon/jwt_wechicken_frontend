@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const InputTheme = ({ width, type, value, handleType, placeholder }) => {
+const InputTheme = ({ width, type, value, handleType, placeholder, size }) => {
   return (
-    <Container width={width}>
+    <Container width={width} size={size}>
       <div className="nameBox">
         <div className="type">{type}</div>
         <input
@@ -28,25 +28,24 @@ const Container = styled.div`
 
     .type {
       margin-left: 2px;
-      margin-bottom: 2px;
+      margin-bottom: 8px;
       font-weight: 500;
-      font-size: 11px;
+      font-size: 15px;
       color: #8a8383;
     }
 
     input {
       width: ${({ width }) => width}px;
-      height: 28px;
+      font-size: ${({ size }) => size}px;
+      height: ${({ size }) => size}px;
       border: none;
       border-bottom: 1px solid rgba(0, 0, 0, 0.2);
       outline: none;
       cursor: text;
       caret-color: #ff7425;
-      height: 45px;
-      font-size: 45px;
     }
     input::placeholder {
-      font-size: 11px;
+      font-size: 14px;
       opacity: 0.7;
     }
   }

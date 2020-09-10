@@ -112,12 +112,23 @@ const LoginModal = ({ setModalOn, googleInput }) => {
             </label>
           </ImageBox>
           <FormWrap>
-            <InputTheme width={156} type={"기수"} handleType={setNth} />
-            <InputTheme width={156} type={"이름"} handleType={setInputName} />
+            <InputTheme
+              width={156}
+              type={"기수"}
+              handleType={setNth}
+              size={14}
+            />
+            <InputTheme
+              width={156}
+              type={"이름"}
+              handleType={setInputName}
+              size={14}
+            />
             <InputTheme
               width={156}
               type={"블로그 주소"}
               handleType={setBlogAddress}
+              size={14}
             />
             <BtnCheck
               text={"치킨계 가입(선택)"}

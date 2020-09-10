@@ -13,7 +13,7 @@ function SearchBar() {
   const history = useHistory();
 
   const handleInput = (e) => {
-    setKeyword(true);
+    e.target.value ? setKeyword(true) : setKeyword(false);
     if (e.keyCode === 13) {
       dispatch(searchAction(e.target.value));
       history.push("/search");
@@ -69,7 +69,7 @@ const SearchIcon = styled.div`
   border-radius: 50%;
   background-color: inherit;
   transform: ${({ isSearchActive }) =>
-    isSearchActive ? "translateX(-260px)" : "translateX(0)"};
+    isSearchActive ? "translateX(-275px)" : "translateX(0)"};
   transition: all 0.5s ease-in-out;
 
   &:hover {

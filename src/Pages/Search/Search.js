@@ -14,6 +14,10 @@ const Search = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(keyword);
+  }, [keyword]);
+
+  useEffect(() => {
     dispatch(searchAction("search"));
 
     return () => {
@@ -34,21 +38,29 @@ const Search = () => {
   }, [keyword]);
 
   const FetchSearchingWords = () => {
-    axios({
-      method: "get",
-      url: `${API_URL}/search?keyword=${keyword}`,
-      headers: {
-        Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
-      },
-    }).then((res) => {
-      setPosts(res.data.posts);
-    });
+    axios
+      .get(
+        `${API_URL}/search?keyword=${keyword}`,
+        sessionStorage.getItem("USER") && {
+          headers: {
+            Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
+          },
+        }
+      )
+      .then((res) => {
+        setPosts(res.data.posts);
+      });
   };
 
   return (
     <Container>
       <SearchWrap>
-        <InputTheme width={650} value={keyword} handleType={setKeyword} />
+        <InputTheme
+          width={650}
+          value={keyword}
+          handleType={setKeyword}
+          size={45}
+        />
       </SearchWrap>
       <PostWrap>
         {posts.map((post) => {

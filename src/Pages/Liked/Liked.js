@@ -68,7 +68,7 @@ const Liked = () => {
   );
 };
 
-export default Liked;
+export default React.memo(Liked);
 
 const Container = styled.div`
   padding-top: 111px;

@@ -8,16 +8,20 @@ import theme, { flexCenter } from "../../Styles/Theme";
 import { API_URL } from "../../config";
 import usePagination from "../../hooks/usePagination";
 import MainBanner from "./MainBanner";
+import Alert from "../../Components/Alert";
+import Login from "../../Components/Login/Login";
 
 function Main() {
   const [posts, setPosts] = useState([]);
   const [target, setTarget] = useState("");
   const [page, setPage] = useState(0);
-  const SIZE = 8;
+  const [isActiveAlert, setActiveAlert] = useState(false);
+  const [isLoginActive, setLoginActive] = useState(false);
+
+  const SIZE = 24;
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    window.onbeforeunload = () => window.scrollTo(0, 0);
   }, []);
 
   const handleFetch = async () => {
@@ -37,30 +41,57 @@ function Main() {
   const pagination = usePagination(target, handleFetch);
   useEffect(() => pagination, [target, pagination]);
 
+  const handleSetLoginActive = () => {
+    setLoginActive(true);
+  };
+
   return (
-    <MainPageContainer>
-      <MainBanner />
-      <MainContents>
-        <MainContentTitle>
-          <div className="titleContainer">
-            <FontAwesomeIcon className="check" icon={faCheck} />
-            <h1 className="contentTitle">트렌딩 포스트</h1>
-          </div>
-        </MainContentTitle>
-        <MainContentCards>
-          {posts.map((post, idx) => {
-            const isLast = idx === posts.length - 1;
-            return isLast ? (
-              <div id="last" key={post.id}>
-                <Card post={post} width={288} space={20} />
-              </div>
-            ) : (
-              <Card post={post} width={288} space={20} key={post.id} />
-            );
-          })}
-        </MainContentCards>
-      </MainContents>
-    </MainPageContainer>
+    <>
+      {isLoginActive && <Login setModalOn={setLoginActive} />}
+      {isActiveAlert && (
+        <Alert
+          setActiveAlert={setActiveAlert}
+          alertMessage={"로그인이 필요한 서비스입니다."}
+          excuteFunction={handleSetLoginActive}
+          submitBtn={"로그인"}
+          closeBtn={"안함"}
+        />
+      )}
+      <MainPageContainer>
+        <MainBanner />
+        <MainContents>
+          <MainContentTitle>
+            <div className="titleContainer">
+              <FontAwesomeIcon className="check" icon={faCheck} />
+              <h1 className="contentTitle">트렌딩 포스트</h1>
+            </div>
+          </MainContentTitle>
+          <MainContentCards>
+            {posts.map((post, idx) => {
+              const isLast = idx === posts.length - 1;
+              return isLast ? (
+                <div id="last" key={post.id}>
+                  <Card
+                    post={post}
+                    width={288}
+                    space={20}
+                    setActiveAlert={setActiveAlert}
+                  />
+                </div>
+              ) : (
+                <Card
+                  post={post}
+                  width={288}
+                  space={20}
+                  key={post.id}
+                  setActiveAlert={setActiveAlert}
+                />
+              );
+            })}
+          </MainContentCards>
+        </MainContents>
+      </MainPageContainer>
+    </>
   );
 }
 

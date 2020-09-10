@@ -4,7 +4,7 @@ import { flexCenter } from "../../Styles/Theme";
 import ProfileIcon from "../ProfileIcon";
 import BtnLike from "../Buttons/BtnLike";
 
-const Card = ({ post, width, space, handleRemoveCard }) => {
+const Card = ({ post, width, space, handleRemoveCard, setActiveAlert }) => {
   return (
     <Container space={space} width={width}>
       <CardWrap onClick={() => window.location.assign(`${post.link}`)}>
@@ -25,19 +25,21 @@ const Card = ({ post, width, space, handleRemoveCard }) => {
           <Title>{post.title}</Title>
         </ContentsBox>
       </CardWrap>
-      <Tags>2020.02.08</Tags>
+      <Tags>{post.date}</Tags>
       <ButtonWrap>
         <BtnLike
           id={post.id}
           status={post.like}
           handleRemoveCard={handleRemoveCard}
           type={"likes"}
+          setActiveAlert={setActiveAlert}
         />
         <BtnLike
           id={post.id}
           status={post.bookmark}
           handleRemoveCard={handleRemoveCard}
           type={"bookmarks"}
+          setActiveAlert={setActiveAlert}
         />
       </ButtonWrap>
     </Container>
