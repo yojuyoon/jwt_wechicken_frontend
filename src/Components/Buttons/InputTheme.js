@@ -28,7 +28,7 @@ const Container = styled.div`
 
     .type {
       margin-left: 2px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       font-weight: 500;
       font-size: 15px;
       color: #8a8383;
@@ -37,7 +37,7 @@ const Container = styled.div`
     input {
       width: ${({ width }) => width}px;
       font-size: ${({ size }) => size}px;
-      height: ${({ size }) => size}px;
+      height: ${({ size }) => size + 20}px;
       border: none;
       border-bottom: 1px solid rgba(0, 0, 0, 0.2);
       outline: none;

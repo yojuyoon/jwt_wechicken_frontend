@@ -12,10 +12,9 @@ import BtnCheck from "../Buttons/BtnCheck";
 import useUpload from "../../hooks/useUpload";
 import LogoBox from "./LogoBox";
 import BtnSubmit from "../Buttons/BtnSubmit";
-
 import { API_URL } from "../../config";
 
-const LoginModal = ({ setModalOn, googleInput }) => {
+const FormModal = ({ setModalOn, googleInput }) => {
   // eslint-disable-next-line
   const [inputImage, setInputImage] = useState(googleInput.getImageUrl());
   const [inputName, setInputName] = useState("");
@@ -152,7 +151,7 @@ const LoginModal = ({ setModalOn, googleInput }) => {
   );
 };
 
-export default LoginModal;
+export default FormModal;
 
 const Container = styled.div`
   display: flex;
