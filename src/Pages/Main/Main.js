@@ -131,6 +131,7 @@ const MainContentTitle = styled.div`
     }
 
     .contentTitle {
+      font-family: ${theme.fontContent};
       font-size: 23px;
       font-weight: 600;
     }

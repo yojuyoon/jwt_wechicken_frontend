@@ -6,7 +6,11 @@ const GlobalStyles = createGlobalStyle`
     ${reset}
     * {
         box-sizing : border-box;
-	font-family: ${theme.fontContent};
+    }
+
+    div, p, span {
+
+	    font-family: ${theme.fontContent};
     }
 `;
 

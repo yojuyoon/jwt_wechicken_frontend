@@ -12,12 +12,11 @@ import BtnCheck from "../Buttons/BtnCheck";
 import useUpload from "../../hooks/useUpload";
 import LogoBox from "./LogoBox";
 import BtnSubmit from "../Buttons/BtnSubmit";
-
 import { API_URL } from "../../config";
 
-const LoginModal = ({ setModalOn, googleInput }) => {
+const FormModal = ({ setModalOn, googleInput }) => {
   // eslint-disable-next-line
-  const [inputImage, setInputImage] = useState(googleInput.jK);
+  const [inputImage, setInputImage] = useState(googleInput.getImageUrl());
   const [inputName, setInputName] = useState("");
   const [nth, setNth] = useState("");
   const [blogAddress, setBlogAddress] = useState("");
@@ -56,8 +55,8 @@ const LoginModal = ({ setModalOn, googleInput }) => {
     formData.append("user_name", inputName);
     formData.append("wecode_nth", nth.replace(/[^0-9]/g, ""));
     formData.append("blog_address", blogAddress);
-    formData.append("gmail_id", googleInput.aU);
-    formData.append("gmail", googleInput.bu);
+    formData.append("gmail_id", googleInput.getId());
+    formData.append("gmail", googleInput.getEmail());
     formData.append("is_group_joined", isJoinGroup);
     axios
       .post(`${API_URL}/auth/additional`, formData, {
@@ -94,7 +93,7 @@ const LoginModal = ({ setModalOn, googleInput }) => {
       <LogoBox />
       <ContentsBox>
         <Greeting>
-          <div className="name">{googleInput.Ad}님</div>
+          <div className="name">{googleInput.getName()}님</div>
           <div className="greeting">환영합니다!</div>
           <div className="type">추가 정보를 입력해주세요</div>
         </Greeting>
@@ -152,7 +151,7 @@ const LoginModal = ({ setModalOn, googleInput }) => {
   );
 };
 
-export default LoginModal;
+export default FormModal;
 
 const Container = styled.div`
   display: flex;
