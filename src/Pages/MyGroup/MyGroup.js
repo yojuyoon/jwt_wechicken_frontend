@@ -76,10 +76,14 @@ const MyGroup = () => {
         }
       )
       .then((res) => {
-        setIsGroupJoined(res.data.is_group_joined);
-        setdayPosts(res.data.by_days);
-        setContributor(res.data.users);
-        setMyContribution(res.data.myProfile);
+      setRanking(res.data.Ranks);
+      setIsGroupJoined(res.data.is_group_joined);
+      setdayPosts(res.data.by_days);
+      setContributor(res.data.users);
+      setMyContribution(res.data.myProfile);
+      setPostCounting(res.data.userPostsCounting);
+      setMyGroup(res.data.myGroup);
+      dispatch(myGroupTitle(res.data.myGroup.title));
       });
   };
 

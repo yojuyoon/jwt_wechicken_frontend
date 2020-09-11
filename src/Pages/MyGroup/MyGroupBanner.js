@@ -15,7 +15,7 @@ const MyGroupBanner = ({ ranking }) => {
       <img src="/Images/mygroup_banner.png" alt="banner" />
       <div className="contents">
         <span className="title">
-          <Emoji symbol="🏆" /> RANKING <Emoji symbol="🏆" />
+          RANKING <Emoji symbol="🏆" />
         </span>
         {ranking.map((rank, i) => {
           return (
