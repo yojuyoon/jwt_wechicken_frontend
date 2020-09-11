@@ -14,10 +14,6 @@ const Search = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(keyword);
-  }, [keyword]);
-
-  useEffect(() => {
     dispatch(searchAction("search"));
 
     return () => {
