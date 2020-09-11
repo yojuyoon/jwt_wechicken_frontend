@@ -7,6 +7,8 @@ import { myGroupStatus } from "../../store/actions/myGroupStatusAction";
 import { useDispatch } from "react-redux";
 import { API_URL } from "../../config";
 
+let auth2;
+
 const GoogleLogin = ({
   setExistingUser,
   handleGoogleInput,
@@ -29,24 +31,10 @@ const GoogleLogin = ({
   const googleSDK = () => {
     window.googleSDKLoaded = () => {
       window.gapi.load("auth2", () => {
-        const auth2 = window.gapi.auth2.init({
+        auth2 = window.gapi.auth2.init({
           client_id: `104907458248-060di7gohvm4f6c3th8fm47vnmistaq4.apps.googleusercontent.com`,
           scope: "profile email",
         });
-
-        auth2.attachClickHandler(
-          googleLoginBtn.current,
-          {},
-          (googleUser) => {
-		  console.log(googleUser);
-            const profile = googleUser.getBasicProfile();
-            handleGoogleInput(profile);
-            GoogleApiPOST(googleUser.getAuthResponse().id_token);
-          },
-          (error) => {
-            alert(JSON.stringify(error, undefined, 2));
-          }
-        );
       });
     };
 
@@ -93,10 +81,29 @@ const GoogleLogin = ({
     }
   };
 
+  const googleLoginClickHandler = () => {
+    auth2
+      .signIn({
+        scope: "profile email",
+      })
+      .then((googleUser) => {
+        console.log(googleUser);
+        const profile = googleUser.getBasicProfile();
+        handleGoogleInput(profile);
+        GoogleApiPOST(googleUser.getAuthResponse().id_token);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <GoogleBtn id="gSignInWrapper">
       <span className="label" />
-      <div ref={googleLoginBtn} id="customBtn" className="customGPlusSignIn">
+      <div
+        ref={googleLoginBtn}
+        id="customBtn"
+        className="customGPlusSignIn"
+        onClick={googleLoginClickHandler}
+      >
         <span className="icon"></span>
         <span className="buttonText">구글로 로그인하기</span>
       </div>
