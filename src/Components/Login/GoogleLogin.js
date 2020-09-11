@@ -87,7 +87,6 @@ const GoogleLogin = ({
         scope: "profile email",
       })
       .then((googleUser) => {
-        console.log(googleUser);
         const profile = googleUser.getBasicProfile();
         handleGoogleInput(profile);
         GoogleApiPOST(googleUser.getAuthResponse().id_token);
