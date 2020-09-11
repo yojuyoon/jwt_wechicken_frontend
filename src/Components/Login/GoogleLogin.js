@@ -30,7 +30,7 @@ const GoogleLogin = ({
     window.googleSDKLoaded = () => {
       window.gapi.load("auth2", () => {
         const auth2 = window.gapi.auth2.init({
-          client_id: `502511283549-far2914uktcjdvqk6blqi5251vnvbms5.apps.googleusercontent.com`,
+          client_id: `104907458248-060di7gohvm4f6c3th8fm47vnmistaq4.apps.googleusercontent.com`,
           scope: "profile email",
         });
 
@@ -38,6 +38,7 @@ const GoogleLogin = ({
           googleLoginBtn.current,
           {},
           (googleUser) => {
+		  console.log(googleUser);
             const profile = googleUser.getBasicProfile();
             handleGoogleInput(profile);
             GoogleApiPOST(googleUser.getAuthResponse().id_token);
