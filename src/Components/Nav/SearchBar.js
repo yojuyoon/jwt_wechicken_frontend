@@ -70,7 +70,7 @@ const SearchIcon = styled.div`
   background-color: inherit;
   transform: ${({ isSearchActive }) =>
     isSearchActive ? "translateX(-275px)" : "translateX(0)"};
-  transition: all 0.5s ease-in-out;
+  transition: all 0.2s ease-in-out;
 
   &:hover {
     background-color: ${theme.yellow};

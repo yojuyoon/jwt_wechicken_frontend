@@ -28,7 +28,6 @@ const Submit = styled.div`
   .SubmitBtn {
     ${flexCenter}
     height: 32px;
-    padding-top: 4px;
     border-radius: 1rem;
     cursor: ${({ submitActivate }) =>
       submitActivate ? "pointer" : "not-allowed"};

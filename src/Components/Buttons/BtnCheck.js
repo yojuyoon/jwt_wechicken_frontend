@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import theme from "../../Styles/Theme";
+import theme, { flexCenter } from "../../Styles/Theme";
 
 const BtnCheck = ({ text, handleCheckBox, isChecked }) => {
   return (
@@ -30,7 +30,7 @@ const Container = styled.div`
   .checked {
     width: 12px;
     height: 12px;
-    padding: 2px;
+    padding-left: 2px;
     color: ${theme.white};
     font-size: 12px;
     font-weight: 700;
