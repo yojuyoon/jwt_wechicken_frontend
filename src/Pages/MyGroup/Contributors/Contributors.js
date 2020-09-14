@@ -41,7 +41,7 @@ const Contributors = ({
     <Container>
       <MyContribution>
         <InfoContainer>
-          <ProfileIcon size={46} img={userProfileImg} />
+          <ProfileIcon size={40} img={userProfileImg} />
           <UserInfo>
             <div className="name">{myContribution.name}</div>
             <span className="penalty" role="img" aria-labelledby="celebration">
@@ -72,28 +72,23 @@ const Contributors = ({
 export default Contributors;
 
 const Container = styled.div`
-  width: 250px;
-  height: 560px;
-  margin-top: 24px;
+  height: 120px;
+  margin: 24px 2vw 0;
   display: flex;
-  flex-direction: column;
-  background-color: hotpink;
   background: #ffffff;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1), 4px 4px 10px rgba(0, 0, 0, 0.06);
   border-radius: 28px;
 `;
 
 const MyContribution = styled.div`
-  width: 250px;
-  height: 90px;
+  height: 120px;
   position: absolute;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 30px 18px 10px 18px;
-  background-color: ${theme.white};
   border-top-left-radius: 18px;
-  border-top-right-radius: 18px;
+  border-bottom-left-radius: 18px;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.07);
   overflow: hidden;
 `;
@@ -103,11 +98,11 @@ const InfoContainer = styled.div`
 `;
 
 const UserInfo = styled.div`
-  width: 100px;
+  width: 80px;
   margin-left: 5px;
 
   .name {
-    margin-bottom: 10px;
+    margin-bottom: 2px;
   }
 
   .penalty {
@@ -117,22 +112,15 @@ const UserInfo = styled.div`
 `;
 
 const OtherContribution = styled.div`
-  margin-top: 80px;
-  overflow-y: scroll;
+  display: flex;
+  height: 120px;
+  overflow-x: scroll;
+  margin-left: 200px;
+
   -ms-overflow-style: none;
   scrollbar-width: none;
 
   ::-webkit-scrollbar {
     display: none;
-  }
-
-  ::-webkit-scrollbar {
-    width: 5px;
-    height: 20px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: ${theme.yellow};
-    border-radius: 10px;
   }
 `;

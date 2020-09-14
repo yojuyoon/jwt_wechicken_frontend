@@ -1,23 +1,14 @@
 import React, { useState } from "react";
-import DayColumn from "./DayColumn";
-import styled, { css } from "styled-components";
-import Calendar from "react-calendar";
-import MyGroupJoinModal from "./MyGroupJoinModal";
-import Alert from "../Alert";
+import styled from "styled-components";
 import axios from "axios";
 import { API_URL } from "../../config";
 import theme, { flexCenter } from "../../Styles/Theme";
+import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
-function PostsOfTheWeek({
-  dayPosts,
-  isGroupJoined,
-  excuteFunction,
-  setdayPosts,
-}) {
+const CustomCalendar = ({ setdayPosts }) => {
   const currentDate = new Date();
   const [calender, setCalender] = useState(false);
-  const [isActiveAlert, setActiveAlert] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
   const [currentDay, setCurrentDay] = useState(currentDate.getDate());
 
@@ -35,10 +26,6 @@ function PostsOfTheWeek({
     "November",
     "December",
   ];
-
-  const handleShowCalendar = () => {
-    setCalender(!calender);
-  };
 
   const selectDate = (date) => {
     const yyyy = date.getFullYear();
@@ -60,64 +47,28 @@ function PostsOfTheWeek({
   };
 
   return (
-    <Wrap>
-      {isActiveAlert && (
-        <Alert
-          setActiveAlert={setActiveAlert}
-          alertMessage={"치킨계에 가입하시겠습니까?"}
-          excuteFunction={excuteFunction}
-          submitBtn={"가입"}
-          closeBtn={"취소"}
-        />
-      )}
-      {!isGroupJoined && <MyGroupJoinModal setActiveAlert={setActiveAlert} />}
-      <Container isGroupJoined={isGroupJoined}>
-        <CalendarContainer>
-          {calender && <Calendar onClickDay={selectDate} />}
-        </CalendarContainer>
-        <MonthOfTheWeek onClick={handleShowCalendar}>
-          <span>
-            {months[currentMonth]}
-            <span className="moreBtn">▾</span>
-          </span>
+    <>
+      <MonthOfTheWeek onClick={() => setCalender(!calender)}>
+        <span className="moreBtn">▾</span>
+        <span>
+          {months[currentMonth]}
           <span className="week">{currentDay}일</span>
-        </MonthOfTheWeek>
-        <DayColumns>
-          {Object.keys(dayPosts).map((day, i) => {
-            return <DayColumn day={day} dayPosts={dayPosts} key={i} />;
-          })}
-        </DayColumns>
-      </Container>
-      {!isGroupJoined && <ModalBackground />}
-    </Wrap>
+        </span>
+      </MonthOfTheWeek>
+      <CalendarContainer>
+        {calender && <Calendar onClickDay={selectDate} />}
+      </CalendarContainer>
+    </>
   );
-}
+};
 
-export default PostsOfTheWeek;
-
-const Wrap = styled.div`
-  position: relative;
-  ${flexCenter};
-`;
-
-const Container = styled.div`
-  height: 560px;
-  margin-top: 28px;
-  display: flex;
-  overflow: hidden;
-  overflow-x: scroll;
-  background-color: ${theme.white};
-  box-shadow: 7px 7px 30px rgba(0, 0, 0, 0.08);
-  border-radius: 35px;
-  ${(props) =>
-    !props.isGroupJoined &&
-    css`
-      filter: blur(4px);
-    `}
-`;
+export default CustomCalendar;
 
 const CalendarContainer = styled.div`
   z-index: 20;
+  position: absolute;
+  top: 60px;
+  right: -12px;
 
   @keyframes showBox {
     0% {
@@ -133,8 +84,6 @@ const CalendarContainer = styled.div`
     height: 324px;
     ${flexCenter}
     flex-direction:column;
-    position: absolute;
-    margin: 120px 0 0 40px;
     overflow: hidden;
     animation: showBox 0.5s;
     background-color: white;
@@ -173,48 +122,26 @@ const CalendarContainer = styled.div`
 `;
 
 const MonthOfTheWeek = styled.div`
-  padding: 40px;
   display: flex;
-  flex-direction: column;
+  margin-left: auto;
   align-items: flex-end;
-  font-size: 30px;
+  padding-bottom: 8px;
+  font-size: 20px;
 
   span {
     cursor: pointer;
   }
 
   .moreBtn {
-    margin-left: 8px;
+    margin-right: 8px;
     font-size: 20px;
     text-align: center;
     color: ${theme.orange};
   }
 
   .week {
-    margin: 8px 24px 0 0px;
-    font-size: 17px;
+    margin: 8px 0px 0px 8px;
+    font-size: 15px;
     color: ${theme.deepGrey};
   }
-`;
-
-const DayColumns = styled.div`
-  display: flex;
-  ::-webkit-scrollbar {
-    height: 5px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: ${theme.yellow};
-    border-radius: 10px;
-  }
-`;
-
-const ModalBackground = styled.div`
-  width: 101%;
-  height: 100%;
-  position: absolute;
-  border-radius: 35px;
-  background-color: ${theme.white};
-  opacity: 0.5;
-  z-index: 1;
 `;

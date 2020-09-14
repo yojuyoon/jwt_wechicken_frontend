@@ -3,18 +3,20 @@ import styled from "styled-components";
 import ProfileIcon from "../ProfileIcon";
 import theme from "../../Styles/Theme";
 
-function MiniPostCard({ post }) {
+function MiniCard({ post }) {
   return (
     <MiniPostCardContainer>
       <PostContent onClick={() => window.location.assign(`${post.link}`)}>
-        <ProfileIcon size={33} img={post.user_profile} />
+        <div className="profileIcon">
+          <ProfileIcon size={33} img={post.user_profile} />
+        </div>
         <div className="contents">
           <span>{post.user_name}</span>
           <span className="postText">{post.title}</span>
         </div>
       </PostContent>
       <PostDateAndType>
-        <span>{post.date}</span>
+        <span>{post.date.slice(5, 12)}</span>
         <div className="blogLogo">
           <img alt="blog_logo" src={`/Images/${post.type}.png`} />
         </div>
@@ -23,7 +25,7 @@ function MiniPostCard({ post }) {
   );
 }
 
-export default MiniPostCard;
+export default MiniCard;
 
 const MiniPostCardContainer = styled.div`
   width: 220px;
@@ -32,16 +34,34 @@ const MiniPostCardContainer = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 7px;
   font-family: ${theme.fontContent};
+
+  @media (max-width: 1450px) {
+    width: 165px;
+    height: 75px;
+  }
+
+  /* @media (max-width: 400px) {
+    width: 300px;
+    height: 120px;
+  } */
 `;
 
 const PostContent = styled.div`
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 0 10px;
   cursor: pointer;
 
+  .profileIcon {
+    margin-right: 10px;
+
+    @media (max-width: 1450px) {
+      display: none;
+    }
+  }
+
   .contents {
-    margin: 6px 0 0 10px;
+    margin-top: 6px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -66,7 +86,7 @@ const PostContent = styled.div`
 `;
 
 const PostDateAndType = styled.div`
-  margin: -3px 8px;
+  margin: -3px 6px 0 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;

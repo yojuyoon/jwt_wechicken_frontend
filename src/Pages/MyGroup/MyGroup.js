@@ -3,7 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { API_URL } from "../../config";
 import Contributors from "./Contributors/Contributors";
-import PostsOfTheWeek from "../../Components/PostsOfTheWeek/PostsOfTheWeek";
+import PostsOfTheWeek from "./PostsOfTheWeek/PostsOfTheWeek";
 import Loading from "../../Components/Common/Loading";
 import Error from "../../Components/Common/Error";
 import MyGroupBanner from "./MyGroupBanner";
@@ -14,6 +14,7 @@ import {
   myGroupTitleStatus,
 } from "../../store/actions/myGroupTitleAction";
 import { useDispatch } from "react-redux";
+import Customcalendar from "./CustomCalendar";
 
 const MyGroup = () => {
   const [isGroupJoined, setIsGroupJoined] = useState(true);
@@ -76,14 +77,14 @@ const MyGroup = () => {
         }
       )
       .then((res) => {
-      setRanking(res.data.Ranks);
-      setIsGroupJoined(res.data.is_group_joined);
-      setdayPosts(res.data.by_days);
-      setContributor(res.data.users);
-      setMyContribution(res.data.myProfile);
-      setPostCounting(res.data.userPostsCounting);
-      setMyGroup(res.data.myGroup);
-      dispatch(myGroupTitle(res.data.myGroup.title));
+        setRanking(res.data.Ranks);
+        setIsGroupJoined(res.data.is_group_joined);
+        setdayPosts(res.data.by_days);
+        setContributor(res.data.users);
+        setMyContribution(res.data.myProfile);
+        setPostCounting(res.data.userPostsCounting);
+        setMyGroup(res.data.myGroup);
+        dispatch(myGroupTitle(res.data.myGroup.title));
       });
   };
 
@@ -117,7 +118,8 @@ const MyGroup = () => {
         <ThisWeek isGroupJoined={isGroupJoined}>
           <div className="headerBox">
             <div className="title">이주의 포스팅</div>
-            <div onClick={() => handleUpdateBtn()}>
+            <Customcalendar setdayPosts={setdayPosts} />
+            <div className="btnUpdate" onClick={() => handleUpdateBtn()}>
               {isGroupJoined && <BtnTheme value={"업데이트"} />}
             </div>
           </div>
@@ -125,12 +127,13 @@ const MyGroup = () => {
             excuteFunction={handleGroupJoined}
             isGroupJoined={isGroupJoined}
             dayPosts={dayPosts}
-            setdayPosts={setdayPosts}
           />
         </ThisWeek>
         {isGroupJoined && (
           <Contribution>
-            <div className="title">이주의 공헌</div>
+            <div className="headerBox">
+              <div className="title">이주의 공헌</div>
+            </div>
             <Contributors
               myGroup={myGroup}
               postsCounting={postsCounting}
@@ -147,21 +150,24 @@ const MyGroup = () => {
 export default MyGroup;
 
 const Container = styled.div`
-  padding: 111px 160px;
+  padding-top: 111px;
   background-color: ${theme.background};
 `;
 
 const ContentWrap = styled.div`
-  margin-top: 100px;
+  margin: 100px 3vw 0 3vw;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
 `;
 
 const ThisWeek = styled.div`
-  width: ${({ isGroupJoined }) => (isGroupJoined ? "80%" : "100%")};
+  width: 100%;
 
   .headerBox {
     display: flex;
+    width: 95%;
+    margin: 0 auto;
+    position: relative;
   }
 
   .title {
@@ -174,11 +180,22 @@ const ThisWeek = styled.div`
     line-height: 29px;
     border-bottom: 4px solid ${theme.orange};
   }
+
+  .btnUpdate {
+    margin-left: 20px;
+  }
 `;
 
 const Contribution = styled.div`
-  width: 250px;
-  margin-left: 60px;
+  width: 100%;
+  margin: 40px 0;
+
+  .headerBox {
+    display: flex;
+    width: 95%;
+    margin: 0 auto;
+    position: relative;
+  }
 
   .title {
     width: 123px;
