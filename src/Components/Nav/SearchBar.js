@@ -69,7 +69,7 @@ const SearchIcon = styled.div`
   border-radius: 50%;
   background-color: inherit;
   transform: ${({ isSearchActive }) =>
-    isSearchActive ? "translateX(-275px)" : "translateX(0)"};
+    isSearchActive ? "translateX(-270px)" : "translateX(0)"};
   transition: all 0.2s ease-in-out;
 
   &:hover {

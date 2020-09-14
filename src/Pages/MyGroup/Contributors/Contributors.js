@@ -15,13 +15,15 @@ const Contributors = ({
   const userProfileImg = useSelector((state) => state.userProfileReducer);
 
   const calculatePenalty = (count) => {
+    let totalPenalty = 0;
+    if (count < myGroup.count) {
+      totalPenalty = myGroup.penalty * myGroup.count - myGroup.penalty * count;
+    }
     if (count !== myGroup.count) {
       return (
         <>
           <Emoji symbol="💸" />
-          <span>
-            {myGroup.penalty * myGroup.count - myGroup.penalty * count}
-          </span>
+          <span>{totalPenalty}</span>
         </>
       );
     }
@@ -43,12 +45,12 @@ const Contributors = ({
           <UserInfo>
             <div className="name">{myContribution.name}</div>
             <span className="penalty" role="img" aria-labelledby="celebration">
-              {calculatePenalty(postsCounting[myContribution.gmail])}
+              {calculatePenalty(postsCounting[myContribution.gmail] || 0)}
             </span>
           </UserInfo>
         </InfoContainer>
         <span role="img" aria-labelledby="check">
-          <Emoji symbol="✔️" /> {postsCounting[myContribution.gmail]}
+          <Emoji symbol="✔️" /> {postsCounting[myContribution.gmail] || 0}
         </span>
       </MyContribution>
       <OtherContribution>
@@ -117,6 +119,12 @@ const UserInfo = styled.div`
 const OtherContribution = styled.div`
   margin-top: 80px;
   overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
   ::-webkit-scrollbar {
     width: 5px;

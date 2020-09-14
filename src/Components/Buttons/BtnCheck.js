@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import theme, { flexCenter } from "../../Styles/Theme";
+import theme from "../../Styles/Theme";
 
 const BtnCheck = ({ text, handleCheckBox, isChecked }) => {
   return (
