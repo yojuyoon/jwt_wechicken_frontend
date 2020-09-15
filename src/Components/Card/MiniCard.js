@@ -28,17 +28,17 @@ function MiniCard({ post }) {
 export default MiniCard;
 
 const MiniPostCardContainer = styled.div`
-  width: 220px;
-  height: 90px;
+  width: 165px;
+  height: 75px;
   margin: 10px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 7px;
   font-family: ${theme.fontContent};
 
-  @media (max-width: 1450px) {
+  /* @media (max-width: 1450px) {
     width: 165px;
     height: 75px;
-  }
+  } */
 
   /* @media (max-width: 400px) {
     width: 300px;
