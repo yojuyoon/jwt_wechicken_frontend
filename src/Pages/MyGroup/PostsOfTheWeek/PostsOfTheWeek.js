@@ -48,6 +48,10 @@ const Container = styled.div`
   background-color: ${theme.white};
   box-shadow: 7px 7px 30px rgba(0, 0, 0, 0.08);
   border-radius: 35px;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
   ${(props) =>
     !props.isGroupJoined &&
     css`

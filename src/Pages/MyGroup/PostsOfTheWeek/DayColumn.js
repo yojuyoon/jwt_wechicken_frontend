@@ -33,7 +33,7 @@ const DayOfTheWeek = styled.div`
   right: 0;
 
   div {
-    /* width: 230px; */
+    width: 175px;
 
     height: 37px;
     margin: 0 5px;
@@ -43,9 +43,9 @@ const DayOfTheWeek = styled.div`
     color: ${(props) => props.day === "SUN" && `${theme.white}`};
     border-radius: 17px;
 
-    @media (max-width: 1450px) {
+    /* @media (min-width: 1450px) {
       width: 175px;
-    }
+    } */
 
     /* @media (max-width: 400px) {
       width: 300px;
@@ -62,4 +62,8 @@ const Wrap = styled.div`
   height: 450px;
   margin-top: 20px;
   overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
