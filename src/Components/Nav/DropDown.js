@@ -67,7 +67,7 @@ const Container = styled.ul`
   position: absolute;
   width: 190px;
   height: 208px;
-  right: 140px;
+  right: 8vw;
   top: 111px;
   background: #ffffff;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1), 0px 8px 16px rgba(0, 0, 0, 0.2);

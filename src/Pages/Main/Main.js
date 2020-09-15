@@ -54,7 +54,7 @@ function Main() {
           alertMessage={"로그인이 필요한 서비스입니다."}
           excuteFunction={handleSetLoginActive}
           submitBtn={"로그인"}
-          closeBtn={"안함"}
+          closeBtn={"취소"}
         />
       )}
       <MainPageContainer>
@@ -114,6 +114,10 @@ const MainContents = styled.div`
   background-color: ${theme.white};
   border-radius: 50px;
   box-shadow: 7px 7px 30px rgba(0, 0, 0, 0.05);
+
+  @media (max-width: 800px) {
+    margin-top: 0px;
+  }
 `;
 
 const MainContentTitle = styled.div`

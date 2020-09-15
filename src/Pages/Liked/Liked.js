@@ -72,7 +72,7 @@ export default React.memo(Liked);
 
 const Container = styled.div`
   padding-top: 111px;
-  padding: 111px 200px 0px;
+  padding: 111px 10vw 0px;
 `;
 
 const ActiveTab = styled.div`

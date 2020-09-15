@@ -132,7 +132,7 @@ const NavContainer = styled.header`
   justify-content: space-between;
   width: 100%;
   height: 111px;
-  padding: 0 160px;
+  padding: 0 8vw;
   background-color: ${theme.white};
   z-index: 9;
 

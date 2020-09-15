@@ -8,7 +8,7 @@ const Contributor = ({ person, postsCounting, calculatePenalty }) => {
   return (
     <Container>
       <InfoContainer>
-        <ProfileIcon size={41} img={person.profile} />
+        <ProfileIcon size={34} img={person.profile} />
         <UserInfo>
           <div className="name">{person.name}</div>
           <span className="penalty" role="img" aria-labelledby="money">
@@ -27,11 +27,17 @@ const Contributor = ({ person, postsCounting, calculatePenalty }) => {
 export default Contributor;
 
 const Container = styled.div`
+  width: 200px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 80px;
-  padding: 28px 18px 0 18px;
+  margin: 35px 0;
+  padding: 28px 18px 10px 18px;
+  line-height: 50%;
+  border-right: 1px solid ${theme.orange};
+  &:last-child {
+    border: none;
+  }
 `;
 
 const InfoContainer = styled.div`
@@ -40,7 +46,7 @@ const InfoContainer = styled.div`
 `;
 
 const UserInfo = styled.div`
-  width: 100px;
+  width: 65px;
   margin-left: 5px;
 
   .name {
