@@ -60,7 +60,15 @@ const Search = () => {
       </SearchWrap>
       <PostWrap>
         {posts.map((post) => {
-          return <Card post={post} width={650} space={20} key={post.id} />;
+          return (
+            <Card
+              post={post}
+              width={650}
+              space={20}
+              key={post.id}
+              search={true}
+            />
+          );
         })}
       </PostWrap>
     </Container>

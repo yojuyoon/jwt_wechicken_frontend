@@ -4,9 +4,16 @@ import { flexCenter } from "../../Styles/Theme";
 import ProfileIcon from "../ProfileIcon";
 import BtnLike from "../Buttons/BtnLike";
 
-const Card = ({ post, width, space, handleRemoveCard, setActiveAlert }) => {
+const Card = ({
+  post,
+  width,
+  space,
+  handleRemoveCard,
+  setActiveAlert,
+  search,
+}) => {
   return (
-    <Container space={space} width={width}>
+    <Container space={space} width={width} search={search}>
       <CardWrap onClick={() => window.location.assign(`${post.link}`)}>
         <ImageBox img={post.thumbnail || "/Images/blogDefaultImg.png"} />
         <img
@@ -59,7 +66,8 @@ const Container = styled.div`
   transition: box-shadow 0.5s ease-in-out;
   cursor: pointer;
   @media (max-width: 1450px) {
-    width: 250px;
+    width: ${({ search, width }) => (search ? width : 250)}px;
+    }
   }
   &:hover {
     transform: translate(0, -10px);
