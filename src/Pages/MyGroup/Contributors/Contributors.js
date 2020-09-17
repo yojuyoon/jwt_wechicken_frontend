@@ -72,8 +72,9 @@ const Contributors = ({
 export default Contributors;
 
 const Container = styled.div`
+  max-width: 2100px;
   height: 120px;
-  margin: 24px 2vw 0;
+  margin: 24px 4vw 0;
   display: flex;
   background: #ffffff;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1), 4px 4px 10px rgba(0, 0, 0, 0.06);
@@ -86,7 +87,7 @@ const MyContribution = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 30px 18px 10px 18px;
+  padding: 18px;
   border-top-left-radius: 18px;
   border-bottom-left-radius: 18px;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.07);
@@ -98,7 +99,7 @@ const InfoContainer = styled.div`
 `;
 
 const UserInfo = styled.div`
-  width: 80px;
+  width: 60px;
   margin-left: 5px;
 
   .name {
@@ -114,13 +115,16 @@ const UserInfo = styled.div`
 const OtherContribution = styled.div`
   display: flex;
   height: 120px;
+  margin-left: 180px;
   overflow-x: scroll;
-  margin-left: 200px;
-
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  overflow-y: hidden;
 
   ::-webkit-scrollbar {
-    display: none;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${theme.yellow};
+    border-radius: 28px;
   }
 `;

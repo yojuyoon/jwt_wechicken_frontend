@@ -50,20 +50,32 @@ const MyGroup = () => {
           Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
         },
       });
-      setRanking(res.data.Ranks);
-      setIsGroupJoined(res.data.is_group_joined);
-      setdayPosts(res.data.by_days);
-      setContributor(res.data.users);
-      setMyContribution(res.data.myProfile);
-      setPostCounting(res.data.userPostsCounting);
-      setMyGroup(res.data.myGroup);
-      dispatch(myGroupTitle(res.data.myGroup.title));
+      console.log(res);
+      const {
+        Ranks,
+        is_group_joined,
+        by_days,
+        users,
+        myProfile,
+        userPostsCounting,
+        myGroup,
+      } = res.data;
+      setRanking(Ranks);
+      setIsGroupJoined(is_group_joined);
+      setdayPosts(by_days);
+      setContributor(users);
+      setMyContribution(myProfile);
+      setPostCounting(userPostsCounting);
+      setMyGroup(myGroup);
+      dispatch(myGroupTitle(myGroup.title));
     } catch (e) {
       setIsError(true);
     } finally {
       setTimeout(() => setIsLoading(false), 1000);
     }
   };
+
+  console.log("확인", myContribution.blog_type);
 
   const handleGroupJoined = () => {
     axios
@@ -77,14 +89,23 @@ const MyGroup = () => {
         }
       )
       .then((res) => {
-        setRanking(res.data.Ranks);
-        setIsGroupJoined(res.data.is_group_joined);
-        setdayPosts(res.data.by_days);
-        setContributor(res.data.users);
-        setMyContribution(res.data.myProfile);
-        setPostCounting(res.data.userPostsCounting);
-        setMyGroup(res.data.myGroup);
-        dispatch(myGroupTitle(res.data.myGroup.title));
+        const {
+          Ranks,
+          is_group_joined,
+          by_days,
+          users,
+          myProfile,
+          userPostsCounting,
+          myGroup,
+        } = res.data;
+        setRanking(Ranks);
+        setIsGroupJoined(is_group_joined);
+        setdayPosts(by_days);
+        setContributor(users);
+        setMyContribution(myProfile);
+        setPostCounting(userPostsCounting);
+        setMyGroup(myGroup);
+        dispatch(myGroupTitle(myGroup.title));
       });
   };
 
@@ -115,12 +136,18 @@ const MyGroup = () => {
     <Container>
       <MyGroupBanner ranking={ranking} />
       <ContentWrap>
-        <ThisWeek isGroupJoined={isGroupJoined}>
+        <ThisWeek>
           <div className="headerBox">
             <div className="title">이주의 포스팅</div>
             <Customcalendar setdayPosts={setdayPosts} />
             <div className="btnUpdate" onClick={() => handleUpdateBtn()}>
-              {isGroupJoined && <BtnTheme value={"업데이트"} />}
+              {/* {isGroupJoined && <BtnTheme value={"업데이트"} />} */}
+              {isGroupJoined &&
+                (myContribution.blog_type === "velog" ? (
+                  <BtnTheme value={"업데이트"} />
+                ) : (
+                  <BtnTheme value={"포스트 ➕"} />
+                ))}
             </div>
           </div>
           <PostsOfTheWeek
@@ -165,7 +192,8 @@ const ThisWeek = styled.div`
 
   .headerBox {
     display: flex;
-    width: 95%;
+    width: 100%;
+    padding: 0 4vw;
     margin: 0 auto;
     position: relative;
   }
@@ -192,7 +220,8 @@ const Contribution = styled.div`
 
   .headerBox {
     display: flex;
-    width: 95%;
+    width: 100%;
+    padding: 0 4vw;
     margin: 0 auto;
     position: relative;
   }

@@ -78,7 +78,7 @@ const Nav = () => {
           <Link onClick={() => setSelectedMenu("")} to="/">
             <Logo>
               <img className="logoImage" alt="logo" src="/Images/logo.png" />
-              <div className="logoText">{">"}wechicken</div>
+              <div className="logoText">&gt;wechicken</div>
             </Logo>
           </Link>
           <NthTitle>{myGroupTitleStatus ? getMyGroupTitle : ""}</NthTitle>

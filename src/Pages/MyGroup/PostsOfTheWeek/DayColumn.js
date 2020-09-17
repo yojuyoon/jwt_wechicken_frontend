@@ -33,9 +33,8 @@ const DayOfTheWeek = styled.div`
   right: 0;
 
   div {
-    width: 175px;
-
-    height: 37px;
+    width: 285px;
+    height: 40px;
     margin: 0 5px;
     ${flexCenter}
     background-color:${(props) =>
@@ -43,13 +42,14 @@ const DayOfTheWeek = styled.div`
     color: ${(props) => props.day === "SUN" && `${theme.white}`};
     border-radius: 17px;
 
-    /* @media (min-width: 1450px) {
-      width: 175px;
-    } */
+    @media (max-width: 2000px) {
+      width: 210px;
+      height: 37px;
+    }
 
-    /* @media (max-width: 400px) {
-      width: 300px;
-    } */
+    @media (max-width: 1650px) {
+      width: 175px;
+    }
   }
 
   .flex {

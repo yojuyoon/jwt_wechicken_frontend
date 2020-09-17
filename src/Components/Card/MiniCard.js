@@ -4,11 +4,12 @@ import ProfileIcon from "../ProfileIcon";
 import theme from "../../Styles/Theme";
 
 function MiniCard({ post }) {
+  console.log(post.title);
   return (
     <MiniPostCardContainer>
       <PostContent onClick={() => window.location.assign(`${post.link}`)}>
         <div className="profileIcon">
-          <ProfileIcon size={33} img={post.user_profile} />
+          <ProfileIcon size={38} img={post.user_profile} />
         </div>
         <div className="contents">
           <span>{post.user_name}</span>
@@ -28,22 +29,24 @@ function MiniCard({ post }) {
 export default MiniCard;
 
 const MiniPostCardContainer = styled.div`
-  width: 165px;
-  height: 75px;
+  width: 275px;
+  height: 125px;
   margin: 10px;
+  padding: 5px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 7px;
   font-family: ${theme.fontContent};
 
-  /* @media (max-width: 1450px) {
+  @media (max-width: 2000px) {
+    width: 200px;
+    height: 95px;
+  }
+
+  @media (max-width: 1650px) {
     width: 165px;
     height: 75px;
-  } */
-
-  /* @media (max-width: 400px) {
-    width: 300px;
-    height: 120px;
-  } */
+    padding: 0;
+  }
 `;
 
 const PostContent = styled.div`
@@ -55,7 +58,7 @@ const PostContent = styled.div`
   .profileIcon {
     margin-right: 10px;
 
-    @media (max-width: 1450px) {
+    @media (max-width: 1650px) {
       display: none;
     }
   }
@@ -72,8 +75,8 @@ const PostContent = styled.div`
     }
 
     .postText {
-      width: 112px;
-      height: 23px;
+      width: 205px;
+      height: 60px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -81,6 +84,16 @@ const PostContent = styled.div`
       font-size: 13px;
       font-weight: 200;
       color: ${theme.fontColor};
+
+      @media (max-width: 2000px) {
+        width: 130px;
+        height: 40px;
+      }
+
+      @media (max-width: 1650px) {
+        width: 112px;
+        height: 27px;
+      }
     }
   }
 `;

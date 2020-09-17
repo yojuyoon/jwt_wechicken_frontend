@@ -27,17 +27,11 @@ const Contributor = ({ person, postsCounting, calculatePenalty }) => {
 export default Contributor;
 
 const Container = styled.div`
-  width: 200px;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 35px 0;
-  padding: 28px 18px 10px 18px;
-  line-height: 50%;
-  border-right: 1px solid ${theme.orange};
-  &:last-child {
-    border: none;
-  }
+  padding: 0 18px;
 `;
 
 const InfoContainer = styled.div`
@@ -46,15 +40,15 @@ const InfoContainer = styled.div`
 `;
 
 const UserInfo = styled.div`
-  width: 65px;
+  width: 60px;
   margin-left: 5px;
 
   .name {
-    margin-bottom: 10px;
+    margin-bottom: 2px;
   }
 
   .penalty {
-    font-size: 14px;
     color: ${theme.vermilion};
+    font-size: 14px;
   }
 `;
