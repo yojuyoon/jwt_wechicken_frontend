@@ -15,7 +15,7 @@ function MiniCard({ post }) {
           <span className="postText">{post.title}</span>
         </div>
       </PostContent>
-      <PostDateAndType>
+      <PostDateAndType type={post.type}>
         <span>{post.date.slice(5, 12)}</span>
         <div className="blogLogo">
           <img alt="blog_logo" src={`/Images/${post.type}.png`} />
@@ -123,5 +123,7 @@ const PostDateAndType = styled.div`
     width: 20px;
     height: 20px;
     border-radius: 50%;
+    display: ${({ type }) =>
+      ["velog", "medium"].includes(type) ? "block" : "none"};
   }
 `;

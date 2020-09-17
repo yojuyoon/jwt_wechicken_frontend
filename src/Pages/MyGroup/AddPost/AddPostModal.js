@@ -9,8 +9,9 @@ import theme from "../../../Styles/Theme";
 import axios from "axios";
 import Dimmer from "../../../Components/Dimmer";
 
-const AddPostModal = ({ name, closeModal }) => {
+const AddPostModal = ({ name, closeModal, handleMyGroupPageData }) => {
   const [submitActivate, setSubmitActivate] = useState(false);
+  const [isDateFormatCorrect, setDateFormatCorrect] = useState(undefined);
   const [values, setValues] = useState({
     title: "",
     link: "",
@@ -33,17 +34,36 @@ const AddPostModal = ({ name, closeModal }) => {
       })
       .then((res) => {
         res.statusText === "OK" && alert("성공적으로 추가 되었습니다.");
-      })
-      .then(() => closeModal(false));
+        handleMyGroupPageData(res);
+        closeModal(false);
+      });
   };
 
+  // useEffect(() => {
+  //   if (values.title && values.link) {
+  //     if (values.date.length === 10 && values.date.split(".").length === 3) {
+  //       setSubmitActivate(true);
+  //     } else {
+  //       setSubmitActivate(false);
+  //     }
+  //   }
+  // }, [values.title, values.link, values.date]);
+
   useEffect(() => {
-    if (values.title && values.link && values.date) {
+    if (values.title && values.link && isDateFormatCorrect) {
       setSubmitActivate(true);
     } else {
       setSubmitActivate(false);
     }
-  }, [values.title, values.link, values.date]);
+  }, [values.title, values.link, isDateFormatCorrect]);
+
+  useEffect(() => {
+    if (values.date.length === 10 && values.date.split(".").length === 3) {
+      setDateFormatCorrect(true);
+    } else {
+      setDateFormatCorrect(false);
+    }
+  }, [values.date]);
 
   return (
     <>
@@ -109,6 +129,7 @@ const AddPostModal = ({ name, closeModal }) => {
               placeholder={"예시)2020.09.20"}
               size={14}
               name={"date"}
+              validationCheck={isDateFormatCorrect}
             />
           </InputFormWrap>
         </Contents>

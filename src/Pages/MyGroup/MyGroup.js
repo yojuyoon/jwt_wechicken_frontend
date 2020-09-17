@@ -44,6 +44,17 @@ const MyGroup = () => {
     //eslint-disable-next-line
   }, []);
 
+  const handleMyGroupPageData = (res) => {
+    setRanking(res.data.Ranks);
+    setIsGroupJoined(res.data.is_group_joined);
+    setdayPosts(res.data.by_days);
+    setContributor(res.data.users);
+    setMyContribution(res.data.myProfile);
+    setPostCounting(res.data.userPostsCounting);
+    setMyGroup(res.data.myGroup);
+    dispatch(myGroupTitle(res.data.myGroup.title));
+  };
+
   const fetchMyGroupStatus = async () => {
     try {
       setIsLoading(true);
@@ -52,27 +63,11 @@ const MyGroup = () => {
           Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
         },
       });
-      const {
-        Ranks,
-        is_group_joined,
-        by_days,
-        users,
-        myProfile,
-        userPostsCounting,
-        myGroup,
-      } = res.data;
-      setRanking(Ranks);
-      setIsGroupJoined(is_group_joined);
-      setdayPosts(by_days);
-      setContributor(users);
-      setMyContribution(myProfile);
-      setPostCounting(userPostsCounting);
-      setMyGroup(myGroup);
-      dispatch(myGroupTitle(myGroup.title));
+      handleMyGroupPageData(res);
     } catch (e) {
       setIsError(true);
     } finally {
-      setTimeout(() => setIsLoading(false), 1000);
+      setIsLoading(false);
     }
   };
 
@@ -88,23 +83,7 @@ const MyGroup = () => {
         }
       )
       .then((res) => {
-        const {
-          Ranks,
-          is_group_joined,
-          by_days,
-          users,
-          myProfile,
-          userPostsCounting,
-          myGroup,
-        } = res.data;
-        setRanking(Ranks);
-        setIsGroupJoined(is_group_joined);
-        setdayPosts(by_days);
-        setContributor(users);
-        setMyContribution(myProfile);
-        setPostCounting(userPostsCounting);
-        setMyGroup(myGroup);
-        dispatch(myGroupTitle(myGroup.title));
+        handleMyGroupPageData(res);
       });
   };
 
@@ -120,7 +99,7 @@ const MyGroup = () => {
           },
         }
       );
-      setdayPosts(res.data.by_days);
+      handleMyGroupPageData(res);
     } catch (e) {
       setIsError(true);
     } finally {
@@ -137,6 +116,7 @@ const MyGroup = () => {
         <AddPostModal
           name={myContribution.name}
           closeModal={setAddModalActive}
+          handleMyGroupPageData={handleMyGroupPageData}
         />
       )}
       <MyGroupBanner ranking={ranking} />
@@ -147,7 +127,8 @@ const MyGroup = () => {
             <Customcalendar setdayPosts={setdayPosts} />
             <div className="btnUpdate">
               {isGroupJoined &&
-                (myContribution.blog_type === "velog" ? (
+                (myContribution.blog_type === "velog" ||
+                myContribution.blog_type === "medium" ? (
                   <BtnTheme
                     value={"업데이트"}
                     handleFunction={handleUpdateBtn}
@@ -204,8 +185,7 @@ const ThisWeek = styled.div`
 
   .headerBox {
     display: flex;
-    width: 100%;
-    padding: 0 5vw;
+    padding: 0 3vw;
     margin: 0 auto;
     position: relative;
   }
@@ -233,7 +213,7 @@ const Contribution = styled.div`
   .headerBox {
     display: flex;
     width: 100%;
-    padding: 0 5vw;
+    padding: 0 3vw;
     margin: 0 auto;
     position: relative;
   }

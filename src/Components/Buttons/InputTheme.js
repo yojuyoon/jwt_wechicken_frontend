@@ -9,6 +9,7 @@ const InputTheme = ({
   placeholder,
   size,
   name,
+  validationCheck,
 }) => {
   return (
     <Container width={width} size={size}>
@@ -21,6 +22,9 @@ const InputTheme = ({
           placeholder={placeholder}
           name={name}
         />
+        {validationCheck === false && (
+          <Validation>날짜형식을 확인 해 주세요.</Validation>
+        )}
       </div>
     </Container>
   );
@@ -58,4 +62,10 @@ const Container = styled.div`
       opacity: 0.7;
     }
   }
+`;
+
+const Validation = styled.div`
+  padding: 1px 0px 0px 2px;
+  font-size: 8px;
+  color: red;
 `;
