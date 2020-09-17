@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import theme, { flexCenter } from "../../Styles/Theme";
 
-const BtnTheme = ({ value }) => {
-  return <Container>{value}</Container>;
+const BtnTheme = ({ value, handleFunction }) => {
+  return <Container onClick={() => handleFunction()}>{value}</Container>;
 };
 
 export default BtnTheme;

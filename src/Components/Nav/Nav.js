@@ -107,8 +107,11 @@ const Nav = () => {
               </div>
             </>
           ) : (
-            <div onClick={() => setModalOn(true)}>
-              <BtnTheme value={"로그인"} />
+            <div>
+              <BtnTheme
+                value={"로그인"}
+                handleFunction={() => setModalOn(true)}
+              />
             </div>
           )}
         </UserWrap>

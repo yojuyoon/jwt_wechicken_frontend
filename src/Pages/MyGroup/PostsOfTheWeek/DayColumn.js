@@ -42,8 +42,13 @@ const DayOfTheWeek = styled.div`
     color: ${(props) => props.day === "SUN" && `${theme.white}`};
     border-radius: 17px;
 
-    @media (max-width: 2000px) {
+    @media (max-width: 2150px) {
       width: 210px;
+      height: 37px;
+    }
+
+    @media (max-width: 1850px) {
+      width: 200px;
       height: 37px;
     }
 

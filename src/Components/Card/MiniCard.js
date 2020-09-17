@@ -4,7 +4,6 @@ import ProfileIcon from "../ProfileIcon";
 import theme from "../../Styles/Theme";
 
 function MiniCard({ post }) {
-  console.log(post.title);
   return (
     <MiniPostCardContainer>
       <PostContent onClick={() => window.location.assign(`${post.link}`)}>
@@ -37,9 +36,15 @@ const MiniPostCardContainer = styled.div`
   border-radius: 7px;
   font-family: ${theme.fontContent};
 
-  @media (max-width: 2000px) {
+  @media (max-width: 2150px) {
     width: 200px;
     height: 95px;
+  }
+
+  @media (max-width: 1850px) {
+    width: 185px;
+    height: 90px;
+    padding: 0;
   }
 
   @media (max-width: 1650px) {
@@ -85,9 +90,14 @@ const PostContent = styled.div`
       font-weight: 200;
       color: ${theme.fontColor};
 
-      @media (max-width: 2000px) {
+      @media (max-width: 2150px) {
         width: 130px;
         height: 40px;
+      }
+
+      @media (max-width: 1850px) {
+        width: 110px;
+        height: 35px;
       }
 
       @media (max-width: 1650px) {

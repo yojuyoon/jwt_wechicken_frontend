@@ -120,7 +120,7 @@ const OtherContribution = styled.div`
   overflow-y: hidden;
 
   ::-webkit-scrollbar {
-    height: 12px;
+    height: 10px;
   }
 
   ::-webkit-scrollbar-thumb {

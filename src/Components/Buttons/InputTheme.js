@@ -1,7 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
-const InputTheme = ({ width, type, value, handleType, placeholder, size }) => {
+const InputTheme = ({
+  width,
+  type,
+  value,
+  handleType,
+  placeholder,
+  size,
+  name,
+}) => {
   return (
     <Container width={width} size={size}>
       <div className="nameBox">
@@ -9,8 +17,9 @@ const InputTheme = ({ width, type, value, handleType, placeholder, size }) => {
         <input
           type="text"
           value={value}
-          onChange={(e) => handleType(e.target.value)}
+          onChange={(e) => handleType(e.target.value, e.target.name)}
           placeholder={placeholder}
+          name={name}
         />
       </div>
     </Container>

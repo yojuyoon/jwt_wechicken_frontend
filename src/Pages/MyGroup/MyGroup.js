@@ -15,6 +15,7 @@ import {
 } from "../../store/actions/myGroupTitleAction";
 import { useDispatch } from "react-redux";
 import Customcalendar from "./CustomCalendar";
+import AddPostModal from "./AddPost/AddPostModal";
 
 const MyGroup = () => {
   const [isGroupJoined, setIsGroupJoined] = useState(true);
@@ -24,6 +25,7 @@ const MyGroup = () => {
   const [ranking, setRanking] = useState([]);
   const [postsCounting, setPostCounting] = useState({});
   const [myGroup, setMyGroup] = useState({});
+  const [isAddModalActive, setAddModalActive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const dispatch = useDispatch();
@@ -50,7 +52,6 @@ const MyGroup = () => {
           Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
         },
       });
-      console.log(res);
       const {
         Ranks,
         is_group_joined,
@@ -74,8 +75,6 @@ const MyGroup = () => {
       setTimeout(() => setIsLoading(false), 1000);
     }
   };
-
-  console.log("확인", myContribution.blog_type);
 
   const handleGroupJoined = () => {
     axios
@@ -134,19 +133,32 @@ const MyGroup = () => {
 
   return (
     <Container>
+      {isAddModalActive && (
+        <AddPostModal
+          name={myContribution.name}
+          closeModal={setAddModalActive}
+        />
+      )}
       <MyGroupBanner ranking={ranking} />
       <ContentWrap>
         <ThisWeek>
           <div className="headerBox">
             <div className="title">이주의 포스팅</div>
             <Customcalendar setdayPosts={setdayPosts} />
-            <div className="btnUpdate" onClick={() => handleUpdateBtn()}>
-              {/* {isGroupJoined && <BtnTheme value={"업데이트"} />} */}
+            <div className="btnUpdate">
               {isGroupJoined &&
                 (myContribution.blog_type === "velog" ? (
-                  <BtnTheme value={"업데이트"} />
+                  <BtnTheme
+                    value={"업데이트"}
+                    handleFunction={handleUpdateBtn}
+                  />
                 ) : (
-                  <BtnTheme value={"포스트 ➕"} />
+                  <BtnTheme
+                    value={"포스트 ➕"}
+                    handleFunction={() => {
+                      setAddModalActive(true);
+                    }}
+                  />
                 ))}
             </div>
           </div>
@@ -193,7 +205,7 @@ const ThisWeek = styled.div`
   .headerBox {
     display: flex;
     width: 100%;
-    padding: 0 4vw;
+    padding: 0 5vw;
     margin: 0 auto;
     position: relative;
   }
@@ -216,12 +228,12 @@ const ThisWeek = styled.div`
 
 const Contribution = styled.div`
   width: 100%;
-  margin: 40px 0;
+  margin: 100px 0;
 
   .headerBox {
     display: flex;
     width: 100%;
-    padding: 0 4vw;
+    padding: 0 5vw;
     margin: 0 auto;
     position: relative;
   }
