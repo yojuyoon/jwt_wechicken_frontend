@@ -133,7 +133,7 @@ const GoogleBtn = styled.div`
     font-weight: normal;
   }
   span.icon {
-    background: url("/Images/Google__G__Logo.svg") no-repeat;
+    background: url("/Images/google_logo.svg") no-repeat;
     background-size: 50%;
     background-position: center;
     display: inline-block;
