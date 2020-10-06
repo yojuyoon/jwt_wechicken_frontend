@@ -10,7 +10,7 @@ function BtnSubmit({ btnText, submitActivate, executeFunction }) {
       onClick={() =>
         submitActivate
           ? executeFunction()
-          : alert("필수 항목을 모두 채워주세요🙃")
+          : alert("필수 항목을 모두 채워주세요")
       }
     >
       <div className="SubmitBtn">{btnText}</div>

@@ -12,11 +12,11 @@ export const myPageContents = [
       "회원 인증 또는 시스템에서 발송하는 이메일을 수신하는 주소입니다.",
     content: "ziyoung1121@gmail.com",
   },
-  {
-    id: "opt_in_or_out",
-    title: "이메일 수신 설정",
-    description: "이메일 수신 알림 여부를 설정할 수 있습니다.",
-  },
+  // {
+  //   id: "opt_in_or_out",
+  //   title: "이메일 수신 설정",
+  //   description: "이메일 수신 알림 여부를 설정할 수 있습니다.",
+  // },
 
   {
     id: "withdrawal",

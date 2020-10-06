@@ -17,6 +17,7 @@ function Main() {
   const [page, setPage] = useState(0);
   const [isActiveAlert, setActiveAlert] = useState(false);
   const [isLoginActive, setLoginActive] = useState(false);
+  const pagination = usePagination(target, handleFetch);
 
   const SIZE = 24;
 
@@ -24,7 +25,7 @@ function Main() {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleFetch = async () => {
+  async function handleFetch() {
     setPage(page + 1);
     const res = await axios.get(
       `${API_URL}/main?page=${page}&size=${SIZE}`,
@@ -36,9 +37,8 @@ function Main() {
     );
     setPosts([...posts, ...res.data.posts]);
     setTarget(document.querySelector("#last"));
-  };
+  }
 
-  const pagination = usePagination(target, handleFetch);
   useEffect(() => pagination, [target, pagination]);
 
   const handleSetLoginActive = () => {

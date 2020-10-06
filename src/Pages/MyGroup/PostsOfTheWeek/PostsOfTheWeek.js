@@ -41,7 +41,7 @@ const Wrap = styled.div`
 
 const Container = styled.div`
   height: 560px;
-  margin-top: 28px;
+  margin: 24px 2vw 0;
   display: flex;
   overflow: hidden;
   overflow-x: scroll;

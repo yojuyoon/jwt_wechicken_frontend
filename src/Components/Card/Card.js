@@ -14,7 +14,10 @@ const Card = ({
 }) => {
   return (
     <Container space={space} width={width} search={search}>
-      <CardWrap onClick={() => window.location.assign(`${post.link}`)}>
+      <CardWrap
+        type={post.type}
+        onClick={() => window.location.assign(`${post.link}`)}
+      >
         <ImageBox img={post.thumbnail || "/Images/blogDefaultImg.png"} />
         <img
           className="blogLogo"
@@ -85,6 +88,8 @@ const CardWrap = styled.div`
     width: 26px;
     height: 26px;
     border-radius: 50%;
+    display: ${({ type }) =>
+      ["velog", "medium"].includes(type) ? "block" : "none"};
   }
 `;
 
