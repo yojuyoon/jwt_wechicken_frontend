@@ -14,7 +14,7 @@ import LogoBox from "./LogoBox";
 import BtnSubmit from "../Buttons/BtnSubmit";
 import { API_URL } from "../../config";
 
-const FormModal = ({ setModalOn, googleInput }) => {
+const FormModal = ({ setModalOn, googleInput, setLoginSuccess, setExistingUser}) => {
   // eslint-disable-next-line
   const [inputImage, setInputImage] = useState(googleInput.getImageUrl());
   const [inputName, setInputName] = useState("");
@@ -46,6 +46,38 @@ const FormModal = ({ setModalOn, googleInput }) => {
     }
   }, [inputName, nth, blogAddress, agreementStatus]);
 
+  const fetchUserData = async (formData) => {
+    try {
+      setLoginSuccess(true);
+      const res = await axios.post(`${API_URL}/auth/additional`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (res.data.token) {
+        setExistingUser(true);
+        sessionStorage.setItem(
+          "USER",
+          JSON.stringify({
+            token: res.data.token,
+            profile: res.data.profile,
+            myGroupStatus: res.data.myGroupStatus,
+            myNth: res.data.nth,
+          })
+        );
+        setTimeout(() => {
+          setLoginSuccess(false);
+          setModalOn(false);
+         },1000);
+        dispatch(loginToken(res.data.token));
+        dispatch(userProfileImg(res.data.profile));
+        dispatch(myGroupStatus(res.data.myGroupStatus));
+      }
+  } catch (error) {
+    alert("에러가 발생했습니다");
+  }
+};
+
   const handleUploadForm = async () => {
     const formData = new FormData();
     formData.append(
@@ -58,29 +90,8 @@ const FormModal = ({ setModalOn, googleInput }) => {
     formData.append("gmail_id", googleInput.getId());
     formData.append("gmail", googleInput.getEmail());
     formData.append("is_group_joined", isJoinGroup);
-    axios
-      .post(`${API_URL}/auth/additional`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((res) => {
-        if (res.data.token) {
-          sessionStorage.setItem(
-            "USER",
-            JSON.stringify({
-              token: res.data.token,
-              profile: res.data.profile,
-              myGroupStatus: res.data.myGroupStatus,
-              myNth: res.data.nth,
-            })
-          );
-          setModalOn(false);
-          dispatch(loginToken(res.data.token));
-          dispatch(userProfileImg(res.data.profile));
-          dispatch(myGroupStatus(res.data.myGroupStatus));
-        }
-      });
+
+    fetchUserData(formData);
   };
 
   return (
@@ -164,7 +175,7 @@ const Container = styled.div`
   background-color: ${theme.white};
   box-shadow: -14px -14px 20px rgba(0, 0, 0, 0.02),
     14px 14px 20px rgba(0, 0, 0, 0.05);
-  z-index: 11;
+  z-index: 100;
 
   .BtnClose {
     position: absolute;

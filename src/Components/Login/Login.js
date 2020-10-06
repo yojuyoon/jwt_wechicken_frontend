@@ -16,11 +16,11 @@ const Login = ({ setModalOn }) => {
   return (
     <>
       <Dimmer />
-      {isLoginSuccess ? (
+      {isLoginSuccess && (
         <CelebratingModal
-          celebratingMessage={"로그인 중! 잠시만 기다려주세요!"}
+          celebratingMessage={"잠시만 기다려주세요!"}
         />
-      ) : undefined}
+      )}
       {isExistingUser ? (
         <LoginModal
           setLoginSuccess={setLoginSuccess}
@@ -29,7 +29,7 @@ const Login = ({ setModalOn }) => {
           handleGoogleInput={handleGoogleInput}
         />
       ) : (
-        <FormModal setModalOn={setModalOn} googleInput={googleInput} />
+        <FormModal setModalOn={setModalOn} googleInput={googleInput} setLoginSuccess={setLoginSuccess} setExistingUser={setExistingUser}/>
       )}
     </>
   );

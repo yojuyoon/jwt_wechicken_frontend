@@ -32,7 +32,7 @@ const Container = styled.div`
   transform: translate(-50%, -50%);
   box-shadow: -14px -14px 20px rgba(0, 0, 0, 0.02),
     14px 14px 20px rgba(0, 0, 0, 0.05);
-  z-index: 3;
+  z-index: 99;
 `;
 
 const CelebratingImg = styled.div`

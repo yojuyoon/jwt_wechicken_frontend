@@ -10,10 +10,10 @@ import { API_URL } from "../../config";
 let auth2;
 
 const GoogleLogin = ({
+  setLoginSuccess,
+  setModalOn,
   setExistingUser,
   handleGoogleInput,
-  setModalOn,
-  setLoginSuccess,
 }) => {
   const googleLoginBtn = useRef(null);
 
@@ -53,7 +53,7 @@ const GoogleLogin = ({
 
   const GoogleApiPOST = async (token) => {
     try {
-      await setLoginSuccess(true);
+      setLoginSuccess(true);
       const res = await axios.post(`${API_URL}/auth/login/google`, {
         googleToken: token,
       });
@@ -70,8 +70,10 @@ const GoogleLogin = ({
             master: res.data.master,
           })
         );
-        setLoginSuccess(false);
-        setModalOn(false);
+        setTimeout(() => {
+          setLoginSuccess(false);
+          setModalOn(false);
+         },1000);
         dispatch(loginToken(res.data.token));
         dispatch(userProfileImg(res.data.profile));
         dispatch(myGroupStatus(res.data.myGroupStatus));
