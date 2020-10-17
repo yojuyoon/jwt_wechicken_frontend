@@ -7,7 +7,7 @@ import styled from "styled-components";
 import theme from "../../Styles/Theme";
 import { bannerContents } from "./MainBannerContents";
 
-const MainBanner = () => {
+const MainBanner = ({ setActiveAlert }) => {
   const slideSettings = {
     dots: false,
     infinite: true,
@@ -24,7 +24,7 @@ const MainBanner = () => {
       <Slider {...slideSettings}>
         {bannerContents.map((content, i) => {
           return (
-            <div key={i}>
+            <div className="bannerWrap" key={i}>
               <img className="bannerImg" alt="bannerImg" src={content.img} />
               <BannerContent>
                 <h1 className="greeting">{content.title}</h1>
@@ -36,7 +36,7 @@ const MainBanner = () => {
                   onClick={() =>
                     content.id !== "siteIn"
                       ? window.location.assign(`${content.link}`)
-                      : history.push(`${content.link}`)
+                      : JSON.parse(sessionStorage.getItem("USER")) ? history.push(`${content.link}`) : setActiveAlert(true)
                   }
                   className="moreBtn"
                 >
@@ -56,14 +56,18 @@ export default MainBanner;
 const MainBannerContainer = styled.div`
   width: 90%;
 
+  @media (max-width: 800px) {
+    display: none;
+  }
+
   .slick-slide {
-    div {
+    .bannerWrap {
       display: flex !important;
       justify-content: center;
       outline: none;
     }
     img {
-      width: 639px;
+      width: 50%;
     }
   }
 `;

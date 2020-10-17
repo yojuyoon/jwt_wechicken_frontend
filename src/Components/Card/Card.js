@@ -16,7 +16,7 @@ const Card = ({
     <Container space={space} width={width} search={search}>
       <CardWrap
         type={post.type}
-        onClick={() => window.location.assign(`${post.link}`)}
+        onClick={() => window.open(`${post.link}`)}
       >
         <ImageBox img={post.thumbnail || "/Images/blogDefaultImg.png"} />
         <img
@@ -32,7 +32,8 @@ const Card = ({
               <div className="name">{post.user_name}</div>
             </div>
           </Profile>
-          <Title>{post.title}</Title>
+          <Title search={search}>{post.title}</Title>
+          {search && <Subtitle>{post.subtitle.length < 125 ? post.subtitle : post.subtitle.substr(0, 125) + ".."}</Subtitle>}
         </ContentsBox>
       </CardWrap>
       <Tags>{post.date}</Tags>
@@ -59,7 +60,6 @@ const Card = ({
 export default Card;
 
 const Container = styled.div`
-  width: ${({ width }) => width}px;
   height: 327px;
   margin: ${({ space }) => space}px;
   position: relative;
@@ -94,7 +94,7 @@ const CardWrap = styled.div`
 `;
 
 const ImageBox = styled.div`
-  height: 45%;
+  height: 40%;
   background: url(${({ img }) => img});
   background-size: cover;
   background-position: center;
@@ -128,9 +128,17 @@ const Profile = styled.div`
 `;
 
 const Title = styled.div`
-  height: 35%;
-  margin-top: 5px;
+  margin: 5px 0;
   font-size: 15px;
+  font-weight: ${({search}) => search ? 500 : 400}; 
+  line-height: 20px;
+  margin-bottom: 2px;
+  color: #2d2b2b;
+`;
+
+const Subtitle = styled.div`
+  height: 30%;
+  font-size: 14px;
   line-height: 20px;
   margin-bottom: 2px;
   color: #2d2b2b;
