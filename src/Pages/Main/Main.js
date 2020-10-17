@@ -58,7 +58,7 @@ function Main() {
         />
       )}
       <MainPageContainer>
-        <MainBanner />
+        <MainBanner setActiveAlert={setActiveAlert}/>
         <MainContents>
           <MainContentTitle>
             <div className="titleContainer">
