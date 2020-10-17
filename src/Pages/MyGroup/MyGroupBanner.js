@@ -37,10 +37,9 @@ export default MyGroupBanner;
 const BannerContents = styled.div`
   ${flexCenter}
   font-family: ${theme.fontTitle};
-  width: 90%;
 
   img {
-    width: 50%;
+    width: 40%;
 
     @media (max-width: 800px) {
     display: none;

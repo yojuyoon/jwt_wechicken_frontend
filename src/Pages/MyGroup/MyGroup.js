@@ -170,7 +170,7 @@ const MyGroup = () => {
 export default MyGroup;
 
 const Container = styled.div`
-  padding-top: 111px;
+  padding-top: 150px;
   background-color: ${theme.background};
 `;
 
