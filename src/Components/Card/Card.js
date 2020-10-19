@@ -60,6 +60,7 @@ const Card = ({
 export default Card;
 
 const Container = styled.div`
+  width: ${({ width }) => width}px;
   height: 327px;
   margin: ${({ space }) => space}px;
   position: relative;
