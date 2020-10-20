@@ -55,6 +55,7 @@ export default MainBanner;
 
 const MainBannerContainer = styled.div`
   width: 90%;
+  max-width: 1600px;
 
   @media (max-width: 800px) {
     display: none;
