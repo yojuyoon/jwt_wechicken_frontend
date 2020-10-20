@@ -74,7 +74,7 @@ export default Contributors;
 const Container = styled.div`
   max-width: 2100px;
   height: 120px;
-  margin: 24px 2vw 0;
+  margin: 24px auto;
   display: flex;
   background: #ffffff;
   box-shadow: 7px 7px 30px rgba(0, 0, 0, 0.08);
