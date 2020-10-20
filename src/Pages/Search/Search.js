@@ -9,7 +9,7 @@ import { searchAction } from "../../store/actions/searchAction";
 
 const Search = () => {
   const [posts, setPosts] = useState([]);
-  const searchKeyword = useSelector((state) => state.searchKeywordReducer);
+  const searchKeyword = useSelector(state => state.searchKeywordReducer);
   const [keyword, setKeyword] = useState(searchKeyword);
   const dispatch = useDispatch();
 
@@ -43,7 +43,7 @@ const Search = () => {
           },
         }
       )
-      .then((res) => {
+      .then(res => {
         setPosts(res.data.posts);
       });
   };
@@ -59,17 +59,17 @@ const Search = () => {
         />
       </SearchWrap>
       <PostWrap>
-        {posts.map((post) => {
-          return (
-            <Card
-              post={post}
-              width={650}
-              space={20}
-              key={post.id}
-              search={true}
-            />
-          );
-        })}
+        {!posts.length
+          ? postStatus(keyword)
+          : posts.map(post => (
+              <Card
+                post={post}
+                width={650}
+                space={20}
+                key={post.id}
+                search={true}
+              />
+            ))}
       </PostWrap>
     </Container>
   );
@@ -94,3 +94,16 @@ const PostWrap = styled.div`
   justify-content: center;
   flex-direction: column;
 `;
+
+const NoResult = styled.div`
+  color: ${({ theme }) => theme.orange};
+`;
+
+const postStatus = keyword => {
+  const keywordError = {
+    [!keyword]: <NoResult>검색 키워드를 입력해주세요</NoResult>,
+    [!!keyword]: <NoResult>검색 결과가 없습니다</NoResult>,
+  };
+
+  return keywordError[true];
+};
