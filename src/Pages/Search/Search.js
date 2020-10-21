@@ -25,7 +25,7 @@ const Search = () => {
     let handleDebouncingWords = setTimeout(() => {
       setPosts([]);
       keyword && FetchSearchingWords();
-    }, 1000);
+    }, 500);
 
     return () => {
       clearTimeout(handleDebouncingWords);

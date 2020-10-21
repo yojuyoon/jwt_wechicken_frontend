@@ -6,7 +6,7 @@ import theme from "../../Styles/Theme";
 function MiniCard({ post }) {
   return (
     <MiniPostCardContainer>
-      <PostContent onClick={() => window.location.assign(`${post.link}`)}>
+      <PostContent onClick={() => window.open(`${post.link}`)}>
         <div className="profileIcon">
           <ProfileIcon size={38} img={post.user_profile} />
         </div>
