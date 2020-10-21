@@ -17,4 +17,5 @@ const Container = styled.div`
   background-color: ${theme.orange};
   border-radius: 1rem;
   cursor: pointer;
+  margin: 0 2px;
 `;
