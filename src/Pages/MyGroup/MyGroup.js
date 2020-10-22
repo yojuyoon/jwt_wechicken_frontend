@@ -127,18 +127,13 @@ const MyGroup = () => {
             <Customcalendar setdayPosts={setdayPosts} />
             <div className="btnUpdate">
               {isGroupJoined &&
-                (myContribution.blog_type === "velog" && (
                   <BtnTheme
-                    value={"업데이트"}
-                    handleFunction={handleUpdateBtn}
-                  />
-                ))}
-                <BtnTheme
                     value={"포스트 ➕"}
                     handleFunction={() => {
                       setAddModalActive(true);
                     }}
                   />
+                }
             </div>
           </div>
           <PostsOfTheWeek
