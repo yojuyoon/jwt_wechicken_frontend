@@ -124,16 +124,19 @@ const MyGroup = () => {
         <ThisWeek>
           <div className="headerBox">
             <div className="title">이주의 포스팅</div>
-            <Customcalendar setdayPosts={setdayPosts} />
+            <Customcalendar
+              setdayPosts={setdayPosts}
+              setPostCounting={setPostCounting}
+            />
             <div className="btnUpdate">
-              {isGroupJoined &&
-                  <BtnTheme
-                    value={"포스트 ➕"}
-                    handleFunction={() => {
-                      setAddModalActive(true);
-                    }}
-                  />
-                }
+              {isGroupJoined && (
+                <BtnTheme
+                  value={"포스트 ➕"}
+                  handleFunction={() => {
+                    setAddModalActive(true);
+                  }}
+                />
+              )}
             </div>
           </div>
           <PostsOfTheWeek

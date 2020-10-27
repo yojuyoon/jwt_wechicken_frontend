@@ -18,8 +18,6 @@ const Contributors = ({
     let totalPenalty = 0;
     if (count < myGroup.count) {
       totalPenalty = myGroup.penalty * myGroup.count - myGroup.penalty * count;
-    }
-    if (count !== myGroup.count) {
       return (
         <>
           <Emoji symbol="💸" />
@@ -27,7 +25,7 @@ const Contributors = ({
         </>
       );
     }
-    if (count === myGroup.count) {
+    if (count >= myGroup.count) {
       return (
         <>
           <Emoji symbol="🎉" />
@@ -82,11 +80,11 @@ const Container = styled.div`
 
   @media (max-width: 1850px) {
     margin: 24px 6vw;
-    }
-  
+  }
+
   @media (max-width: 1650px) {
     margin: 24px 2vw;
-    }
+  }
 `;
 
 const MyContribution = styled.div`

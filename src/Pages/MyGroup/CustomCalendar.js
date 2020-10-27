@@ -6,7 +6,7 @@ import theme, { flexCenter } from "../../Styles/Theme";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
-const CustomCalendar = ({ setdayPosts }) => {
+const CustomCalendar = ({ setdayPosts, setPostCounting }) => {
   const currentDate = new Date();
   const [calender, setCalender] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
@@ -40,6 +40,7 @@ const CustomCalendar = ({ setdayPosts }) => {
       })
       .then((res) => {
         setdayPosts(res.data.by_days);
+        setPostCounting(res.data.userPostsCounting);
       })
       .then(setCurrentMonth(date.getMonth()))
       .then(setCurrentDay(date.getDate()))
