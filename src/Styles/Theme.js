@@ -21,4 +21,8 @@ export const flexCenter = css`
   align-items: center;
 `;
 
+export const padding = css`
+  padding: 0 6vw;
+`;
+
 export default theme;
