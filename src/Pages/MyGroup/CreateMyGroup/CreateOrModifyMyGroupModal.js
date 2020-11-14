@@ -31,11 +31,9 @@ const CreateOrModifyMyGroupModal = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (myGroupTitle && count && penalty) {
-      setSubmitActivate(true);
-    } else {
-      setSubmitActivate(false);
-    }
+    myGroupTitle && count && penalty
+      ? setSubmitActivate(true)
+      : setSubmitActivate(false);
   }, [myGroupTitle, count, penalty]);
 
   const setMyGroupPage = async () => {

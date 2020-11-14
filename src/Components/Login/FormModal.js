@@ -14,7 +14,12 @@ import LogoBox from "./LogoBox";
 import BtnSubmit from "../Buttons/BtnSubmit";
 import { API_URL } from "../../config";
 
-const FormModal = ({ setModalOn, googleInput, setLoginSuccess, setExistingUser}) => {
+const FormModal = ({
+  setModalOn,
+  googleInput,
+  setLoginSuccess,
+  setExistingUser,
+}) => {
   // eslint-disable-next-line
   const [inputImage, setInputImage] = useState(googleInput.getImageUrl());
   const [inputName, setInputName] = useState("");
@@ -39,11 +44,9 @@ const FormModal = ({ setModalOn, googleInput, setLoginSuccess, setExistingUser})
   };
 
   useEffect(() => {
-    if (inputName && nth && blogAddress && agreementStatus) {
-      setSubmitActivate(true);
-    } else {
-      setSubmitActivate(false);
-    }
+    inputName && nth && blogAddress && agreementStatus
+      ? setSubmitActivate(true)
+      : setSubmitActivate(false);
   }, [inputName, nth, blogAddress, agreementStatus]);
 
   const fetchUserData = async (formData) => {
@@ -68,15 +71,15 @@ const FormModal = ({ setModalOn, googleInput, setLoginSuccess, setExistingUser})
         setTimeout(() => {
           setLoginSuccess(false);
           setModalOn(false);
-         },1000);
+        }, 1000);
         dispatch(loginToken(res.data.token));
         dispatch(userProfileImg(res.data.profile));
         dispatch(myGroupStatus(res.data.myGroupStatus));
       }
-  } catch (error) {
-    alert("에러가 발생했습니다");
-  }
-};
+    } catch (error) {
+      alert("에러가 발생했습니다");
+    }
+  };
 
   const handleUploadForm = async () => {
     const formData = new FormData();

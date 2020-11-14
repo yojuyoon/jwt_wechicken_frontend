@@ -50,11 +50,9 @@ const AddPostModal = ({ name, closeModal, handleMyGroupPageData }) => {
   // }, [values.title, values.link, values.date]);
 
   useEffect(() => {
-    if (values.title && values.link && isDateFormatCorrect) {
-      setSubmitActivate(true);
-    } else {
-      setSubmitActivate(false);
-    }
+    values.title && values.link && isDateFormatCorrect
+      ? setSubmitActivate(true)
+      : setSubmitActivate(false);
   }, [values.title, values.link, isDateFormatCorrect]);
 
   useEffect(() => {

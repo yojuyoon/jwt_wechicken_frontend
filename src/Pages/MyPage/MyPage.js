@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import ContentsColumn from "./MyPageContents/ContentsColumn";
-import { myPageContents } from "./MyPageContents/myPageContents";
+import MyPosts from "./MyPageContents/MyPosts";
 import ProfileColumn from "./MyPageContents/ProfileColumn";
 import { API_URL } from "../../config";
 import { useDispatch } from "react-redux";
@@ -10,6 +9,7 @@ import { userProfileImg } from "../../store/actions/loginAction";
 
 function MyPage() {
   const [myProfile, setMyProfile] = useState({});
+  // const [isAddModalActive, setAddModalActive] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -45,19 +45,15 @@ function MyPage() {
   };
 
   return (
-    <MyPageContainer>
-      <ProfileColumn
-        deleteProfileImg={deleteProfileImg}
-        myProfile={myProfile}
-      />
-      <MyPageContents>
-        {myPageContents.map((item, index) => {
-          return (
-            <ContentsColumn myProfile={myProfile} key={index} item={item} />
-          );
-        })}
-      </MyPageContents>
-    </MyPageContainer>
+    <>
+      <MyPageContainer>
+        <ProfileColumn
+          deleteProfileImg={deleteProfileImg}
+          myProfile={myProfile}
+        />
+        <MyPosts />
+      </MyPageContainer>
+    </>
   );
 }
 
@@ -69,11 +65,4 @@ const MyPageContainer = styled.div`
   button {
     cursor: pointer;
   }
-`;
-
-const MyPageContents = styled.section`
-  padding: 50px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
 `;
