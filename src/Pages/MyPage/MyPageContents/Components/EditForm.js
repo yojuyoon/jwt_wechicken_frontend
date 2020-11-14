@@ -23,31 +23,30 @@ export default EditForm;
 
 const EditFormContainer = styled.form`
   label {
-    width: 800px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
 
     .editblogUrl {
-      width: 75%;
+      width: 200px;
       height: 35px;
-      font-size: 16px;
-      font-weight: 400;
-      text-indent: 10px;
-      border: 1px solid ${theme.grey};
-      border-radius: 4px;
+      font-size: 19px;
+      outline: none;
+      border: none;
+      border-bottom: 1px solid ${theme.orange};
       color: ${theme.deepGrey};
     }
 
     .saveBtn {
-      width: 60px;
-      height: 30px;
+      width: 65px;
+      height: 40px;
       ${flexCenter};
       font-size: 16px;
+      outline: none;
       border: none;
       border-radius: 5px;
-      color: ${theme.white};
-      background-color: ${theme.orange};
+      background-color: transparent;
+      color: ${theme.orange};
+      cursor: pointer;
     }
   }
 `;

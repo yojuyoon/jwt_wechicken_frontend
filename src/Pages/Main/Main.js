@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Card from "../../Components/Card/Card";
-import theme, { flexCenter } from "../../Styles/Theme";
+import theme, { flexCenter, MainContentCards } from "../../Styles/Theme";
 import { API_URL } from "../../config";
 import usePagination from "../../hooks/usePagination";
 import MainBanner from "./MainBanner";
@@ -137,12 +137,4 @@ const MainContentTitle = styled.div`
       color: ${theme.orange};
     }
   }
-`;
-
-const MainContentCards = styled.div`
-  margin-top: 40px;
-  padding: 0px !important;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
 `;

@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import styled, { css } from "styled-components";
 const theme = {
   background: "#FFFEFC",
   white: "#FFFFFF",
@@ -23,6 +23,32 @@ export const flexCenter = css`
 
 export const padding = css`
   padding: 0 6vw;
+`;
+
+export const HeaderBox = styled.div`
+  display: flex;
+  ${padding}
+  margin: 0 auto;
+  position: relative;
+
+  .title {
+    width: ${({ width }) => width}px;
+    margin-right: 20px;
+    padding-bottom: 3px;
+    font-family: ${theme.fontContent};
+    font-weight: normal;
+    font-size: 25px;
+    line-height: 29px;
+    border-bottom: 4px solid ${theme.orange};
+  }
+`;
+
+export const MainContentCards = styled.div`
+  margin-top: 40px;
+  padding: 0px !important;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 `;
 
 export default theme;
