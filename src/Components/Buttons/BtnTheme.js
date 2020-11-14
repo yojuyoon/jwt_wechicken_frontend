@@ -11,7 +11,7 @@ export default BtnTheme;
 const Container = styled.div`
   ${flexCenter}
   font-family: ${theme.fontContent};
-  width: 80px;
+  width: 82px;
   height: 32px;
   color: ${theme.white};
   background-color: ${theme.orange};

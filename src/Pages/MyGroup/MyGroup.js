@@ -7,7 +7,7 @@ import PostsOfTheWeek from "./PostsOfTheWeek/PostsOfTheWeek";
 import Loading from "../../Components/Common/Loading";
 import Error from "../../Components/Common/Error";
 import MyGroupBanner from "./MyGroupBanner";
-import theme from "../../Styles/Theme";
+import theme, { padding } from "../../Styles/Theme";
 import BtnTheme from "../../Components/Buttons/BtnTheme";
 import {
   myGroupTitle,
@@ -121,30 +121,6 @@ const MyGroup = () => {
       )}
       <MyGroupBanner ranking={ranking} />
       <ContentWrap>
-        <ThisWeek>
-          <div className="headerBox">
-            <div className="title">이주의 포스팅</div>
-            <Customcalendar
-              setdayPosts={setdayPosts}
-              setPostCounting={setPostCounting}
-            />
-            <div className="btnUpdate">
-              {isGroupJoined && (
-                <BtnTheme
-                  value={"포스트 ➕"}
-                  handleFunction={() => {
-                    setAddModalActive(true);
-                  }}
-                />
-              )}
-            </div>
-          </div>
-          <PostsOfTheWeek
-            excuteFunction={handleGroupJoined}
-            isGroupJoined={isGroupJoined}
-            dayPosts={dayPosts}
-          />
-        </ThisWeek>
         {isGroupJoined && (
           <Contribution>
             <div className="headerBox">
@@ -158,6 +134,30 @@ const MyGroup = () => {
             />
           </Contribution>
         )}
+        <ThisWeek>
+          <div className="headerBox">
+            <div className="title">이주의 포스팅</div>
+            <Customcalendar
+              setdayPosts={setdayPosts}
+              setPostCounting={setPostCounting}
+            />
+            <div className="btnUpdate">
+              {isGroupJoined && (
+                <BtnTheme
+                  value={"포스트 +"}
+                  handleFunction={() => {
+                    setAddModalActive(true);
+                  }}
+                />
+              )}
+            </div>
+          </div>
+          <PostsOfTheWeek
+            excuteFunction={handleGroupJoined}
+            isGroupJoined={isGroupJoined}
+            dayPosts={dayPosts}
+          />
+        </ThisWeek>
       </ContentWrap>
     </Container>
   );
@@ -177,11 +177,9 @@ const ContentWrap = styled.div`
 `;
 
 const ThisWeek = styled.div`
-  width: 100%;
-
   .headerBox {
     display: flex;
-    padding: 0 3vw;
+    ${padding}
     margin: 0 auto;
     position: relative;
   }
@@ -204,13 +202,11 @@ const ThisWeek = styled.div`
 `;
 
 const Contribution = styled.div`
-  width: 100%;
-  margin: 100px 0;
+  margin: 60px 0;
 
   .headerBox {
     display: flex;
-    width: 100%;
-    padding: 0 3vw;
+    ${padding}
     margin: 0 auto;
     position: relative;
   }

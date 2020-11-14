@@ -72,14 +72,14 @@ export default Contributors;
 const Container = styled.div`
   max-width: 2080px;
   height: 120px;
-  margin: 24px auto;
+  margin: 24px 6vw 0;
   display: flex;
   background: #ffffff;
   box-shadow: 7px 7px 30px rgba(0, 0, 0, 0.08);
   border-radius: 28px;
 
-  @media (max-width: 1850px) {
-    margin: 24px 6vw;
+  @media (min-width: 1850px) {
+    margin: 24px 2vw;
   }
 
   @media (max-width: 1650px) {
