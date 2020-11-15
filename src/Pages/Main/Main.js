@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
@@ -13,11 +13,10 @@ import Login from "../../Components/Login/Login";
 
 function Main() {
   const [posts, setPosts] = useState([]);
-  const [target, setTarget] = useState("");
-  const [page, setPage] = useState(0);
   const [isActiveAlert, setActiveAlert] = useState(false);
   const [isLoginActive, setLoginActive] = useState(false);
-  const pagination = usePagination(target, handleFetch);
+  const ref = useRef(null);
+  const page = usePagination(ref.current);
 
   const SIZE = 24;
 
@@ -25,21 +24,21 @@ function Main() {
     window.scrollTo(0, 0);
   }, []);
 
-  async function handleFetch() {
-    setPage(page + 1);
-    const res = await axios.get(
-      `${API_URL}/main?page=${page}&size=${SIZE}`,
-      sessionStorage.getItem("USER") && {
-        headers: {
-          Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
-        },
-      }
-    );
-    setPosts([...posts, ...res.data.posts]);
-    setTarget(document.querySelector("#last"));
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get(
+        `${API_URL}/main?page=${page}&size=${SIZE}`,
+        sessionStorage.getItem("USER") && {
+          headers: {
+            Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
+          },
+        }
+      );
+      setPosts((prevState) => [...prevState, ...res.data.posts]);
+    };
 
-  useEffect(() => pagination, [target, pagination]);
+    fetchData();
+  }, [page]);
 
   const handleSetLoginActive = () => {
     setLoginActive(true);
@@ -58,7 +57,7 @@ function Main() {
         />
       )}
       <MainPageContainer>
-        <MainBanner setActiveAlert={setActiveAlert}/>
+        <MainBanner setActiveAlert={setActiveAlert} />
         <MainContents>
           <MainContentTitle>
             <div className="titleContainer">
@@ -67,27 +66,16 @@ function Main() {
             </div>
           </MainContentTitle>
           <MainContentCards>
-            {posts.map((post, idx) => {
-              const isLast = idx === posts.length - 1;
-              return isLast ? (
-                <div id="last" key={post.id}>
-                  <Card
-                    post={post}
-                    width={288}
-                    space={20}
-                    setActiveAlert={setActiveAlert}
-                  />
-                </div>
-              ) : (
-                <Card
-                  post={post}
-                  width={288}
-                  space={20}
-                  key={post.id}
-                  setActiveAlert={setActiveAlert}
-                />
-              );
-            })}
+            {posts.map((post) => (
+              <Card
+                key={post.id}
+                post={post}
+                width={288}
+                space={20}
+                setActiveAlert={setActiveAlert}
+              />
+            ))}
+            <div ref={ref} style={{ height: "10px" }} />
           </MainContentCards>
         </MainContents>
       </MainPageContainer>
