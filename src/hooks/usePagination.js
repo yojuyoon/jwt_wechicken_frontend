@@ -1,25 +1,23 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
-const usePagination = (target, handleFunction) => {
-  const checkIntersect = async ([entry], observer) => {
-    if (entry.isIntersecting && entry.intersectionRatio !== 1) {
-      observer.unobserve(entry.target);
-      await handleFunction();
-      observer.observe(entry.target);
+const usePagination = (target) => {
+  const [page, setPage] = useState(0);
+
+  const checkIntersect = ([entry]) => {
+    if (entry.isIntersecting) {
+      setPage((prevState) => prevState + 1);
     }
   };
 
   useEffect(() => {
     let observer;
     if (target) {
-      observer = new IntersectionObserver(checkIntersect, { threshold: 0.2 });
+      observer = new IntersectionObserver(checkIntersect, { threshold: 0.8 });
       observer.observe(target);
-    } else {
-      handleFunction();
     }
-    return () => observer && observer.disconnect();
-    // eslint-disable-next-line
   }, [target]);
+
+  return page;
 };
 
 export default usePagination;
