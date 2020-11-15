@@ -9,8 +9,9 @@ import { searchAction } from "../../store/actions/searchAction";
 
 const Search = () => {
   const [posts, setPosts] = useState([]);
-  const searchKeyword = useSelector(state => state.searchKeywordReducer);
+  const searchKeyword = useSelector((state) => state.searchKeywordReducer);
   const [keyword, setKeyword] = useState(searchKeyword);
+  const [isSearching, setIsSearching] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,9 +23,9 @@ const Search = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    let handleDebouncingWords = setTimeout(() => {
-      setPosts([]);
-      keyword && FetchSearchingWords();
+    const handleDebouncingWords = setTimeout(() => {
+      setIsSearching(true);
+      keyword ? FetchSearchingWords() : setPosts([]);
     }, 500);
 
     return () => {
@@ -43,8 +44,9 @@ const Search = () => {
           },
         }
       )
-      .then(res => {
+      .then((res) => {
         setPosts(res.data.posts);
+        setIsSearching(false);
       });
   };
 
@@ -60,8 +62,8 @@ const Search = () => {
       </SearchWrap>
       <PostWrap>
         {!posts.length
-          ? postStatus(keyword)
-          : posts.map(post => (
+          ? searchingStatus(keyword, isSearching)
+          : posts.map((post) => (
               <Card
                 post={post}
                 width={650}
@@ -99,10 +101,11 @@ const NoResult = styled.div`
   color: ${({ theme }) => theme.orange};
 `;
 
-const postStatus = keyword => {
+const searchingStatus = (keyword, isSearching) => {
   const keywordError = {
     [!keyword]: <NoResult>검색 키워드를 입력해주세요</NoResult>,
-    [!!keyword]: <NoResult>검색 결과가 없습니다</NoResult>,
+    [!!keyword && isSearching]: <NoResult>검색 중 입니다</NoResult>,
+    [!!keyword && !isSearching]: <NoResult>검색 결과가 없습니다</NoResult>,
   };
 
   return keywordError[true];
