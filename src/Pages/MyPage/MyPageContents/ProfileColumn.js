@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { API_URL } from "../../../config";
 import theme, { flexCenter } from "../../../Styles/Theme";
 import useUpload from "../../../hooks/useUpload";
 import Alert from "../../../Components/Alert";
+import EditForm from "./Components/EditForm";
 import { userProfileImg } from "../../../store/actions/loginAction";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -15,9 +18,11 @@ function ProfileColumn({ myProfile, deleteProfileImg }) {
     ProfileIcon,
     defaultImg,
   ] = useUpload();
-  const { wecode_nth, user_name } = myProfile;
+  const { wecode_nth, user_name, gmail } = myProfile;
   const [isActiveAlert, setActiveAlert] = useState(false);
+  const [isEdit, setisEdit] = useState(false);
   const [deleteEvent, setDeleteEvent] = useState("");
+  const [contentValue, setContentValue] = useState("");
   const dispatch = useDispatch();
   const userProfileImgVariable = useSelector(
     (state) => state.userProfileReducer
@@ -29,6 +34,36 @@ function ProfileColumn({ myProfile, deleteProfileImg }) {
     }
     // eslint-disable-next-line
   }, [editedProfileImg]);
+
+  useEffect(() => {
+    setContentValue(myProfile.blog_address);
+  }, [myProfile.blog_address]);
+
+  const activeEditForm = () => {
+    setisEdit(!isEdit);
+  };
+
+  const handleSubmit = (e) => {
+    setisEdit(!isEdit);
+    modifyBlogUrl();
+    e.preventDefault();
+  };
+
+  const handleContentValue = (e) => {
+    setContentValue(e.target.value);
+  };
+
+  const modifyBlogUrl = () => {
+    axios.post(
+      `${API_URL}/mypage`,
+      { blog_address: contentValue },
+      {
+        headers: {
+          Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
+        },
+      }
+    );
+  };
 
   const modifyProfileImg = () => {
     const formData = new FormData();
@@ -87,10 +122,31 @@ function ProfileColumn({ myProfile, deleteProfileImg }) {
           이미지 제거
         </DeletePhotoBtn>
       </ProfilePhoto>
-      <ProfileContent>
+      <ProfileContents>
         <span className="userNth">{wecode_nth}기</span>
         <h1 className="userName">{user_name}</h1>
-      </ProfileContent>
+        <div className="userInfo">
+          <span className="email">{gmail}</span>
+          {isEdit ? (
+            <EditForm
+              contentValue={contentValue}
+              handleContentValue={handleContentValue}
+              handleSubmit={handleSubmit}
+            />
+          ) : (
+            <div className="userBlogAddress">
+              <span>
+                {contentValue}
+                <FontAwesomeIcon
+                  onClick={activeEditForm}
+                  className="editBtn"
+                  icon={faEdit}
+                />
+              </span>
+            </div>
+          )}
+        </div>
+      </ProfileContents>
     </ProfileContainer>
   );
 }
@@ -152,7 +208,7 @@ const DeletePhotoBtn = styled(UploadPhotoBtn)`
   }
 `;
 
-const ProfileContent = styled.div`
+const ProfileContents = styled.div`
   width: 60%;
   height: 200px;
   margin-left: 40px;
@@ -164,8 +220,18 @@ const ProfileContent = styled.div`
   h1 {
     margin: 10px 0;
   }
+  .userInfo {
+    margin-top: 75px;
+  }
+
+  .userBlogAddress {
+    display: flex;
+    align-items: center;
+  }
 
   span {
+    display: block;
+    margin: 10px 0;
     width: 300px;
     font-size: 18px;
     font-weight: 400;
@@ -173,14 +239,11 @@ const ProfileContent = styled.div`
   }
 
   .editBtn {
-    top: 1%;
-    right: 0;
-    position: absolute;
-    border: none;
-    outline: none;
+    margin-left: 10px;
     font-size: 18px;
     color: ${theme.orange};
     background-color: transparent;
+    cursor: pointer;
   }
 
   .saveBtn {

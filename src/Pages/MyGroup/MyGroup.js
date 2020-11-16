@@ -7,7 +7,7 @@ import PostsOfTheWeek from "./PostsOfTheWeek/PostsOfTheWeek";
 import Loading from "../../Components/Common/Loading";
 import Error from "../../Components/Common/Error";
 import MyGroupBanner from "./MyGroupBanner";
-import theme, { padding } from "../../Styles/Theme";
+import theme, { HeaderBox } from "../../Styles/Theme";
 import BtnTheme from "../../Components/Buttons/BtnTheme";
 import {
   myGroupTitle,
@@ -86,26 +86,26 @@ const MyGroup = () => {
         handleMyGroupPageData(res);
       });
   };
-
-  const handleUpdateBtn = async () => {
-    try {
-      setIsLoading(true);
-      const res = await axios.post(
-        `${API_URL}/mygroup/update`,
-        {},
-        {
-          headers: {
-            Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
-          },
-        }
-      );
-      handleMyGroupPageData(res);
-    } catch (e) {
-      setIsError(true);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // 서버 문제로 잠시 기능 중지
+  // const handleUpdateBtn = async () => {
+  //   try {
+  //     setIsLoading(true);
+  //     const res = await axios.post(
+  //       `${API_URL}/mygroup/update`,
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
+  //         },
+  //       }
+  //     );
+  //     handleMyGroupPageData(res);
+  //   } catch (e) {
+  //     setIsError(true);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   if (isLoading) return <Loading />;
   if (isError) return <Error />;
@@ -123,9 +123,9 @@ const MyGroup = () => {
       <ContentWrap>
         {isGroupJoined && (
           <Contribution>
-            <div className="headerBox">
+            <HeaderBox width={128}>
               <div className="title">이주의 공헌</div>
-            </div>
+            </HeaderBox>
             <Contributors
               myGroup={myGroup}
               postsCounting={postsCounting}
@@ -135,7 +135,7 @@ const MyGroup = () => {
           </Contribution>
         )}
         <ThisWeek>
-          <div className="headerBox">
+          <HeaderBox width={149}>
             <div className="title">이주의 포스팅</div>
             <Customcalendar
               setdayPosts={setdayPosts}
@@ -151,7 +151,7 @@ const MyGroup = () => {
                 />
               )}
             </div>
-          </div>
+          </HeaderBox>
           <PostsOfTheWeek
             excuteFunction={handleGroupJoined}
             isGroupJoined={isGroupJoined}
@@ -177,24 +177,6 @@ const ContentWrap = styled.div`
 `;
 
 const ThisWeek = styled.div`
-  .headerBox {
-    display: flex;
-    ${padding}
-    margin: 0 auto;
-    position: relative;
-  }
-
-  .title {
-    width: 146px;
-    margin-right: 20px;
-    padding-bottom: 3px;
-    font-family: ${theme.fontContent};
-    font-weight: normal;
-    font-size: 25px;
-    line-height: 29px;
-    border-bottom: 4px solid ${theme.orange};
-  }
-
   .btnUpdate {
     display: flex;
     margin-left: 20px;
@@ -202,22 +184,5 @@ const ThisWeek = styled.div`
 `;
 
 const Contribution = styled.div`
-  margin: 60px 0;
-
-  .headerBox {
-    display: flex;
-    ${padding}
-    margin: 0 auto;
-    position: relative;
-  }
-
-  .title {
-    width: 123px;
-    padding-bottom: 3px;
-    font-family: ${theme.fontContent};
-    font-weight: normal;
-    font-size: 25px;
-    line-height: 29px;
-    border-bottom: 4px solid ${theme.orange};
-  }
+  margin: 100px 0;
 `;

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { flexCenter } from "../../Styles/Theme";
 import ProfileIcon from "../ProfileIcon";
 import BtnLike from "../Buttons/BtnLike";
+import BtnEditOrDelete from "../Buttons/BtnEditOrDelete";
 
 const Card = ({
   post,
@@ -10,53 +11,69 @@ const Card = ({
   space,
   handleRemoveCard,
   setActiveAlert,
+  handleModifyModal,
   search,
+  handlePostId,
+  deleteMyPost,
 }) => {
   return (
-    <Container space={space} width={width} search={search}>
-      <CardWrap type={post.type} onClick={() => window.open(`${post.link}`)}>
-        <ImageBox img={post.thumbnail || "/Images/blogDefaultImg.png"} />
-        <img
-          className="blogLogo"
-          alt="blog_logo"
-          src={`/Images/${post.type}.png`}
-        />
-        <ContentsBox>
-          <Profile>
-            <ProfileIcon size={40} img={post.user_profile} />
-            <div className="ProfileText">
-              <div className="nth">{post.nth}기</div>
-              <div className="name">{post.user_name}</div>
-            </div>
-          </Profile>
-          <Title search={search}>{post.title}</Title>
-          {!!search && (
-            <Subtitle>
-              {post.subtitle?.length < 125
-                ? post.subtitle
-                : post.subtitle?.substr(0, 125) + ".."}
-            </Subtitle>
+    <>
+      <Container space={space} width={width} search={search}>
+        <CardWrap type={post.type} onClick={() => window.open(`${post.link}`)}>
+          <ImageBox img={post.thumbnail || "/Images/blogDefaultImg.png"} />
+          <img
+            className="blogLogo"
+            alt="blog_logo"
+            src={`/Images/${post.type}.png`}
+          />
+          <ContentsBox>
+            <Profile>
+              <ProfileIcon size={40} img={post.user_profile} />
+              <div className="ProfileText">
+                <div className="nth">{post.nth}기</div>
+                <div className="name">{post.user_name}</div>
+              </div>
+            </Profile>
+            <Title search={search}>{post.title}</Title>
+            {!!search && (
+              <Subtitle>
+                {post.subtitle?.length < 125
+                  ? post.subtitle
+                  : post.subtitle?.substr(0, 125) + ".."}
+              </Subtitle>
+            )}
+          </ContentsBox>
+        </CardWrap>
+        <Tags>{post.date}</Tags>
+        <ButtonWrap>
+          {typeof post.like === "boolean" ? (
+            <>
+              <BtnLike
+                id={post.id}
+                status={post.like}
+                handleRemoveCard={handleRemoveCard}
+                type={"likes"}
+                setActiveAlert={setActiveAlert}
+              />
+              <BtnLike
+                id={post.id}
+                status={post.bookmark}
+                handleRemoveCard={handleRemoveCard}
+                type={"bookmarks"}
+                setActiveAlert={setActiveAlert}
+              />
+            </>
+          ) : (
+            <BtnEditOrDelete
+              postId={post.id}
+              handlePostId={handlePostId}
+              deleteMyPost={deleteMyPost}
+              handleModifyModal={handleModifyModal}
+            />
           )}
-        </ContentsBox>
-      </CardWrap>
-      <Tags>{post.date}</Tags>
-      <ButtonWrap>
-        <BtnLike
-          id={post.id}
-          status={post.like}
-          handleRemoveCard={handleRemoveCard}
-          type={"likes"}
-          setActiveAlert={setActiveAlert}
-        />
-        <BtnLike
-          id={post.id}
-          status={post.bookmark}
-          handleRemoveCard={handleRemoveCard}
-          type={"bookmarks"}
-          setActiveAlert={setActiveAlert}
-        />
-      </ButtonWrap>
-    </Container>
+        </ButtonWrap>
+      </Container>
+    </>
   );
 };
 
