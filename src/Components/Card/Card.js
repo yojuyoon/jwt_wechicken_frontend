@@ -14,7 +14,7 @@ const Card = ({
   handleModifyModal,
   search,
   handlePostId,
-  deleteMyPost,
+  getDeleteMyPostId,
 }) => {
   return (
     <>
@@ -67,7 +67,7 @@ const Card = ({
             <BtnEditOrDelete
               postId={post.id}
               handlePostId={handlePostId}
-              deleteMyPost={deleteMyPost}
+              getDeleteMyPostId={getDeleteMyPostId}
               handleModifyModal={handleModifyModal}
             />
           )}
