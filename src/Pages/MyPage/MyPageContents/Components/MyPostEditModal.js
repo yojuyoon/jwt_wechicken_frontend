@@ -1,23 +1,36 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import dayjs from "dayjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import InputTheme from "../../../../Components/Buttons/InputTheme";
 import BtnSubmit from "../../../../Components/Buttons/BtnSubmit";
 import theme from "../../../../Styles/Theme";
+import { API_URL } from "../../../../config";
 
 const MyPostEditModal = ({ setAddModalActive, post }) => {
   const [blogTitle, setBlogTitle] = useState(post.title);
   const [blogUrl, setBlogUrl] = useState(post.link);
   const [submitActivate, setSubmitActivate] = useState(false);
   const [blogDate, setBlogDate] = useState(post.date);
+  const [isDateFormatCorrect, setDateFormatCorrect] = useState(undefined);
 
   useEffect(() => {
-    blogTitle && blogUrl && blogDate
+    blogTitle && blogUrl && isDateFormatCorrect
       ? setSubmitActivate(true)
       : setSubmitActivate(false);
-  }, [blogTitle, blogUrl, blogDate]);
+  }, [blogTitle, blogUrl, isDateFormatCorrect]);
+
+  useEffect(() => {
+    if (blogDate.length === 10 && blogDate.split(".").length === 3) {
+      if (blogDate.replace(/\./g, "") <= dayjs().format("YYYYMMDD")) {
+        setDateFormatCorrect(true);
+      } 
+    } else {
+      setDateFormatCorrect(false);
+    }
+  }, [blogDate]);
 
   const modifyMyPost = async () => {
     await axios.put(
@@ -92,6 +105,7 @@ const MyPostEditModal = ({ setAddModalActive, post }) => {
             type={"작성 날짜"}
             handleType={setBlogDate}
             size={14}
+            validationCheck={isDateFormatCorrect}
           />
         </InputFormWrap>
       </Contents>
