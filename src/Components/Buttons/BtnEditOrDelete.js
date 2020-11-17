@@ -4,7 +4,7 @@ import theme, { flexCenter } from "../../Styles/Theme";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 
-const BtnEditOrDelete = ({ postId, handlePostId, deleteMyPost }) => {
+const BtnEditOrDelete = ({ postId, handlePostId, getDeleteMyPostId }) => {
   const [isBtnClicked, setBtnClicked] = useState(false);
 
   const handleBtnClicked = () => {
@@ -16,7 +16,7 @@ const BtnEditOrDelete = ({ postId, handlePostId, deleteMyPost }) => {
       {isBtnClicked && (
         <DropDown onMouseLeave={() => setBtnClicked(false)}>
           <p onClick={() => handlePostId(postId)}>수정</p>
-          <p onClick={() => deleteMyPost(postId)}>삭제</p>
+          <p onClick={() => getDeleteMyPostId(postId)}>삭제</p>
         </DropDown>
       )}
       <Container>

@@ -45,7 +45,7 @@ function ProfileColumn({ myProfile, deleteProfileImg }) {
 
   const handleSubmit = (e) => {
     setisEdit(!isEdit);
-    modifyBlogUrl();
+    myProfile.blog_address !== contentValue && modifyBlogUrl();
     e.preventDefault();
   };
 
@@ -54,6 +54,7 @@ function ProfileColumn({ myProfile, deleteProfileImg }) {
   };
 
   const modifyBlogUrl = () => {
+    myProfile.blog_address = contentValue
     axios.post(
       `${API_URL}/mypage`,
       { blog_address: contentValue },

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import dayjs from "dayjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { API_URL } from "../../../config";
@@ -57,7 +58,9 @@ const AddPostModal = ({ name, closeModal, handleMyGroupPageData }) => {
 
   useEffect(() => {
     if (values.date.length === 10 && values.date.split(".").length === 3) {
-      setDateFormatCorrect(true);
+      if (values.date.replace(/\./g, "") <= dayjs().format("YYYYMMDD")) {
+        setDateFormatCorrect(true);
+      } 
     } else {
       setDateFormatCorrect(false);
     }

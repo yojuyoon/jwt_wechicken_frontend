@@ -2,37 +2,25 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { HeaderBox, MainContentCards } from "../../../Styles/Theme";
-// import { API_URL } from "../../../config";
+import { API_URL } from "../../../config";
 import Card from "../../../Components/Card/Card";
 import Dimmer from "../../../Components/Dimmer";
 import MyPostEditModal from "./Components/MyPostEditModal";
 
-function MyPosts() {
-  const [myPosts, setMyPosts] = useState([]);
+function MyPosts({myPosts, setMyPosts, getDeleteMyPostId}) {
   const [isAddModalActive, setAddModalActive] = useState(false);
   const [postId, setPostId] = useState(0);
-  const [deleteMessage, setDeleteMessage] = useState("");
 
   useEffect(() => {
     !isAddModalActive &&
       axios
-        .get("http://15.165.177.193:8001/mypage/posts", {
+        .get(`http://15.165.177.193:8001/mypage/posts`, {
           headers: {
             Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
           },
         })
         .then((res) => setMyPosts(res.data.myPosts));
-  }, [isAddModalActive, deleteMessage]);
-
-  const deleteMyPost = (postId) => {
-    axios
-      .delete(`http://15.165.177.193:8001/mypage/post/${postId}`, {
-        headers: {
-          Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
-        },
-      })
-      .then((res) => setDeleteMessage(res.data.message));
-  };
+  }, [isAddModalActive, setMyPosts]);
 
   const handlePostId = (id) => {
     setPostId(id);
@@ -50,7 +38,7 @@ function MyPosts() {
               <Card
                 key={idx}
                 handlePostId={handlePostId}
-                deleteMyPost={deleteMyPost}
+                getDeleteMyPostId={getDeleteMyPostId}
                 post={post}
                 width={288}
                 space={20}
