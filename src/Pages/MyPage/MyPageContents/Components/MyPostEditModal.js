@@ -7,7 +7,7 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import InputTheme from "../../../../Components/Buttons/InputTheme";
 import BtnSubmit from "../../../../Components/Buttons/BtnSubmit";
 import theme from "../../../../Styles/Theme";
-import { API_URL } from "../../../../config";
+import { SEARCH_URL } from "../../../../config";
 
 const MyPostEditModal = ({ setAddModalActive, post }) => {
   const [blogTitle, setBlogTitle] = useState(post.title);
@@ -26,7 +26,7 @@ const MyPostEditModal = ({ setAddModalActive, post }) => {
     if (blogDate.length === 10 && blogDate.split(".").length === 3) {
       if (blogDate.replace(/\./g, "") <= dayjs().format("YYYYMMDD")) {
         setDateFormatCorrect(true);
-      } 
+      }
     } else {
       setDateFormatCorrect(false);
     }
@@ -34,7 +34,7 @@ const MyPostEditModal = ({ setAddModalActive, post }) => {
 
   const modifyMyPost = async () => {
     await axios.put(
-      `http://15.165.177.193:8001/mypage/post/${post.id}`,
+      `${SEARCH_URL}/mypage/post/${post.id}`,
       { title: blogTitle, link: blogUrl, date: blogDate },
       {
         headers: {
