@@ -38,12 +38,12 @@ const BannerContents = styled.div`
   ${flexCenter}
   font-family: ${theme.fontTitle};
 
-  img {
-    width: 40%;
+  @media (max-width: 850px) {
+    flex-direction: column;
+  }
 
-    @media (max-width: 800px) {
-    display: none;
-    }
+  img {
+    width: 530px;
   }
 
   .contents {
@@ -51,12 +51,22 @@ const BannerContents = styled.div`
     display: flex;
     flex-direction: column;
 
+    @media (max-width: 800px) {
+      margin: 0;
+    }
+
     .title {
+      width: 350px;
       margin-bottom: 20px;
       font-size: 50px;
       font-weight: 500;
       letter-spacing: 7px;
       color: ${theme.vermilion};
+      word-break: keep-all;
+
+      @media (max-width: 800px) {
+        margin-top: 40px;
+      }
     }
 
     .rankList {
@@ -67,6 +77,10 @@ const BannerContents = styled.div`
       font-weight: 600;
       font-family: ${theme.fontContent};
       color: ${theme.vermilion};
+
+      @media (max-width: 800px) {
+        justify-content: center;
+      }
 
       .rank {
         margin-right: 20px;
