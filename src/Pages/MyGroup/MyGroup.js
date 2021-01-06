@@ -167,11 +167,12 @@ export default MyGroup;
 
 const Container = styled.div`
   padding-top: 150px;
+  margin-bottom: 70px;
   background-color: ${theme.background};
 `;
 
 const ContentWrap = styled.div`
-  margin: 100px 3vw 0 3vw;
+  margin: 50px 3vw 0 3vw;
   display: flex;
   flex-direction: column;
 `;
