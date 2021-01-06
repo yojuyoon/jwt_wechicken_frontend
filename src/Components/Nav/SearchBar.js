@@ -1,10 +1,10 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import theme, { flexCenter } from "../../Styles/Theme";
 import { SearchSvg } from "../../Styles/svg";
-import { useDispatch } from "react-redux";
 import { searchAction } from "../../store/actions/searchAction";
+import theme, { flexCenter } from "../../Styles/Theme";
 
 function SearchBar() {
   const [isSearchActive, setSearchActive] = useState(false);

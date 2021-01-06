@@ -8,7 +8,6 @@ const usePagination = (target) => {
       setPage((prevState) => prevState + 1);
     }
   };
-
   useEffect(() => {
     let observer;
     if (target) {
@@ -17,7 +16,7 @@ const usePagination = (target) => {
     }
   }, [target]);
 
-  return page;
+  return [page, setPage];
 };
 
 export default usePagination;

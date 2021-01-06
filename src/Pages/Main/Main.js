@@ -4,21 +4,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Card from "../../Components/Card/Card";
-import theme, { flexCenter, MainContentCards } from "../../Styles/Theme";
-import { API_URL } from "../../config";
-import usePagination from "../../hooks/usePagination";
 import MainBanner from "./MainBanner";
 import Alert from "../../Components/Alert";
 import Login from "../../Components/Login/Login";
+import usePagination from "../../hooks/usePagination";
+import { API_URL } from "../../config";
+import { POSTS_LIMIT } from "../../constants";
+import theme, { flexCenter, MainContentCards } from "../../Styles/Theme";
 
 function Main() {
   const [posts, setPosts] = useState([]);
   const [isActiveAlert, setActiveAlert] = useState(false);
   const [isLoginActive, setLoginActive] = useState(false);
   const ref = useRef(null);
-  const page = usePagination(ref.current);
-
-  const SIZE = 24;
+  const [page, _] = usePagination(ref.current);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -27,7 +26,7 @@ function Main() {
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(
-        `${API_URL}/main?page=${page}&size=${SIZE}`,
+        `${API_URL}/main?page=${page}&size=${POSTS_LIMIT}`,
         sessionStorage.getItem("USER") && {
           headers: {
             Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
