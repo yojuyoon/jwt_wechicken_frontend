@@ -1,17 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import axios from "axios";
 import Card from "../../Components/Card/Card";
 import InputTheme from "../../Components/Buttons/InputTheme";
-import { API_URL } from "../../config";
-import { useSelector, useDispatch } from "react-redux";
+import usePagination from "../../hooks/usePagination";
 import { searchAction } from "../../store/actions/searchAction";
+import { SEARCH_URL } from "../../config";
+import { SEARCH_RESULTS_LIMIT } from "../../constants";
 
 const Search = () => {
   const [posts, setPosts] = useState([]);
   const searchKeyword = useSelector((state) => state.searchKeywordReducer);
   const [keyword, setKeyword] = useState(searchKeyword);
   const [isSearching, setIsSearching] = useState(true);
+  const paginationRef = useRef(null);
+  const [page, setPage] = usePagination(paginationRef.current, posts.length);
+  const [isFinal, setFinal] = useState(false);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,19 +31,26 @@ const Search = () => {
   useEffect(() => {
     const handleDebouncingWords = setTimeout(() => {
       setIsSearching(true);
-      keyword ? FetchSearchingWords() : setPosts([]);
+      keyword && FetchSearchingWords();
     }, 500);
+
+    if (!keyword) {
+      window.scrollTo(0, 0);
+      setPosts([]);
+      setFinal(false);
+      setPage(0);
+    }
 
     return () => {
       clearTimeout(handleDebouncingWords);
     };
     // eslint-disable-next-line
-  }, [keyword]);
+  }, [keyword, page]);
 
   const FetchSearchingWords = () => {
     axios
       .get(
-        `${API_URL}/search?keyword=${keyword}`,
+        `${SEARCH_URL}/search?keyword=${keyword}&page=${page}&size=${SEARCH_RESULTS_LIMIT}`,
         sessionStorage.getItem("USER") && {
           headers: {
             Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
@@ -45,13 +58,13 @@ const Search = () => {
         }
       )
       .then((res) => {
-        setPosts(res.data.posts);
+        !res.data.posts.length && setFinal(true);
+        setPosts([...posts, ...res.data.posts]);
         setIsSearching(false);
       });
   };
-
   return (
-    <Container>
+    <>
       <SearchWrap>
         <InputTheme
           width={650}
@@ -61,36 +74,48 @@ const Search = () => {
         />
       </SearchWrap>
       <PostWrap>
-        {!posts.length
-          ? searchingStatus(keyword, isSearching)
-          : posts.map((post) => (
-              <Card
-                post={post}
-                width={650}
-                space={20}
-                key={post.id}
-                search={true}
-              />
-            ))}
+        {posts.length && keyword
+          ? posts.map((post) => (
+              <>
+                <Card
+                  post={post}
+                  width={650}
+                  space={20}
+                  key={post.id}
+                  search={true}
+                />
+                {!isFinal && (
+                  <div ref={paginationRef} style={{ height: "10px" }} />
+                )}
+              </>
+            ))
+          : searchingStatus(keyword, isSearching)}
       </PostWrap>
-    </Container>
+    </>
   );
 };
 
 export default Search;
 
-const Container = styled.div`
-  padding: 111px 200px 0px;
-`;
-
 const SearchWrap = styled.div`
+  width: 100%;
+  padding: 100px 0 80px 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: fixed;
+  margin: 0 auto;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 1) 24%,
+    rgba(255, 255, 255, 1) 80%,
+    rgba(255, 255, 255, 0) 100%
+  );
 `;
 
 const PostWrap = styled.div`
-  padding: 45px 0px 0px;
+  padding-top: 250px;
   display: flex;
   align-items: center;
   justify-content: center;

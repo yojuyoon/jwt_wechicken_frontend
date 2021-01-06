@@ -2,19 +2,19 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { HeaderBox, MainContentCards } from "../../../Styles/Theme";
-import { API_URL } from "../../../config";
+import { SEARCH_URL } from "../../../config";
 import Card from "../../../Components/Card/Card";
 import Dimmer from "../../../Components/Dimmer";
 import MyPostEditModal from "./Components/MyPostEditModal";
 
-function MyPosts({myPosts, setMyPosts, getDeleteMyPostId}) {
+function MyPosts({ myPosts, setMyPosts, getDeleteMyPostId }) {
   const [isAddModalActive, setAddModalActive] = useState(false);
   const [postId, setPostId] = useState(0);
 
   useEffect(() => {
     !isAddModalActive &&
       axios
-        .get(`http://15.165.177.193:8001/mypage/posts`, {
+        .get(`${SEARCH_URL}/mypage/posts`, {
           headers: {
             Authorization: JSON.parse(sessionStorage.getItem("USER"))?.token,
           },
